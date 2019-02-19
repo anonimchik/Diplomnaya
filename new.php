@@ -44,12 +44,19 @@ $teamRef='https://www.cybersport.ru';
             $team->prize[]=substr($page->children(1)->children(0)->children(1)->children(1)->plaintext, strpos($page->children(1)->children(0)->children(1)->children(1)->plaintext, " ")+1); //призовые команды
             $team->description[]=$page->children(1)->children(2)->children(1)->children(0)->plaintext; //описание команды
             $team->achievement[]=$page->children(1)->children(2)->children(1)->children(1)->plaintext; //достижения команды
-            foreach ($dom->find('.gamers__list--active .gamers__item') as $players) {
-                echo $players;
-                //$player->nickname[]=$players->children(1)->plaintext;
+            foreach ($dom->find('.gamers__list--active') as $players) {
+                $players->children(0)->outertext="";
+                echo $players->children(1)->children(0)->children(0)->children(1)->children(0)->plaintext;
+                echo $players->children(2)->children(0)->children(0)->children(1)->children(0)->plaintext;
+                echo $players->children(3)->children(0)->children(0)->children(1)->children(0)->plaintext;
+                echo $players->children(4)->children(0)->children(0)->children(1)->children(0)->plaintext;
+                /*if(!$players->children(5)->children(0)->children(0)->children(1)->children(0))
+                {
+                    echo $players->children(5)->children(0)->children(0)->children(1)->children(0)->plaintext;
+                }*/
+                var_dump(if($players->children(5)->children(0)->children(0)->children(1)->children(0)));
             }
         }
     }
-    var_dump($player);
     echo number_format((microtime(true)-$startTime)/60, 2, ":" ,"");
 ?>
