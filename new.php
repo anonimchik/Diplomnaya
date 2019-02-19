@@ -48,32 +48,32 @@ $teamRef='https://www.cybersport.ru';
             $team->achievement[]=$page->children(1)->children(2)->children(1)->children(1)->plaintext; //достижения команды
             foreach ($dom->find('.gamers__list--active') as $players) {
                 $players->children(0)->outertext="";
-                if(is_object($players->children(1)))
+                if(is_object($players->children(1))) //получение данных 1-ого игрока
                 {
                     $player->nickname[]=$players->children(1)->children(0)->children(0)->children(1)->children(0)->plaintext;
                     $player->team[]=$teamName;
                 }
-                if(is_object($players->children(2)))
+                if(is_object($players->children(2))) //получение данных 2-ого игрока
                 {
                     $player->nickname[]=$players->children(2)->children(0)->children(0)->children(1)->children(0)->plaintext;
                     $player->team[]=$teamName;
                 }
-                if(is_object($players->children(3)))
+                if(is_object($players->children(3))) //получение данных 3-его игрока
                 {
                     $player->nickname[]=$players->children(3)->children(0)->children(0)->children(1)->children(0)->plaintext;
                     $player->team[]=$teamName;
                 }
-                if(is_object($players->children(4)))
+                if(is_object($players->children(4))) //получение данных 4-ого игрока
                 {
                     $player->nickname[]=$players->children(4)->children(0)->children(0)->children(1)->children(0)->plaintext;
                     $player->team[]=$teamName;
                 }
-                if(is_object($players->children(5)))
+                if(is_object($players->children(5))) //получение данных 5-ого игрока
                 {
                     $player->nickname[]=$players->children(5)->children(0)->children(0)->children(1)->children(0)->plaintext;
                     $player->team[]=$teamName;
                 }
-                if(is_object($players->children(6)))
+                if(is_object($players->children(6))) //получение данных 6-ого игрока
                 {
                     $player->nickname[]=$players->children(6)->children(0)->children(0)->children(1)->children(0)->plaintext;
                     $player->team[]=$teamName;
