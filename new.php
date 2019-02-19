@@ -15,6 +15,7 @@ class Players
 {
     var $nickname;
     var $team;
+    var $photoRef;
 }
 $team=new Team;
 $player=new Players;
@@ -47,36 +48,43 @@ $teamRef='https://www.cybersport.ru';
             $team->description[]=$page->children(1)->children(2)->children(1)->children(0)->plaintext; //описание команды
             $team->achievement[]=$page->children(1)->children(2)->children(1)->children(1)->plaintext; //достижения команды
             foreach ($dom->find('.gamers__list--active') as $players) {
+                echo $players;
                 $players->children(0)->outertext="";
                 if(is_object($players->children(1))) //получение данных 1-ого игрока
                 {
-                    $player->nickname[]=$players->children(1)->children(0)->children(0)->children(1)->children(0)->plaintext;
-                    $player->team[]=$teamName;
+                    $player->nickname[]=$players->children(1)->children(0)->children(0)->children(1)->children(0)->plaintext; //никнейм игрока
+                    $player->photoRef[]=substr($players->children(1)->children(0)->children(0)->children(0)->innertext, strpos($players->children(1)->children(0)->children(0)->children(0)->innertext, 'https'), strpos($players->children(1)->children(0)->children(0)->children(0)->innertext, '" ')-2-strpos($players->children(1)->children(0)->children(0)->children(0)->innertext, 'https')); //ссылка на фото игрока
+                    $player->team[]=$teamName; //команда игрока
                 }
                 if(is_object($players->children(2))) //получение данных 2-ого игрока
                 {
-                    $player->nickname[]=$players->children(2)->children(0)->children(0)->children(1)->children(0)->plaintext;
-                    $player->team[]=$teamName;
+                    $player->nickname[]=$players->children(2)->children(0)->children(0)->children(1)->children(0)->plaintext; //никнейм игрока
+                    $player->photoRef[]=substr($players->children(2)->children(0)->children(0)->children(0)->innertext, strpos($players->children(1)->children(0)->children(0)->children(0)->innertext, 'https'), strpos($players->children(1)->children(0)->children(0)->children(0)->innertext, '" ')-2-strpos($players->children(1)->children(0)->children(0)->children(0)->innertext, 'https')); //ссылка на фото игрока
+                    $player->team[]=$teamName; //команда игрока
                 }
                 if(is_object($players->children(3))) //получение данных 3-его игрока
                 {
-                    $player->nickname[]=$players->children(3)->children(0)->children(0)->children(1)->children(0)->plaintext;
-                    $player->team[]=$teamName;
+                    $player->nickname[]=$players->children(3)->children(0)->children(0)->children(1)->children(0)->plaintext; //никнейм игрока
+                    $player->photoRef[]=substr($players->children(3)->children(0)->children(0)->children(0)->innertext, strpos($players->children(1)->children(0)->children(0)->children(0)->innertext, 'https'), strpos($players->children(1)->children(0)->children(0)->children(0)->innertext, '" ')-2-strpos($players->children(1)->children(0)->children(0)->children(0)->innertext, 'https')); //ссылка на фото игрока
+                    $player->team[]=$teamName; //команда игрока
                 }
                 if(is_object($players->children(4))) //получение данных 4-ого игрока
                 {
-                    $player->nickname[]=$players->children(4)->children(0)->children(0)->children(1)->children(0)->plaintext;
-                    $player->team[]=$teamName;
+                    $player->nickname[]=$players->children(4)->children(0)->children(0)->children(1)->children(0)->plaintext; //никнейм игрока
+                    $player->photoRef[]=substr($players->children(4)->children(0)->children(0)->children(0)->innertext, strpos($players->children(1)->children(0)->children(0)->children(0)->innertext, 'https'), strpos($players->children(1)->children(0)->children(0)->children(0)->innertext, '" ')-2-strpos($players->children(1)->children(0)->children(0)->children(0)->innertext, 'https')); //ссылка на фото игрока
+                    $player->team[]=$teamName; //команда игрока
                 }
                 if(is_object($players->children(5))) //получение данных 5-ого игрока
                 {
-                    $player->nickname[]=$players->children(5)->children(0)->children(0)->children(1)->children(0)->plaintext;
-                    $player->team[]=$teamName;
+                    $player->nickname[]=$players->children(5)->children(0)->children(0)->children(1)->children(0)->plaintext; //никнейм игрока
+                    $player->photoRef[]=substr($players->children(5)->children(0)->children(0)->children(0)->innertext, strpos($players->children(1)->children(0)->children(0)->children(0)->innertext, 'https'), strpos($players->children(1)->children(0)->children(0)->children(0)->innertext, '" ')-2-strpos($players->children(1)->children(0)->children(0)->children(0)->innertext, 'https')); //ссылка на фото игрока
+                    $player->team[]=$teamName; //команда игрока
                 }
                 if(is_object($players->children(6))) //получение данных 6-ого игрока
                 {
-                    $player->nickname[]=$players->children(6)->children(0)->children(0)->children(1)->children(0)->plaintext;
-                    $player->team[]=$teamName;
+                    $player->nickname[]=$players->children(6)->children(0)->children(0)->children(1)->children(0)->plaintext; //никнейм игрока
+                    $player->photoRef[]=substr($players->children(6)->children(0)->children(0)->children(0)->innertext, strpos($players->children(1)->children(0)->children(0)->children(0)->innertext, 'https'), strpos($players->children(1)->children(0)->children(0)->children(0)->innertext, '" ')-2-strpos($players->children(1)->children(0)->children(0)->children(0)->innertext, 'https')); //ссылка на фото игрока
+                    $player->team[]=$teamName; //команда игрока
                 }
             }
         }
