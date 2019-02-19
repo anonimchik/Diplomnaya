@@ -14,6 +14,7 @@ class Team
 class Players
 {
     var $nickname;
+    var $team;
 }
 $team=new Team;
 $player=new Players;
@@ -36,7 +37,8 @@ $teamRef='https://www.cybersport.ru';
             $html=curl_get($teamRef.$ref);
             $dom=str_get_html($html);
         }
-        foreach ($dom->find('.page--team') as $page) {
+        foreach ($dom->find('.page--team') as $page) 
+        {
             $team->logo[]=substr($page->children(1)->children(0)->children(0)->innertext, strpos($page->children(1)->children(0)->children(0)->innertext, '"')+1, strpos($page->children(1)->children(0)->children(0)->innertext, '" ')-1-strpos($page->children(1)->children(0)->children(0)->innertext, '"')); //ссылка на лого команды
             $team->name[]=$teamName=$page->children(1)->children(0)->children(1)->children(0)->children(0)->plaintext; //название команды
             $team->appearenceDate[]=$page->children(1)->children(0)->children(1)->children(0)->children(1)->plaintext; //дата появления команды
@@ -44,12 +46,35 @@ $teamRef='https://www.cybersport.ru';
             $team->prize[]=substr($page->children(1)->children(0)->children(1)->children(1)->plaintext, strpos($page->children(1)->children(0)->children(1)->children(1)->plaintext, " ")+1); //призовые команды
             $team->description[]=$page->children(1)->children(2)->children(1)->children(0)->plaintext; //описание команды
             $team->achievement[]=$page->children(1)->children(2)->children(1)->children(1)->plaintext; //достижения команды
-            foreach ($dom->find('.gamers__list--active .gamers__item') as $players) {
-                echo $players;
-                //$player->nickname[]=$players->children(1)->plaintext;
+            foreach ($dom->find('.gamers__list--active') as $players) {
+                $players->children(0)->outertext="";
+                if(is_object($players->children(1)))
+                {
+                    $player->nickname[]=$players->children(1)->children(0)->children(0)->children(1)->children(0)->plaintext;
+                    $player->team[]=$teamName;
+                }
+                if(is_object($players->children(2)))
+                {
+                    $player->nickname[]=$players->children(2)->children(0)->children(0)->children(1)->children(0)->plaintext;
+                    $player->team[]=$teamName;
+                }
+                if(is_object($players->children(3)))
+                {
+                    $player->nickname[]=$players->children(3)->children(0)->children(0)->children(1)->children(0)->plaintext;
+                    $player->team[]=$teamName;
+                }
+                if(is_object($players->children(4)))
+                {
+                    $player->nickname[]=$players->children(4)->children(0)->children(0)->children(1)->children(0)->plaintext;
+                    $player->team[]=$teamName;
+                }
+                if(is_object($players->children(5)))
+                {
+                    $player->nickname[]=$players->children(5)->children(0)->children(0)->children(1)->children(0)->plaintext;
+                    $player->team[]=$teamName;
+                }
             }
         }
     }
-    var_dump($player);
     echo number_format((microtime(true)-$startTime)/60, 2, ":" ,"");
 ?>
