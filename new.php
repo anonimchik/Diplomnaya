@@ -73,6 +73,11 @@ $teamRef='https://www.cybersport.ru';
                     $player->nickname[]=$players->children(5)->children(0)->children(0)->children(1)->children(0)->plaintext;
                     $player->team[]=$teamName;
                 }
+                if(is_object($players->children(6)))
+                {
+                    $player->nickname[]=$players->children(6)->children(0)->children(0)->children(1)->children(0)->plaintext;
+                    $player->team[]=$teamName;
+                }
             }
         }
     }
