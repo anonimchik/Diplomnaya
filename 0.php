@@ -30,7 +30,7 @@
     $page='https://dota2.ru/esport/teams/'.$pageRefer;
     $html=curl_get($page);
     $dom=str_get_html($html);
-    /*$team=new team;
+    $team=new team;
     foreach ($dom->find('a.esport-team-list-single') as $referal) 
     {
         $team->href[]=$referal->href;
@@ -98,7 +98,7 @@
     {
         $pageRefer=substr($nextPage->children(0)->href, strpos($nextPage->children(0)->href, "?"));
         goto a;
-    }*/
+    }
     $page='https://dota2.ru/esport/teams/';
     $html=curl_get($page);
     $dom=str_get_html($html);

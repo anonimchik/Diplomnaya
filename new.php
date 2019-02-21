@@ -35,12 +35,15 @@ $teamRef='https://www.cybersport.ru';
     {
         $html=curl_get("https://www.cybersport.ru".$href);
         $dom=str_get_html($html);
+        echo "https://www.cybersport.ru".$href."<br>";
         foreach($dom->find('.pagination__item--next') as $pagination)
         {
-            $href=substr($pagination->outertext, strpos($pagination->outertext, '="')+2, strpos($pagination->outertext, '" ')-1-strpos($pagination->outertext, '="'));
+            $href=substr($pagination->outertext, strpos($pagination->outertext, '="')+2, strpos($pagination->outertext, '" ')-2-strpos($pagination->outertext, '="'));
         }
-        foreach ($dom->find('#active tr') as $teamTable){
-            if($teamTable->children(1)->plaintext!="Команда"){
+        foreach ($dom->find('#active tr') as $teamTable)
+        {
+            if($teamTable->children(1)->plaintext!="Команда")
+            {
                 $ref=substr($teamTable->children(1)->innertext, strpos($teamTable->children(1)->innertext, '"')+1, strpos($teamTable->children(1)->innertext, '" ')-2-strpos($teamTable->children(1)->innertext, '="')); //ссылка на страницу команды
             }
             if($teamTable->children(3)->plaintext!="Сумма призовых"){$team->prize[]=$teamTable->children(3);} //сумма призовых
@@ -48,6 +51,7 @@ $teamRef='https://www.cybersport.ru';
             {
                 $html=curl_get($teamRef.$ref);
                 $dom=str_get_html($html);
+                echo $teamRef.$ref."<br>";
             }
             foreach ($dom->find('.page--team') as $page) 
             {
@@ -117,7 +121,10 @@ $teamRef='https://www.cybersport.ru';
                 }
             }
         }
-        break;
     }
+    /*foreach($team->logo as $img)
+    {
+        saveImage($teamRef, $teamRef.$img, "./images/countryFlags/".mb_convert_encoding($img, 'cp1251', 'utf-8').".png"); //сохранение флагов 
+    }*/
     echo number_format((microtime(true)-$startTime)/60, 2, ":" ,"");
 ?>
