@@ -26,19 +26,26 @@ $player=new Players;
 $startTime=microtime(true);
 $teamName=""; //переменная для хранения информации о названии команды
 $ref=""; //переменная для хранения ссылки конкретной команды
+$href="";
 $teamPage="";
-$teamRef='https://www.cybersport.ru';
+$siteRef='https://www.cybersport.ru';
     include_once('libraries/curl_query.php');
     include_once('libraries/simplehtmldom_1_7/simple_html_dom.php');
-    $href="/base/teams?sort=amount&page=1&disciplines=21";
-    for($i=0; $i<5; $i++)
+    for($i=0; $i<2; $i++)
     {
-        $html=curl_get("https://www.cybersport.ru".$href);
-        $dom=str_get_html($html);
-        echo "https://www.cybersport.ru".$href."<br>";
-        foreach($dom->find('.pagination__item--next') as $pagination)
+        if($href==null)
         {
-            $href=substr($pagination->outertext, strpos($pagination->outertext, '="')+2, strpos($pagination->outertext, '" ')-2-strpos($pagination->outertext, '="'));
+            $html=curl_get("https://www.cybersport.ru/base/teams?sort=amount&page=1&disciplines=21");
+        }
+        else
+        {
+            $html=curl_get($siteRef.$href);
+        }
+        echo $siteRef.$href."<br>";
+        $dom=str_get_html($html);
+        foreach($dom->find('.pagination__item--next') as $pagination) //получение ссылки на следующую страницу
+        {
+            $href=$pagination->href;
         }
         foreach ($dom->find('#active tr') as $teamTable)
         {
@@ -49,9 +56,8 @@ $teamRef='https://www.cybersport.ru';
             if($teamTable->children(3)->plaintext!="Сумма призовых"){$team->prize[]=$teamTable->children(3);} //сумма призовых
             if($ref!=null)
             {
-                $html=curl_get($teamRef.$ref);
+                $html=curl_get($siteRef.$ref);
                 $dom=str_get_html($html);
-                echo $teamRef.$ref."<br>";
             }
             foreach ($dom->find('.page--team') as $page) 
             {
