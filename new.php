@@ -31,18 +31,20 @@ $teamPage="";
 $siteRef='https://www.cybersport.ru';
     include_once('libraries/curl_query.php');
     include_once('libraries/simplehtmldom_1_7/simple_html_dom.php');
-    for($i=0; $i<2; $i++)
+    for($i=0; $i<3; $i++)   
     {
         if($href==null)
         {
-            $html=curl_get("https://www.cybersport.ru/base/teams?sort=amount&page=1&disciplines=21");
+            $html=curl_get($siteRef."/base/teams?sort=amount&page=1&disciplines=21");
         }
         else
         {
             $html=curl_get($siteRef.$href);
         }
-        echo $siteRef.$href."<br>";
+        echo $href."<br>";
+        //$html=curl_get("https://www.cybersport.ru/base/teams?sort=amount&page=1&disciplines=21");
         $dom=str_get_html($html);
+        //echo $siteRef.$href."<br>";
         foreach($dom->find('.pagination__item--next') as $pagination) //получение ссылки на следующую страницу
         {
             $href=$pagination->href;
@@ -56,7 +58,7 @@ $siteRef='https://www.cybersport.ru';
             if($teamTable->children(3)->plaintext!="Сумма призовых"){$team->prize[]=$teamTable->children(3);} //сумма призовых
             if($ref!=null)
             {
-                $html=curl_get($siteRef.$ref);
+                $html=curl_get($siteRef.$ref); 
                 $dom=str_get_html($html);
             }
             foreach ($dom->find('.page--team') as $page) 
