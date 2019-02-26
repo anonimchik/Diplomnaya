@@ -26,29 +26,21 @@ $player=new Players;
 $startTime=microtime(true);
 $teamName=""; //переменная для хранения информации о названии команды
 $ref=""; //переменная для хранения ссылки конкретной команды
-$href="";
 $teamPage="";
 $siteRef='https://www.cybersport.ru';
     include_once('libraries/curl_query.php');
     include_once('libraries/simplehtmldom_1_7/simple_html_dom.php');
-    for($i=0; $i<3; $i++)   
-    {
-        if($href==null)
-        {
-            $html=curl_get($siteRef."/base/teams?sort=amount&page=1&disciplines=21");
-        }
-        else
-        {
+    for ($i=0; $i<2; $i++) { 
+        if($href!=null){
             $html=curl_get($siteRef.$href);
+            $dom=str_get_html($html);
         }
-        echo $href."<br>";
-        //$html=curl_get("https://www.cybersport.ru/base/teams?sort=amount&page=1&disciplines=21");
-        $dom=str_get_html($html);
-        //echo $siteRef.$href."<br>";
-        foreach($dom->find('.pagination__item--next') as $pagination) //получение ссылки на следующую страницу
-        {
-            $href=$pagination->href;
+        else{
+            $html=curl_get($siteRef."/base/teams?disciplines=21");
+            $dom=str_get_html($html); 
         }
+        
+        /*     ПАРСИНГ ДАННЫХ О КОМАНДЕ И ИГРОКЕ      */
         foreach ($dom->find('#active tr') as $teamTable)
         {
             if($teamTable->children(1)->plaintext!="Команда")
@@ -128,6 +120,12 @@ $siteRef='https://www.cybersport.ru';
                     }
                 }
             }
+        }
+        /*             */
+
+
+        foreach ($dom->find('.pagination__item--next') as $pagination) {
+            echo $siteRef.$href="/base/teams?disciplines=21&".substr($pagination->href, strpos($pagination->href, "page"));
         }
     }
     /*foreach($team->logo as $img)
