@@ -30,17 +30,21 @@ $teamPage="";
 $siteRef='https://www.cybersport.ru';
     include_once('libraries/curl_query.php');
     include_once('libraries/simplehtmldom_1_7/simple_html_dom.php');
-    for ($i=0; $i<2; $i++) { 
-        if($href!=null){
-            $html=curl_get($siteRef.$href);
-            $dom=str_get_html($html);
+    for ($i=0; $i<2; $i++) 
+    { 
+        if($href!=null)
+        {
+            $html=curl_get($siteRef.$href); //получение страницы
+            $dom=str_get_html($html); //формирование объекта
         }
-        else{
-            $html=curl_get($siteRef."/base/teams?disciplines=21");
-            $dom=str_get_html($html); 
+        else
+        {
+            $html=curl_get($siteRef."/base/teams?disciplines=21"); //получение страницы
+            $dom=str_get_html($html); //формирование объекта
         }
-        
-        /*     ПАРСИНГ ДАННЫХ О КОМАНДЕ И ИГРОКЕ      */
+        foreach ($dom->find('.pagination__item--next') as $pagination) {
+            $href="/base/teams?disciplines=21&".substr($pagination->href, strpos($pagination->href, "page")); //получение ссылки на следущую страницу
+        }
         foreach ($dom->find('#active tr') as $teamTable)
         {
             if($teamTable->children(1)->plaintext!="Команда")
@@ -50,8 +54,8 @@ $siteRef='https://www.cybersport.ru';
             if($teamTable->children(3)->plaintext!="Сумма призовых"){$team->prize[]=$teamTable->children(3);} //сумма призовых
             if($ref!=null)
             {
-                $html=curl_get($siteRef.$ref); 
-                $dom=str_get_html($html);
+                $html=curl_get($siteRef.$ref); //получение страницы
+                $dom=str_get_html($html); //формирование объекта
             }
             foreach ($dom->find('.page--team') as $page) 
             {
@@ -63,11 +67,11 @@ $siteRef='https://www.cybersport.ru';
                 $team->description[]=$page->children(1)->children(2)->children(1)->children(0)->plaintext; //описание команды
                 $team->achievement[]=$page->children(1)->children(2)->children(1)->children(1)->plaintext; //достижения команды
                 foreach ($dom->find('.gamers__list--active') as $players) {
-                    $players->children(0)->outertext="";
+                    $players->children(0)->outertext=""; //удаление первого блока-потомка
                     if(is_object($players->children(1))) //получение данных 1-ого игрока
                     {
                         $player->nickname[]=$players->children(1)->children(0)->children(0)->children(1)->children(0)->plaintext; //никнейм игрока
-                        $player->photoRef[]=substr($players->children(1)->children(0)->children(0)->children(0)->innertext, strpos($players->children(1)->children(0)->children(0)->children(0)->innertext, 'https'), strpos($players->children(1)->children(0)->children(0)->children(0)->innertext, '" ')-2-strpos($players->children(1)->children(0)->children(0)->children(0)->innertext, 'https')); //ссылка на фото игрока
+                        $player->photoRef[]=$players->children(1)->children(0)->children(0)->children(0)->children(0)->src; //ссылка на фото игрока
                         $player->team[]=$teamName; //команда игрока
                         $player->status[]=$players->children(1)->children(1)->plaintext; //статус игрока
                         $player->role[]=$players->children(1)->children(2)->plaintext; //позиция игрока
@@ -76,7 +80,7 @@ $siteRef='https://www.cybersport.ru';
                     if(is_object($players->children(2))) //получение данных 2-ого игрока
                     {
                         $player->nickname[]=$players->children(2)->children(0)->children(0)->children(1)->children(0)->plaintext; //никнейм игрока
-                        $player->photoRef[]=substr($players->children(2)->children(0)->children(0)->children(0)->innertext, strpos($players->children(1)->children(0)->children(0)->children(0)->innertext, 'https'), strpos($players->children(1)->children(0)->children(0)->children(0)->innertext, '" ')-2-strpos($players->children(1)->children(0)->children(0)->children(0)->innertext, 'https')); //ссылка на фото игрока
+                        $player->photoRef[]=$players->children(2)->children(0)->children(0)->children(0)->children(0)->src; //ссылка на фото игрока
                         $player->team[]=$teamName; //команда игрока
                         $player->status[]=$players->children(2)->children(1)->plaintext; //статус игрока
                         $player->role[]=$players->children(2)->children(2)->plaintext; //позиция игрока
@@ -85,7 +89,7 @@ $siteRef='https://www.cybersport.ru';
                     if(is_object($players->children(3))) //получение данных 3-его игрока
                     {
                         $player->nickname[]=$players->children(3)->children(0)->children(0)->children(1)->children(0)->plaintext; //никнейм игрока
-                        $player->photoRef[]=substr($players->children(3)->children(0)->children(0)->children(0)->innertext, strpos($players->children(1)->children(0)->children(0)->children(0)->innertext, 'https'), strpos($players->children(1)->children(0)->children(0)->children(0)->innertext, '" ')-2-strpos($players->children(1)->children(0)->children(0)->children(0)->innertext, 'https')); //ссылка на фото игрока
+                        $player->photoRef[]=$players->children(3)->children(0)->children(0)->children(0)->children(0)->src; //ссылка на фото игрока
                         $player->team[]=$teamName; //команда игрока
                         $player->status[]=$players->children(3)->children(1)->plaintext; //статус игрока
                         $player->role[]=$players->children(3)->children(2)->plaintext; //позиция игрока
@@ -94,7 +98,7 @@ $siteRef='https://www.cybersport.ru';
                     if(is_object($players->children(4))) //получение данных 4-ого игрока
                     {
                         $player->nickname[]=$players->children(4)->children(0)->children(0)->children(1)->children(0)->plaintext; //никнейм игрока
-                        $player->photoRef[]=substr($players->children(4)->children(0)->children(0)->children(0)->innertext, strpos($players->children(1)->children(0)->children(0)->children(0)->innertext, 'https'), strpos($players->children(1)->children(0)->children(0)->children(0)->innertext, '" ')-2-strpos($players->children(1)->children(0)->children(0)->children(0)->innertext, 'https')); //ссылка на фото игрока
+                        $player->photoRef[]=$players->children(4)->children(0)->children(0)->children(0)->children(0)->src; //ссылка на фото игрока
                         $player->team[]=$teamName; //команда игрока
                         $player->status[]=$players->children(4)->children(1)->plaintext; //статус игрока
                         $player->role[]=$players->children(4)->children(2)->plaintext; //позиция игрока
@@ -103,7 +107,7 @@ $siteRef='https://www.cybersport.ru';
                     if(is_object($players->children(5))) //получение данных 5-ого игрока
                     {
                         $player->nickname[]=$players->children(5)->children(0)->children(0)->children(1)->children(0)->plaintext; //никнейм игрока
-                        $player->photoRef[]=substr($players->children(5)->children(0)->children(0)->children(0)->innertext, strpos($players->children(1)->children(0)->children(0)->children(0)->innertext, 'https'), strpos($players->children(1)->children(0)->children(0)->children(0)->innertext, '" ')-2-strpos($players->children(1)->children(0)->children(0)->children(0)->innertext, 'https')); //ссылка на фото игрока
+                        $player->photoRef[]=$players->children(5)->children(0)->children(0)->children(0)->children(0)->src; //ссылка на фото игрока
                         $player->team[]=$teamName; //команда игрока
                         $player->status[]=$players->children(5)->children(1)->plaintext; //статус игрока
                         $player->role[]=$players->children(5)->children(2)->plaintext; //позиция игрока
@@ -112,7 +116,7 @@ $siteRef='https://www.cybersport.ru';
                     if(is_object($players->children(6))) //получение данных 6-ого игрока
                     {
                         $player->nickname[]=$players->children(6)->children(0)->children(0)->children(1)->children(0)->plaintext; //никнейм игрока
-                        $player->photoRef[]=substr($players->children(6)->children(0)->children(0)->children(0)->innertext, strpos($players->children(1)->children(0)->children(0)->children(0)->innertext, 'https'), strpos($players->children(1)->children(0)->children(0)->children(0)->innertext, '" ')-2-strpos($players->children(1)->children(0)->children(0)->children(0)->innertext, 'https')); //ссылка на фото игрока
+                        $player->photoRef[]=$players->children(6)->children(0)->children(0)->children(0)->children(0)->src; //ссылка на фото игрока
                         $player->team[]=$teamName; //команда игрока
                         $player->status[]=$players->children(6)->children(1)->plaintext; //статус игрока
                         $player->role[]=$players->children(6)->children(2)->plaintext; //позиция игрока
@@ -121,16 +125,20 @@ $siteRef='https://www.cybersport.ru';
                 }
             }
         }
-        /*             */
-
-
-        foreach ($dom->find('.pagination__item--next') as $pagination) {
-            echo $siteRef.$href="/base/teams?disciplines=21&".substr($pagination->href, strpos($pagination->href, "page"));
-        }
     }
-    /*foreach($team->logo as $img)
+    /*for($i=0; $i<count($team->logo); $i++)
     {
-        saveImage($teamRef, $teamRef.$img, "./images/countryFlags/".mb_convert_encoding($img, 'cp1251', 'utf-8').".png"); //сохранение флагов 
+        if(strpos($team->logo[$i], "bez-nazvaniya")===false)
+        {
+            saveImage("", $team->logo[$i], "./images/teamLogos/".mb_convert_encoding($team->name[$i], 'cp1251', 'utf-8').".png");
+        }
+    }*/
+    /*for($i=0; $i<count($player->photoRef); $i++)
+    {
+        if($player->photoRef[$i]!=null)
+        {
+            saveImage("", $player->photoRef[$i], "./images/playerPhotos/".mb_convert_encoding($player->nickname[$i], 'cp1251', 'utf-8').'.png');
+        }
     }*/
     echo number_format((microtime(true)-$startTime)/60, 2, ":" ,"");
 ?>

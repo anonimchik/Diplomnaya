@@ -16,8 +16,8 @@
 		curl_setopt($ch, CURLOPT_HEADER, 0);  
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);  
 		curl_setopt($ch, CURLOPT_BINARYTRANSFER,1);  
-		curl_exec($ch);  
-		file_put_contents($imgSource, file_get_contents($urlImage));
+        curl_exec($ch);  
+        file_put_contents($imgSource, file_get_contents($urlImage));
 		curl_close($ch); 
 	}
 ?>
