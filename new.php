@@ -1,36 +1,17 @@
 <?php
-class Team
-{
-    var $name;
-    var $place;
-    var $prize; 
-    var $description;
-    var $wonTournaments;
-    var $logo;
-    var $appearenceDate;
-    var $site;
-    var $achievement;
-}
-class Players
-{
-    var $nickname;
-    var $team;
-    var $photoRef;
-    var $status;
-    var $role;
-    var $accessionDate;
-}
 set_time_limit(600);
+include_once('libraries/curl_query.php');
+include_once('libraries/simplehtmldom_1_7/simple_html_dom.php');
+include_once('database/connection.php');
+include_once('classes.php');
 $team=new Team;
 $player=new Players;
+$query=new Query;
 $startTime=microtime(true);
 $teamName=""; //переменная для хранения информации о названии команды
 $ref=""; //переменная для хранения ссылки конкретной команды
 $teamPage="";
 $siteRef='https://www.cybersport.ru';
-include_once('libraries/curl_query.php');
-include_once('libraries/simplehtmldom_1_7/simple_html_dom.php');
-include_once('database/connection.php');
 /*for ($i=0; $i<2; $i++) 
 { 
     if($href!=null)
@@ -142,5 +123,8 @@ include_once('database/connection.php');
     }
 }*/
 open_connection();
+$query_str="select * from teams";
+$query->execute_query($query_str);
+close_connection();
 echo number_format((microtime(true)-$startTime)/60, 2, ":" ,"");
 ?>
