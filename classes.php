@@ -20,17 +20,42 @@ class Players
     var $role;
     var $accessionDate;
 }
-class Query
+class Database
 {
-    public $result;
-    function execute_query($query)
+    private $link;
+    private $hostname;
+    private $username;
+    private $password;
+    private $database;
+    private $query;
+    function setDbSettings($hostname, $username, $password, $database)
     {
-        $result=mysql_query($query);
-        while($row = mysql_fetch_array($result))
+        $this->hostname=$hostname;
+        $this->username=$username;
+        $this->password=$password;
+        $this->database=$database;
+    }
+    function open_connection()
+    {
+        $this->link = mysql_connect($this->hostname, $this->username, $this->password) or die('Не удалось соединиться: ' . mysql_error());
+        mysql_select_db($this->database) or die('Не удалось выбрать базу данных');
+        if($this->link){echo "успешно";}
+    }
+    function close_connection()
+    {
+        mysql_close($this->link);
+    }
+    function setQuery($query)
+    {
+        $this->query=$query;
+    }
+    function execute_query()
+    {
+        $result=mysql_query($this->query);
+        /*while($row = mysql_fetch_array($result))
         {
-        echo "Номер: ".$row['idTeam']."<br>\n";
-        }
+            echo "Номер: ".$row['idTeam']."<br>\n";
+        }*/
     }
 }
-
 ?>

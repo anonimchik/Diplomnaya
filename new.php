@@ -6,13 +6,13 @@ include_once('database/connection.php');
 include_once('classes.php');
 $team=new Team;
 $player=new Players;
-$query=new Query;
+$db=new Database('localhost', 'root', '', 'course_database');
 $startTime=microtime(true);
 $teamName=""; //переменная для хранения информации о названии команды
 $ref=""; //переменная для хранения ссылки конкретной команды
 $teamPage="";
 $siteRef='https://www.cybersport.ru';
-/*for ($i=0; $i<2; $i++) 
+for ($i=0; $i<1; $i++) 
 { 
     if($href!=null)
     {
@@ -107,14 +107,20 @@ $siteRef='https://www.cybersport.ru';
             }
         }
     }
-}*/
-/*for($i=0; $i<count($team->logo); $i++)
+}
+$db->setDbSettings("localhost", "root", "", "course_database");
+$db->open_connection();
+for($i=0; $i<count($team->logo); $i++)
 {
     if(strpos($team->logo[$i], "bez-nazvaniya")===false)
     {
-        saveImage("", $team->logo[$i], "./images/teamLogos/".mb_convert_encoding($team->name[$i], 'cp1251', 'utf-8').".png");
-    }
-}*/
+        //saveImage("", $team->logo[$i], "./images/teamLogos/".mb_convert_encoding($team->name[$i], 'cp1251', 'utf-8').".png");
+        $db->setQuery("insert into teams(name, logo, appereanceDate, site, prize, description, achievement) values('".$team->name[$i]."', ./images/teamLogos/),".mb_convert_encoding($team->name[$i], 'cp1251', 'utf-8').".png,  
+        '".$team->appearenceDate[$i]."','".$team->site[$i]."', ".$team->prize[$i].", '".$team->description[$i]."', '".$team->achievement[$i]."' )");
+        $db->execute_query();
+        break;
+    }       
+}
 /*for($i=0; $i<count($player->photoRef); $i++)
 {
     if($player->photoRef[$i]!=null)
@@ -122,9 +128,7 @@ $siteRef='https://www.cybersport.ru';
         saveImage("", $player->photoRef[$i], "./images/playerPhotos/".mb_convert_encoding($player->nickname[$i], 'cp1251', 'utf-8').'.png');
     }
 }*/
-open_connection();
-$query_str="select * from teams";
-$query->execute_query($query_str);
-close_connection();
+//$db->setQuery("select * from teams");
+$db->close_connection();
 echo number_format((microtime(true)-$startTime)/60, 2, ":" ,"");
 ?>

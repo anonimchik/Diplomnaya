@@ -26,7 +26,7 @@ DELIMITER $$
 --
 -- Процедуры
 --
-CREATE DEFINER=`root`@`%` PROCEDURE `checkTeam` (IN `team` VARCHAR(255))  NO SQL
+CREATE DEFINER=`root`@`localhost` PROCEDURE `checkTeam` (IN `team` VARCHAR(255))  NO SQL
     COMMENT 'проверка существования записи о данной команде'
 IF team in(SELECT name FROM teams) THEN
 	SIGNAL SQLSTATE '50000'
