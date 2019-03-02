@@ -2,7 +2,6 @@
 set_time_limit(600);
 include_once('libraries/curl_query.php');
 include_once('libraries/simplehtmldom_1_7/simple_html_dom.php');
-include_once('database/connection.php');
 include_once('classes.php');
 $team=new Team;
 $player=new Players;
@@ -33,7 +32,6 @@ for ($i=0; $i<1; $i++)
         {
             $ref=substr($teamTable->children(1)->innertext, strpos($teamTable->children(1)->innertext, '"')+1, strpos($teamTable->children(1)->innertext, '" ')-2-strpos($teamTable->children(1)->innertext, '="')); //ссылка на страницу команды
         }
-        if($teamTable->children(3)->plaintext!="Сумма призовых"){$team->prize[]=$teamTable->children(3);} //сумма призовых
         if($ref!=null)
         {
             $html=curl_get($siteRef.$ref); //получение страницы
@@ -43,9 +41,9 @@ for ($i=0; $i<1; $i++)
         {
             $team->logo[]=substr($page->children(1)->children(0)->children(0)->innertext, strpos($page->children(1)->children(0)->children(0)->innertext, '"')+1, strpos($page->children(1)->children(0)->children(0)->innertext, '" ')-1-strpos($page->children(1)->children(0)->children(0)->innertext, '"')); //ссылка на лого команды
             $team->name[]=$teamName=$page->children(1)->children(0)->children(1)->children(0)->children(0)->plaintext; //название команды
-            $team->appearenceDate[]=$page->children(1)->children(0)->children(1)->children(0)->children(1)->plaintext; //дата появления команды
+            $team->appearenceDate[]=substr($page->children(1)->children(0)->children(1)->children(0)->children(1)->plaintext, strrpos($page->children(1)->children(0)->children(1)->children(0)->children(1)->plaintext, " "), strrpos($page->children(1)->children(0)->children(1)->children(0)->children(1)->plaintext, ".")-strrpos($page->children(1)->children(0)->children(1)->children(0)->children(1)->plaintext, " ")); //дата появления команды
             $team->site[]=substr($page->children(1)->children(0)->children(1)->children(0)->children(2)->plaintext, strpos($page->children(1)->children(0)->children(1)->children(0)->children(2)->plaintext, " ")); //сайт команды
-            $team->prize[]=substr($page->children(1)->children(0)->children(1)->children(1)->plaintext, strpos($page->children(1)->children(0)->children(1)->children(1)->plaintext, " ")+1); //призовые команды
+            $team->prize[]=preg_replace('(\s|\$)', '', substr($page->children(1)->children(0)->children(1)->children(1)->plaintext, strpos($page->children(1)->children(0)->children(1)->children(1)->plaintext, " ")+1)); //призовые команды
             $team->description[]=$page->children(1)->children(2)->children(1)->children(0)->plaintext; //описание команды
             $team->achievement[]=$page->children(1)->children(2)->children(1)->children(1)->plaintext; //достижения команды
             foreach ($dom->find('.gamers__list--active') as $players) {
@@ -115,10 +113,9 @@ for($i=0; $i<count($team->logo); $i++)
     if(strpos($team->logo[$i], "bez-nazvaniya")===false)
     {
         //saveImage("", $team->logo[$i], "./images/teamLogos/".mb_convert_encoding($team->name[$i], 'cp1251', 'utf-8').".png");
-        $db->setQuery("insert into teams(name, logo, appereanceDate, site, prize, description, achievement) values('".$team->name[$i]."', ./images/teamLogos/),".mb_convert_encoding($team->name[$i], 'cp1251', 'utf-8').".png,  
-        '".$team->appearenceDate[$i]."','".$team->site[$i]."', ".$team->prize[$i].", '".$team->description[$i]."', '".$team->achievement[$i]."' )");
-        $db->execute_query();
-        break;
+        $db->setQuery("insert into teams(names, logo, appearenceDate, site, prize, description, achievement) values('".$team->name[$i]."', './images/teamLogos/".mb_convert_encoding($team->name[$i], 'cp1251', 'utf-8').".png',  
+        ".$team->appearenceDate[$i].",'".$team->site[$i]."', ".$team->prize[$i].", '".$team->description[$i]."', '".$team->achievement[$i]."' )");
+        $db->insert_record();
     }       
 }
 /*for($i=0; $i<count($player->photoRef); $i++)
