@@ -38,7 +38,7 @@ for ($i=0; $i<1; $i++)
             $dom=str_get_html($html); //формирование объекта
         }
         foreach ($dom->find('.page--team') as $page) 
-        {
+        { 
             $team->logo[]=substr($page->children(1)->children(0)->children(0)->innertext, strpos($page->children(1)->children(0)->children(0)->innertext, '"')+1, strpos($page->children(1)->children(0)->children(0)->innertext, '" ')-1-strpos($page->children(1)->children(0)->children(0)->innertext, '"')); //ссылка на лого команды
             $team->name[]=$teamName=$page->children(1)->children(0)->children(1)->children(0)->children(0)->plaintext; //название команды
             $team->appearenceDate[]=substr($page->children(1)->children(0)->children(1)->children(0)->children(1)->plaintext, strrpos($page->children(1)->children(0)->children(1)->children(0)->children(1)->plaintext, " "), strrpos($page->children(1)->children(0)->children(1)->children(0)->children(1)->plaintext, ".")-strrpos($page->children(1)->children(0)->children(1)->children(0)->children(1)->plaintext, " ")); //дата появления команды
@@ -46,7 +46,8 @@ for ($i=0; $i<1; $i++)
             $team->prize[]=preg_replace('(\s|\$)', '', substr($page->children(1)->children(0)->children(1)->children(1)->plaintext, strpos($page->children(1)->children(0)->children(1)->children(1)->plaintext, " ")+1)); //призовые команды
             $team->description[]=$page->children(1)->children(2)->children(1)->children(0)->plaintext; //описание команды
             $team->achievement[]=$page->children(1)->children(2)->children(1)->children(1)->plaintext; //достижения команды
-            foreach ($dom->find('.gamers__list--active') as $players) {
+            foreach ($dom->find('.gamers__list--active') as $players) 
+            {
                 $players->children(0)->outertext=""; //удаление первого блока-потомка
                 if(is_object($players->children(1))) //получение данных 1-ого игрока
                 {
@@ -112,19 +113,24 @@ for($i=0; $i<count($team->logo); $i++)
 {
     if(strpos($team->logo[$i], "bez-nazvaniya")===false)
     {
-        //saveImage("", $team->logo[$i], "./images/teamLogos/".mb_convert_encoding($team->name[$i], 'cp1251', 'utf-8').".png");
-        $db->setQuery("insert into teams(names, logo, appearenceDate, site, prize, description, achievement) values('".$team->name[$i]."', './images/teamLogos/".mb_convert_encoding($team->name[$i], 'cp1251', 'utf-8').".png',  
+        /*saveImage("", $team->logo[$i], "./images/teamLogos/".mb_convert_encoding($team->name[$i], 'cp1251', 'utf-8').".png");
+        $db->setQuery("insert into teams(name, logo, appearenceDate, site, prize, description, achievement) values('".$team->name[$i]."', './images/teamLogos/".mb_convert_encoding($team->name[$i], 'cp1251', 'utf-8').".png',  
         ".$team->appearenceDate[$i].",'".$team->site[$i]."', ".$team->prize[$i].", '".$team->description[$i]."', '".$team->achievement[$i]."' )");
-        $db->insert_record();
-    }       
+        $db->insert_record();*/
+    }      
 }
-/*for($i=0; $i<count($player->photoRef); $i++)
+for($i=0; $i<count($player->photoRef); $i++)
 {
     if($player->photoRef[$i]!=null)
     {
-        saveImage("", $player->photoRef[$i], "./images/playerPhotos/".mb_convert_encoding($player->nickname[$i], 'cp1251', 'utf-8').'.png');
+        $db->setQuery("select idTeam from teams where name='".$player->team[$i]."'");
+        $idTeam=$db->show_record("idTeam");
+        $db->setQuery("select idStatus from statuses where status='".$player->status[$i]."'");
+        //saveImage("", $player->photoRef[$i], "./images/playerPhotos/".mb_convert_encoding($player->nickname[$i], 'cp1251', 'utf-8').'.png');
+        $db->setQuery("insert into players(idTeam, nickname, photoRef, status, role) values(".$idTeam.", '".$player->nickname[$i]."', './images/playerPhotos/".mb_convert_encoding($player->nickname[$i], 'cp1251', 'utf-8').".png', ".$db->show_record("idStatus").", ".$player->role[$i].")");
+        $db->insert_record();
     }
-}*/
+}
 //$db->setQuery("select * from teams");
 $db->close_connection();
 echo number_format((microtime(true)-$startTime)/60, 2, ":" ,"");

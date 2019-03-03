@@ -52,17 +52,16 @@ class Database
     {  
         mysql_query($this->query);
         if(mysql_error($this->link))
-        {echo "Запрос не был выполнен. Код ошибки -".mysql_errno().". Cообщение ошибки - ".mysql_error().".";}
+        {echo $this->query."\nЗапрос не был выполнен. Код ошибки -".mysql_errno().". Cообщение ошибки - ".mysql_error().".";}
     }
-    function show_record()
+    function show_record($columnName)
     {
         $result=mysql_query($this->query);
-        if(mysql_error($this->link))
+        if(!mysql_error($this->link))
         {
             while($row = mysql_fetch_array($result)) 
             {
-                /*$row['login'];
-                $object->guestId=$row['user_id'];*/
+                return $row["$columnName"];
             }
         }
         else
