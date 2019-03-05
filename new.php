@@ -57,6 +57,14 @@ for ($i=0; $i<1; $i++)
                     $player->status[]=$players->children(1)->children(1)->plaintext; //статус игрока
                     $player->role[]=$players->children(1)->children(2)->plaintext; //позиция игрока
                     $player->accessionDate[]=$players->children(1)->children(3)->plaintext; //дата присоединения к команде
+                    $ref=$players->children(1)->children(0)->children(0)->href;
+                    $html=curl_get($siteRef.$ref);
+                    $dom=str_get_html($html);
+                    foreach($dom->find('.facts__description') as $playerBlock)
+                    {
+                        $player->facts[]=$playerBlock->children(0)->children(1)->plaintext; //факты
+                        $player->biography[]=$playerBlock->children(1); //биография
+                    }
                 }
                 if(is_object($players->children(2))) //получение данных 2-ого игрока
                 {
@@ -66,6 +74,12 @@ for ($i=0; $i<1; $i++)
                     $player->status[]=$players->children(2)->children(1)->plaintext; //статус игрока
                     $player->role[]=$players->children(2)->children(2)->plaintext; //позиция игрока
                     $player->accessionDate[]=$players->children(2)->children(3)->plaintext; //дата присоединения к команде
+                    $ref=$players->children(2)->children(0)->children(0)->href;
+                    foreach($dom->find('.facts__description') as $playerBlock)
+                    {
+                        $player->facts[]=$playerBlock->children(0)->children(1)->plaintext; //факты
+                        $player->biography[]=$playerBlock->children(1); //биография
+                    }
                 }
                 if(is_object($players->children(3))) //получение данных 3-его игрока
                 {
@@ -75,6 +89,12 @@ for ($i=0; $i<1; $i++)
                     $player->status[]=$players->children(3)->children(1)->plaintext; //статус игрока
                     $player->role[]=$players->children(3)->children(2)->plaintext; //позиция игрока
                     $player->accessionDate[]=$players->children(3)->children(3)->plaintext; //дата присоединения к команде
+                    $ref=$player->ref[]=$players->children(3)->children(0)->children(0)->href;
+                    foreach($dom->find('.facts__description') as $playerBlock)
+                    {
+                        $player->facts[]=$playerBlock->children(0)->children(1)->plaintext; //факты
+                        $player->biography[]=$playerBlock->children(1); //биография
+                    }
                 }
                 if(is_object($players->children(4))) //получение данных 4-ого игрока
                 {
@@ -84,6 +104,12 @@ for ($i=0; $i<1; $i++)
                     $player->status[]=$players->children(4)->children(1)->plaintext; //статус игрока
                     $player->role[]=$players->children(4)->children(2)->plaintext; //позиция игрока
                     $player->accessionDate[]=$players->children(4)->children(3)->plaintext; //дата присоединения к команде
+                    $ref=$players->children(4)->children(0)->children(0)->href;
+                    foreach($dom->find('.facts__description') as $playerBlock)
+                    {
+                        $player->facts[]=$playerBlock->children(0)->children(1)->plaintext; //факты
+                        $player->biography[]=$playerBlock->children(1); //биография
+                    }
                 }
                 if(is_object($players->children(5))) //получение данных 5-ого игрока
                 {
@@ -93,6 +119,12 @@ for ($i=0; $i<1; $i++)
                     $player->status[]=$players->children(5)->children(1)->plaintext; //статус игрока
                     $player->role[]=$players->children(5)->children(2)->plaintext; //позиция игрока
                     $player->accessionDate[]=$players->children(5)->children(3)->plaintext; //дата присоединения к команде
+                    $ref=$players->children(5)->children(0)->children(0)->href;
+                    foreach($dom->find('.facts__description') as $playerBlock)
+                    {
+                        $player->facts[]=$playerBlock->children(0)->children(1)->plaintext; //факты
+                        $player->biography[]=$playerBlock->children(1); //биография
+                    }
                 }
                 if(is_object($players->children(6))) //получение данных 6-ого игрока
                 {
@@ -102,6 +134,12 @@ for ($i=0; $i<1; $i++)
                     $player->status[]=$players->children(6)->children(1)->plaintext; //статус игрока
                     $player->role[]=$players->children(6)->children(2)->plaintext; //позиция игрока
                     $player->accessionDate[]=$players->children(6)->children(3)->plaintext; //дата присоединения к команде
+                    $ref=$players->children(1)->children(0)->children(0)->href;
+                    foreach($dom->find('.facts__description') as $playerBlock)
+                    {
+                        $player->facts[]=$playerBlock->children(0)->children(1)->plaintext; //факты
+                        $player->biography[]=$playerBlock->children(1); //биография
+                    }
                 }
             }
         }
@@ -121,7 +159,7 @@ for($i=0; $i<count($team->logo); $i++)
 }
 for($i=0; $i<count($player->photoRef); $i++)
 {
-    if($player->photoRef[$i]!=null)
+    /*if($player->photoRef[$i]!=null)
     {
         $db->setQuery("select idTeam from teams where name='".$player->team[$i]."'");
         $idTeam=$db->show_record("idTeam");
@@ -129,9 +167,8 @@ for($i=0; $i<count($player->photoRef); $i++)
         //saveImage("", $player->photoRef[$i], "./images/playerPhotos/".mb_convert_encoding($player->nickname[$i], 'cp1251', 'utf-8').'.png');
         $db->setQuery("insert into players(idTeam, nickname, photoRef, status, role) values(".$idTeam.", '".$player->nickname[$i]."', './images/playerPhotos/".mb_convert_encoding($player->nickname[$i], 'cp1251', 'utf-8').".png', ".$db->show_record("idStatus").", ".$player->role[$i].")");
         $db->insert_record();
-    }
+    }*/
 }
-//$db->setQuery("select * from teams");
 $db->close_connection();
 echo number_format((microtime(true)-$startTime)/60, 2, ":" ,"");
 ?>

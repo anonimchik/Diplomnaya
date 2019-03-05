@@ -19,7 +19,9 @@ class Players
     var $status;
     var $role;
     var $accessionDate;
-}
+    var $facts;
+    var $biography;
+}   
 class Database
 {
     private $link;
