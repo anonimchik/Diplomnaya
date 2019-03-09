@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Мар 05 2019 г., 13:22
+-- Время создания: Мар 09 2019 г., 14:01
 -- Версия сервера: 5.6.38
 -- Версия PHP: 5.5.38
 
@@ -89,6 +89,23 @@ INSERT INTO `disciplines` (`idDiscipline`, `discipline`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Структура таблицы `matchDescription`
+--
+
+CREATE TABLE `matchDescription` (
+  `idMatch` int(11) NOT NULL COMMENT 'id матча',
+  `idFormat` int(11) NOT NULL COMMENT 'id формата',
+  `firstWinner` int(11) NOT NULL COMMENT 'победитель 1-ой карты',
+  `secondWinner` int(11) NOT NULL COMMENT 'победитель 2-ой карты',
+  `thirdWinner` int(11) NOT NULL COMMENT 'победитель 3-ей карты',
+  `fourthWinner` int(11) NOT NULL COMMENT 'победитель 4-ой карты',
+  `fifthWinner` int(11) NOT NULL COMMENT 'победитель 5-ой карты',
+  `finalScore` varchar(10) NOT NULL COMMENT 'итоговый счет'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблицы `matches`
 --
 
@@ -99,6 +116,27 @@ CREATE TABLE `matches` (
   `idTournament` int(11) NOT NULL COMMENT 'id турнира',
   `date` datetime NOT NULL COMMENT 'дата проведения матча'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `matchFormats`
+--
+
+CREATE TABLE `matchFormats` (
+  `idMatchFormat` int(11) NOT NULL COMMENT 'id формата',
+  `matchFormat` varchar(50) NOT NULL COMMENT 'формат'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `matchFormats`
+--
+
+INSERT INTO `matchFormats` (`idMatchFormat`, `matchFormat`) VALUES
+(1, 'Best of 1'),
+(2, 'Best of 2'),
+(3, 'Best of 3'),
+(4, 'Best of 5');
 
 -- --------------------------------------------------------
 
@@ -122,6 +160,7 @@ CREATE TABLE `players` (
   `idTeam` int(11) NOT NULL COMMENT 'id команды',
   `idDiscipline` int(11) NOT NULL COMMENT 'id дисциплины',
   `facts` varchar(500) NOT NULL COMMENT 'факты ',
+  `country` int(11) NOT NULL COMMENT 'страна',
   `description` text NOT NULL COMMENT 'описание',
   `nickname` varchar(50) NOT NULL COMMENT 'никнейм',
   `photoRef` varchar(250) NOT NULL COMMENT 'фото',
@@ -266,7 +305,8 @@ CREATE TABLE `tournaments` (
   `seria` varchar(100) NOT NULL COMMENT 'серия',
   `location` varchar(100) NOT NULL COMMENT 'локация',
   `format` varchar(100) NOT NULL COMMENT 'формат',
-  `stage` int(11) NOT NULL COMMENT 'этап'
+  `stage` int(11) NOT NULL COMMENT 'этап',
+  `status` int(11) NOT NULL COMMENT 'статус турнира'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -291,6 +331,26 @@ INSERT INTO `tournamentStages` (`idStage`, `stage`) VALUES
 (5, 'Плей-офф'),
 (6, 'Групповой этап');
 
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `tournamentStatus`
+--
+
+CREATE TABLE `tournamentStatus` (
+  `idStatus` int(11) NOT NULL COMMENT 'id статуса',
+  `status` varchar(20) NOT NULL COMMENT 'статус'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `tournamentStatus`
+--
+
+INSERT INTO `tournamentStatus` (`idStatus`, `status`) VALUES
+(1, 'В ожидании'),
+(2, 'Идет'),
+(3, 'Завершен');
+
 --
 -- Индексы сохранённых таблиц
 --
@@ -309,6 +369,18 @@ ALTER TABLE `disciplines`
   ADD PRIMARY KEY (`idDiscipline`);
 
 --
+-- Индексы таблицы `matchDescription`
+--
+ALTER TABLE `matchDescription`
+  ADD KEY `idFormat` (`idFormat`),
+  ADD KEY `firstWinner` (`firstWinner`),
+  ADD KEY `secondWinner` (`secondWinner`),
+  ADD KEY `thirdWinner` (`thirdWinner`),
+  ADD KEY `fourthWinner` (`fourthWinner`),
+  ADD KEY `fifthWinner` (`fifthWinner`),
+  ADD KEY `idMatch` (`idMatch`);
+
+--
 -- Индексы таблицы `matches`
 --
 ALTER TABLE `matches`
@@ -318,11 +390,18 @@ ALTER TABLE `matches`
   ADD KEY `idTournament` (`idTournament`);
 
 --
+-- Индексы таблицы `matchFormats`
+--
+ALTER TABLE `matchFormats`
+  ADD PRIMARY KEY (`idMatchFormat`);
+
+--
 -- Индексы таблицы `participantTournament`
 --
 ALTER TABLE `participantTournament`
   ADD PRIMARY KEY (`idTournament`),
-  ADD KEY `idParticipant` (`idParticipant`);
+  ADD KEY `idParticipant` (`idParticipant`),
+  ADD KEY `idTournament` (`idTournament`);
 
 --
 -- Индексы таблицы `players`
@@ -393,13 +472,20 @@ ALTER TABLE `teams`
 --
 ALTER TABLE `tournaments`
   ADD PRIMARY KEY (`idTournament`),
-  ADD KEY `stage` (`stage`);
+  ADD KEY `stage` (`stage`),
+  ADD KEY `status` (`status`);
 
 --
 -- Индексы таблицы `tournamentStages`
 --
 ALTER TABLE `tournamentStages`
   ADD PRIMARY KEY (`idStage`);
+
+--
+-- Индексы таблицы `tournamentStatus`
+--
+ALTER TABLE `tournamentStatus`
+  ADD PRIMARY KEY (`idStatus`);
 
 --
 -- AUTO_INCREMENT для сохранённых таблиц
@@ -424,10 +510,10 @@ ALTER TABLE `matches`
   MODIFY `idMatch` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id матча';
 
 --
--- AUTO_INCREMENT для таблицы `participantTournament`
+-- AUTO_INCREMENT для таблицы `matchFormats`
 --
-ALTER TABLE `participantTournament`
-  MODIFY `idTournament` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id турнира';
+ALTER TABLE `matchFormats`
+  MODIFY `idMatchFormat` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id формата', AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT для таблицы `players`
@@ -490,8 +576,26 @@ ALTER TABLE `tournamentStages`
   MODIFY `idStage` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id этапа', AUTO_INCREMENT=7;
 
 --
+-- AUTO_INCREMENT для таблицы `tournamentStatus`
+--
+ALTER TABLE `tournamentStatus`
+  MODIFY `idStatus` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id статуса', AUTO_INCREMENT=4;
+
+--
 -- Ограничения внешнего ключа сохраненных таблиц
 --
+
+--
+-- Ограничения внешнего ключа таблицы `matchDescription`
+--
+ALTER TABLE `matchDescription`
+  ADD CONSTRAINT `matchdescription_ibfk_1` FOREIGN KEY (`idFormat`) REFERENCES `matchFormats` (`idMatchFormat`),
+  ADD CONSTRAINT `matchdescription_ibfk_2` FOREIGN KEY (`idMatch`) REFERENCES `matches` (`idMatch`),
+  ADD CONSTRAINT `matchdescription_ibfk_3` FOREIGN KEY (`firstWinner`) REFERENCES `teams` (`idTeam`),
+  ADD CONSTRAINT `matchdescription_ibfk_4` FOREIGN KEY (`secondWinner`) REFERENCES `teams` (`idTeam`),
+  ADD CONSTRAINT `matchdescription_ibfk_5` FOREIGN KEY (`thirdWinner`) REFERENCES `teams` (`idTeam`),
+  ADD CONSTRAINT `matchdescription_ibfk_6` FOREIGN KEY (`fourthWinner`) REFERENCES `teams` (`idTeam`),
+  ADD CONSTRAINT `matchdescription_ibfk_7` FOREIGN KEY (`fifthWinner`) REFERENCES `teams` (`idTeam`);
 
 --
 -- Ограничения внешнего ключа таблицы `matches`
@@ -506,7 +610,8 @@ ALTER TABLE `matches`
 -- Ограничения внешнего ключа таблицы `participantTournament`
 --
 ALTER TABLE `participantTournament`
-  ADD CONSTRAINT `participanttournament_ibfk_1` FOREIGN KEY (`idTournament`) REFERENCES `tournaments` (`idTournament`);
+  ADD CONSTRAINT `participanttournament_ibfk_1` FOREIGN KEY (`idTournament`) REFERENCES `tournaments` (`idTournament`),
+  ADD CONSTRAINT `participanttournament_ibfk_2` FOREIGN KEY (`idParticipant`) REFERENCES `teams` (`idTeam`);
 
 --
 -- Ограничения внешнего ключа таблицы `players`
@@ -546,7 +651,9 @@ ALTER TABLE `teams`
 -- Ограничения внешнего ключа таблицы `tournaments`
 --
 ALTER TABLE `tournaments`
-  ADD CONSTRAINT `tournaments_ibfk_1` FOREIGN KEY (`idTournament`) REFERENCES `prizeTournament` (`idTournament`);
+  ADD CONSTRAINT `tournaments_ibfk_1` FOREIGN KEY (`idTournament`) REFERENCES `prizeTournament` (`idTournament`),
+  ADD CONSTRAINT `tournaments_ibfk_2` FOREIGN KEY (`stage`) REFERENCES `tournamentStages` (`idStage`),
+  ADD CONSTRAINT `tournaments_ibfk_3` FOREIGN KEY (`status`) REFERENCES `tournamentStatus` (`idStatus`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
