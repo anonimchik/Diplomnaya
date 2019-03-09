@@ -14,13 +14,14 @@ for ($i=0; $i<1; $i++)
     }
     else
     {
-        $html=curl_get($siteRef."/base/tournaments?disciplines=21&status=future"); //получение страницы
+        $html=curl_get($siteRef."/base/tournaments?disciplines=21&status=past"); //получение страницы
         $dom=str_get_html($html); //формирование объекта
     }
-    foreach($dom->find('.tournaments__list') as $mainBlock)
+    foreach($dom->find('.tournaments__list .revers') as $mainBlock)
     {
-        $mainBlock->children(0)->outertext="";
-        echo $mainBlock;
+        //$mainBlock->children(0)->outertext="";
+        echo $mainBlock->href."<br>";
+        echo $mainBlock->plaintext."<br>";
     }
 }
 ?>
