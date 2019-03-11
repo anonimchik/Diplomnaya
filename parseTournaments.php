@@ -26,14 +26,26 @@ for ($i=0; $i<1; $i++)
         $dom=str_get_html($html);
         foreach($dom->find('.layer--page') as $tournamentPage)
         {
-            $tournament->seria[]=preg_replace('(Серия)', '', $tournamentPage->children(1)->children(0)->children(0)->children(0)->children(0)->plaintext);
-            $tournament->location[]=preg_replace('(Локация)', '', $tournamentPage->children(1)->children(0)->children(0)->children(0)->children(1)->plaintext);
-            $tournament->format[]= preg_replace('(Формат)', '', $tournamentPage->children(1)->children(0)->children(0)->children(0)->children(2)->plaintext);
-            $tournament->prize[]=preg_replace('(\D)', '', $tournamentPage->children(1)->children(0)->children(0)->children(0)->children(3)->plaintext);
-            $datas[]=explode('-', preg_replace('(Дата проведения|\s)', '', $tournamentPage->children(1)->children(0)->children(0)->children(0)->children(4)->plaintext));
-            $tournament->begDate[]=$datas[0];
-            $tournament->endDate[]=$datas[1];
-            $tournament->description[]=$tournamentPage->children(1)->children(0)->children(0)->children(1);
+            if(!is_object($tournamentPage->children(1)->children(0)->children(0)->children(0)))
+            {
+                $tournament->stageHref[]=$tournamentPage->children(1)->children(0)->children(0)->href;
+                $tournament->stage[]=$tournamentPage->children(1)->children(0)->children(0)->plaintext;
+                $tournament->stageHref[]=$tournamentPage->children(1)->children(0)->children(1)->href;
+                $tournament->stage[]=$tournamentPage->children(1)->children(0)->children(1)->plaintext;
+                $tournament->stageHref[]=$tournamentPage->children(1)->children(0)->chidlren(2)->href;
+                $tournament->stage[]=$tournamentPage->children(1)->children(0)->chidlren(2)->plaintext;
+            }
+            else
+            {
+                $tournament->seria[]=preg_replace('(Серия)', '', $tournamentPage->children(1)->children(0)->children(0)->children(0)->children(0)->plaintext);
+                $tournament->location[]=preg_replace('(Локация)', '', $tournamentPage->children(1)->children(0)->children(0)->children(0)->children(1)->plaintext);
+                $tournament->format[]= preg_replace('(Формат)', '', $tournamentPage->children(1)->children(0)->children(0)->children(0)->children(2)->plaintext);
+                $tournament->prize[]=preg_replace('(\D)', '', $tournamentPage->children(1)->children(0)->children(0)->children(0)->children(3)->plaintext);
+                $datas[]=explode('-', preg_replace('(Дата проведения|\s)', '', $tournamentPage->children(1)->children(0)->children(0)->children(0)->children(4)->plaintext));
+                $tournament->begDate[]=$datas[0];
+                $tournament->endDate[]=$datas[1];
+                $tournament->description[]=$tournamentPage->children(1)->children(0)->children(0)->children(1);
+            }
         }
         break;
     }

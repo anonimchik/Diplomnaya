@@ -32,6 +32,8 @@ class Tournament
     var $description;
     var $format;
     var $status;
+    var $stage;
+    var $stageHref;
 }
 class Database
 {
