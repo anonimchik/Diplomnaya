@@ -5,6 +5,7 @@ include_once('libraries/simplehtmldom_1_7/simple_html_dom.php');
 include_once('classes.php');
 $startTime=microtime(true);
 $siteRef='https://www.cybersport.ru';
+$tournament=new Tournament;
 for ($i=0; $i<1; $i++) 
 { 
     if($href!=null)
@@ -19,9 +20,22 @@ for ($i=0; $i<1; $i++)
     }
     foreach($dom->find('.tournaments__list .revers') as $mainBlock)
     {
-        //$mainBlock->children(0)->outertext="";
-        echo $mainBlock->href."<br>";
-        echo $mainBlock->plaintext."<br>";
+        $pageHref=$mainBlock->href;
+        $description=$mainBlock->plaintext;
+        $html=curl_get($siteRef.$pageHref);
+        $dom=str_get_html($html);
+        foreach($dom->find('.layer--page') as $tournamentPage)
+        {
+            $tournament->seria[]=preg_replace('(Серия)', '', $tournamentPage->children(1)->children(0)->children(0)->children(0)->children(0)->plaintext);
+            $tournament->location[]=preg_replace('(Локация)', '', $tournamentPage->children(1)->children(0)->children(0)->children(0)->children(1)->plaintext);
+            $tournament->format[]= preg_replace('(Формат)', '', $tournamentPage->children(1)->children(0)->children(0)->children(0)->children(2)->plaintext);
+            $tournament->prize[]=preg_replace('(\D)', '', $tournamentPage->children(1)->children(0)->children(0)->children(0)->children(3)->plaintext);
+            $datas[]=explode('-', preg_replace('(Дата проведения|\s)', '', $tournamentPage->children(1)->children(0)->children(0)->children(0)->children(4)->plaintext));
+            $tournament->begDate[]=$datas[0];
+            $tournament->endDate[]=$datas[1];
+            $tournament->description[]=$tournamentPage->children(1)->children(0)->children(0)->children(1);
+        }
+        break;
     }
 }
 ?>

@@ -22,6 +22,17 @@ class Players
     var $facts;
     var $biography;
 }   
+class Tournament
+{
+    var $seria;
+    var $location;
+    var $prize;
+    var $begDate;
+    var $endDate;
+    var $description;
+    var $format;
+    var $status;
+}
 class Database
 {
     private $link;
