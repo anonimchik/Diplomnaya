@@ -16,7 +16,7 @@ for ($i=0; $i<1; $i++)
     else
     {
         $html=curl_get($siteRef."/base/tournaments?disciplines=21&status=past"); //получение страницы
-        $dom=str_get_html($html); //формирование объекта
+        $dom=str_get_html($html); //формирование объекта                
     }
     foreach($dom->find('.tournaments__list .revers') as $mainBlock)
     {
@@ -26,14 +26,32 @@ for ($i=0; $i<1; $i++)
         $dom=str_get_html($html);
         foreach($dom->find('.layer--page') as $tournamentPage)
         {
+            /*var_dump(is_object($tournamentPage->children(2)));
+            var_dump(is_object($tournamentPage->children(2)->children(2)));
+            var_dump(is_object($tournamentPage->children(2)->children(2)->children(1)));
+            var_dump(is_object($tournamentPage->children(2)->children(2)->children(1)->children(0)));
+            var_dump(is_object($tournamentPage->children(2)->children(2)->children(1)->children(0)->children(1)));*/
+            /*if(is_object($tournamentPage->children(2)))
+            {
+                $tournamentPage->children(2)->children(2)->children(1)->children(0)->children(1)->outertext="";
+            }
+            if(is_object($tournamentPage->children(2)->children(2)))
+            {
+                $tournamentPage->children(2)->children(2)->children(2)->outertext="";
+            }
+            if(is_object($tournamentPage->children(2)->children(2)))
+            {
+                $tournamentPage->children(2)->children(2)->children(4)->outertext="";
+            }*/
+            echo $tournamentPage;
             if(!is_object($tournamentPage->children(1)->children(0)->children(0)->children(0)))
             {
                 $tournament->stageHref[]=$tournamentPage->children(1)->children(0)->children(0)->href;
                 $tournament->stage[]=$tournamentPage->children(1)->children(0)->children(0)->plaintext;
                 $tournament->stageHref[]=$tournamentPage->children(1)->children(0)->children(1)->href;
                 $tournament->stage[]=$tournamentPage->children(1)->children(0)->children(1)->plaintext;
-                $tournament->stageHref[]=$tournamentPage->children(1)->children(0)->chidlren(2)->href;
-                $tournament->stage[]=$tournamentPage->children(1)->children(0)->chidlren(2)->plaintext;
+                $tournament->stageHref[]=$tournamentPage->children(1)->children(0)->children(2)->href;
+                $tournament->stage[]=$tournamentPage->children(1)->children(0)->children(2)->plaintext;
             }
             else
             {
@@ -47,7 +65,6 @@ for ($i=0; $i<1; $i++)
                 $tournament->description[]=$tournamentPage->children(1)->children(0)->children(0)->children(1);
             }
         }
-        break;
     }
 }
 ?>
