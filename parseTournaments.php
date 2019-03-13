@@ -26,23 +26,21 @@ for ($i=0; $i<1; $i++)
         $dom=str_get_html($html);
         foreach($dom->find('.layer--page') as $tournamentPage)
         {
-            /*var_dump(is_object($tournamentPage->children(2)));
-            var_dump(is_object($tournamentPage->children(2)->children(2)));
-            var_dump(is_object($tournamentPage->children(2)->children(2)->children(1)));
-            var_dump(is_object($tournamentPage->children(2)->children(2)->children(1)->children(0)));
-            var_dump(is_object($tournamentPage->children(2)->children(2)->children(1)->children(0)->children(1)));*/
-            /*if(is_object($tournamentPage->children(2)))
+            if(is_object($tournamentPage->children(2)))
             {
-                $tournamentPage->children(2)->children(2)->children(1)->children(0)->children(1)->outertext="";
+                if(is_object($tournamentPage->children(2)->children(2)))
+                {
+                    $tournamentPage->children(2)->children(2)->children(1)->children(0)->children(1)->outertext="";
+                    $tournamentPage->children(2)->children(2)->children(2)->outertext="";
+                    $tournamentPage->children(2)->children(2)->children(4)->outertext="";
+                }
+                else
+                {
+                    $tournamentPage->children(2)->children(1)->children(1)->children(0)->children(1)->children(0)->outertext="";
+                    $tournamentPage->children(2)->children(1)->children(2)->outertext="";
+                    $tournamentPage->children(2)->children(1)->children(4)->outertext="";
+                }
             }
-            if(is_object($tournamentPage->children(2)->children(2)))
-            {
-                $tournamentPage->children(2)->children(2)->children(2)->outertext="";
-            }
-            if(is_object($tournamentPage->children(2)->children(2)))
-            {
-                $tournamentPage->children(2)->children(2)->children(4)->outertext="";
-            }*/
             echo $tournamentPage;
             if(!is_object($tournamentPage->children(1)->children(0)->children(0)->children(0)))
             {
