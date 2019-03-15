@@ -41,7 +41,24 @@ for ($i=0; $i<1; $i++)
                     $tournamentPage->children(2)->children(1)->children(4)->outertext="";
                 }
             }
-            echo $tournamentPage;
+            else
+            {
+                if(!is_object($tournamentPage->children(1)->children(2)))
+                {
+                    $tournamentPage->children(1)->children(1)->children(1)->children(0)->children(1)->outertext="";
+                    $tournamentPage->children(1)->children(1)->children(2)->outertext="";
+                    $tournamentPage->children(1)->children(1)->children(4)->outertext="";
+                }
+                else
+                {
+                    $tournamentPage->children(1)->children(2)->children(1)->children(0)->children(1)->outertext="";
+                    $tournamentPage->children(1)->children(2)->children(2)->outertext="";
+                    $tournamentPage->children(1)->children(2)->children(4)->outertext="";
+                    //echo $tournamentPage->children(1)->children(2)->children(4);
+                    //echo $tournamentPage->children(1)->children(2)->children(1);
+                }
+                echo $tournamentPage;
+            }
             if(!is_object($tournamentPage->children(1)->children(0)->children(0)->children(0)))
             {
                 $tournament->stageHref[]=$tournamentPage->children(1)->children(0)->children(0)->href;
