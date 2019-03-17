@@ -24,6 +24,7 @@ for ($i=0; $i<1; $i++)
         $description=$mainBlock->plaintext;
         $html=curl_get($siteRef.$pageHref);
         $dom=str_get_html($html);
+        echo $siteRef.$pageHref."<br>";
         foreach($dom->find('.layer--page') as $tournamentPage)
         {
             if(is_object($tournamentPage->children(2)))
@@ -36,7 +37,15 @@ for ($i=0; $i<1; $i++)
                 }
                 else
                 {
+                    if(is_object($tournamentPage->children(2)->children(1)->children(1)->children(0)->children(1)))
+                    {
                     $tournamentPage->children(2)->children(1)->children(1)->children(0)->children(1)->children(0)->outertext="";
+                    }
+                    else
+                    {
+                        $tournamentPage->children(2)->children(1)->children(1)->outertext="";
+                        $tournamentPage->children(2)->children(1)->children(3)->outertext="";
+                    }
                     $tournamentPage->children(2)->children(1)->children(2)->outertext="";
                     $tournamentPage->children(2)->children(1)->children(4)->outertext="";
                 }
@@ -51,14 +60,20 @@ for ($i=0; $i<1; $i++)
                 }
                 else
                 {
-                    $tournamentPage->children(1)->children(2)->children(1)->children(0)->children(1)->outertext="";
+                    if(is_object($tournamentPage->children(1)->children(2)->children(1)->children(0)->children(1)))
+                    {
+                        $tournamentPage->children(1)->children(2)->children(1)->children(0)->children(1)->outertext="";
+                    }
+                    else
+                    {
+                        $tournamentPage->children(1)->children(2)->children(1)->outertext=""; 
+                        $tournamentPage->children(1)->children(2)->children(3)->outertext="";
+                    }
                     $tournamentPage->children(1)->children(2)->children(2)->outertext="";
                     $tournamentPage->children(1)->children(2)->children(4)->outertext="";
-                    //echo $tournamentPage->children(1)->children(2)->children(4);
-                    //echo $tournamentPage->children(1)->children(2)->children(1);
-                }
-                echo $tournamentPage;
+                }  
             }
+            //echo $tournamentPage;
             if(!is_object($tournamentPage->children(1)->children(0)->children(0)->children(0)))
             {
                 $tournament->stageHref[]=$tournamentPage->children(1)->children(0)->children(0)->href;
