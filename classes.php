@@ -24,6 +24,7 @@ class Players
 }   
 class Tournament
 {
+    var $event;
     var $seria;
     var $location;
     var $prize;

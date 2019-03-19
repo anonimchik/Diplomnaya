@@ -24,9 +24,9 @@ for ($i=0; $i<1; $i++)
         $description=$mainBlock->plaintext;
         $html=curl_get($siteRef.$pageHref);
         $dom=str_get_html($html);
-        echo $siteRef.$pageHref."<br>";
         foreach($dom->find('.layer--page') as $tournamentPage)
         {
+            $tournament->event[]=$tournamentPage->children(0)->plaintext;
             if(is_object($tournamentPage->children(2)))
             {
                 if(is_object($tournamentPage->children(2)->children(2)))
@@ -57,6 +57,7 @@ for ($i=0; $i<1; $i++)
                     $tournamentPage->children(1)->children(1)->children(1)->children(0)->children(1)->outertext="";
                     $tournamentPage->children(1)->children(1)->children(2)->outertext="";
                     $tournamentPage->children(1)->children(1)->children(4)->outertext="";
+                    //echo $tournamentPage->children(1)->children(1)->children(0)->children(2)->children(0)->children(1)->children(0)->children(1);
                 }
                 else
                 {
@@ -73,7 +74,7 @@ for ($i=0; $i<1; $i++)
                     $tournamentPage->children(1)->children(2)->children(4)->outertext="";
                 }  
             }
-            //echo $tournamentPage;
+            echo $tournamentPage;
             if(!is_object($tournamentPage->children(1)->children(0)->children(0)->children(0)))
             {
                 $tournament->stageHref[]=$tournamentPage->children(1)->children(0)->children(0)->href;
@@ -95,6 +96,9 @@ for ($i=0; $i<1; $i++)
                 $tournament->description[]=$tournamentPage->children(1)->children(0)->children(0)->children(1);
             }
         }
+        /*foreach ($tournament->location as $seria) {
+            echo $seria."<br>";
+        }*/
     }
 }
 ?>
