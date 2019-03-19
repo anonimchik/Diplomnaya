@@ -11,6 +11,18 @@ class Team
     var $site;
     var $achievement;
 }
+class Match
+{
+    var $datetime;
+    var $team1;
+    var $team2;
+    var $teamRef1;
+    var $teamRef2;
+    var $score1;
+    var $score2;
+    var $matchRef;
+    var $round;
+}
 class Players
 {
     var $nickname;

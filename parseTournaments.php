@@ -6,6 +6,7 @@ include_once('classes.php');
 $startTime=microtime(true);
 $siteRef='https://www.cybersport.ru';
 $tournament=new Tournament;
+$match=new Match;
 for ($i=0; $i<1; $i++) 
 { 
     if($href!=null)
@@ -57,7 +58,18 @@ for ($i=0; $i<1; $i++)
                     $tournamentPage->children(1)->children(1)->children(1)->children(0)->children(1)->outertext="";
                     $tournamentPage->children(1)->children(1)->children(2)->outertext="";
                     $tournamentPage->children(1)->children(1)->children(4)->outertext="";
-                    //echo $tournamentPage->children(1)->children(1)->children(0)->children(2)->children(0)->children(1)->children(0)->children(1);
+                    if(is_object($tournamentPage->children(1)->children(1)->children(0)->children(2)->children(0)->children(1)->children(0)->children(1)->children(0)))
+                    {
+                        echo $tournamentPage->children(1)->children(1)->children(0)->children(2)->children(0)->children(1)/**/->children(0)->children(0)->children(0)->plaintext;
+                        echo $match->time[]=$tournamentPage->children(1)->children(1)->children(0)->children(2)->children(0)->children(1)->children(0)->children(1)->children(0)->children(0)->children(0)->children(0)->children(0)->plaintext;
+                        $match->team1[]=$tournamentPage->children(1)->children(1)->children(0)->children(2)->children(0)->children(1)->children(0)->children(1)->children(0)->children(0)->children(0)->children(0)->children(1)->children(0)->children(0)->plaintext;
+                        $match->teamRef1[]=$tournamentPage->children(1)->children(1)->children(0)->children(2)->children(0)->children(1)->children(0)->children(1)->children(0)->children(0)->children(0)->children(0)->children(1)->children(0)->children(0)->children(0)->href;
+                        $match->score1[]=$tournamentPage->children(1)->children(1)->children(0)->children(2)->children(0)->children(1)->children(0)->children(1)->children(0)->children(0)->children(0)->children(0)->children(1)->children(0)->children(1)->plaintext;
+                        $match->team2[]=$tournamentPage->children(1)->children(1)->children(0)->children(2)->children(0)->children(1)->children(0)->children(1)->children(0)->children(0)->children(0)->children(0)->children(1)->children(1)->children(0)->plaintext;
+                        $match->teamRef2[]=$tournamentPage->children(1)->children(1)->children(0)->children(2)->children(0)->children(1)->children(0)->children(1)->children(0)->children(0)->children(0)->children(0)->children(1)->children(1)->children(0)->children(0)->href;
+                        $match->score2[]=$tournamentPage->children(1)->children(1)->children(0)->children(2)->children(0)->children(1)->children(0)->children(1)->children(0)->children(0)->children(0)->children(0)->children(1)->children(1)->children(1)->plaintext;
+                        echo $tournamentPage->children(1)->children(1)->children(0)->children(2)->children(0)->children(1)->children(0)->children(0)->children(1)->plaintext;
+                    }
                 }
                 else
                 {
@@ -74,7 +86,7 @@ for ($i=0; $i<1; $i++)
                     $tournamentPage->children(1)->children(2)->children(4)->outertext="";
                 }  
             }
-            echo $tournamentPage;
+            //echo $tournamentPage;
             if(!is_object($tournamentPage->children(1)->children(0)->children(0)->children(0)))
             {
                 $tournament->stageHref[]=$tournamentPage->children(1)->children(0)->children(0)->href;
