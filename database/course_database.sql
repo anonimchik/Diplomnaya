@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Мар 09 2019 г., 14:01
+-- Время создания: Мар 20 2019 г., 12:32
 -- Версия сервера: 5.6.38
 -- Версия PHP: 5.5.38
 
@@ -85,6 +85,17 @@ INSERT INTO `disciplines` (`idDiscipline`, `discipline`) VALUES
 (2, 'Dota 2'),
 (3, 'CS:GO'),
 (4, 'CS:GO');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `groups`
+--
+
+CREATE TABLE `groups` (
+  `idGroup` int(11) NOT NULL COMMENT 'id группы',
+  `group` char(1) NOT NULL COMMENT 'группа'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -185,18 +196,6 @@ CREATE TABLE `playerTransfers` (
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `prizeTournament`
---
-
-CREATE TABLE `prizeTournament` (
-  `idTournament` int(11) NOT NULL COMMENT 'id турнира',
-  `place` varchar(50) NOT NULL COMMENT 'призовое место',
-  `prize` int(11) NOT NULL COMMENT 'сумма призовых'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
 -- Структура таблицы `prognoz`
 --
 
@@ -217,6 +216,38 @@ INSERT INTO `prognoz` (`idUser`, `idTeam`, `idMatch`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Структура таблицы `regions`
+--
+
+CREATE TABLE `regions` (
+  `idRegion` int(11) NOT NULL COMMENT 'id региона',
+  `region` varchar(20) NOT NULL COMMENT 'регион'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `regions`
+--
+
+INSERT INTO `regions` (`idRegion`, `region`) VALUES
+(1, 'Америка'),
+(2, 'Европа');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `results`
+--
+
+CREATE TABLE `results` (
+  `idTournament` int(11) NOT NULL COMMENT 'id турнира',
+  `idTeam` int(11) NOT NULL COMMENT 'id команды',
+  `place` varchar(50) NOT NULL COMMENT 'призовое место',
+  `prize` int(11) NOT NULL COMMENT 'сумма призовых'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблицы `roles`
 --
 
@@ -232,6 +263,23 @@ CREATE TABLE `roles` (
 
 INSERT INTO `roles` (`idRole`, `role`, `idDiscipline`) VALUES
 (1, 'Кери', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `score`
+--
+
+CREATE TABLE `score` (
+  `idTournament` int(11) NOT NULL COMMENT 'id турнира',
+  `idGroup` int(11) NOT NULL COMMENT 'id группы',
+  `idTeam` int(11) NOT NULL COMMENT 'id команды',
+  `totalCountMatches` int(11) NOT NULL COMMENT 'общее количество матчей',
+  `countWomMatches` int(11) NOT NULL COMMENT 'количество выигранных матчей',
+  `countLoseMatches` int(11) NOT NULL COMMENT 'количество проигранных матчей',
+  `countTieMatches` int(11) NOT NULL COMMENT 'количество ничьих',
+  `score` int(11) NOT NULL COMMENT 'кол-во очков'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -299,13 +347,13 @@ CREATE TABLE `tournaments` (
   `idTournament` int(11) NOT NULL COMMENT 'id турнира',
   `description` varchar(1500) NOT NULL COMMENT 'описание ',
   `prize` int(11) NOT NULL COMMENT 'сумма призовых',
-  `countTeam` int(11) NOT NULL COMMENT 'количество команд',
   `dateBegin` date NOT NULL COMMENT 'дата начала турнира',
   `deteEnd` date NOT NULL COMMENT 'дата окончания турнира',
   `seria` varchar(100) NOT NULL COMMENT 'серия',
   `location` varchar(100) NOT NULL COMMENT 'локация',
   `format` varchar(100) NOT NULL COMMENT 'формат',
   `stage` int(11) NOT NULL COMMENT 'этап',
+  `region` int(11) NOT NULL COMMENT 'регион',
   `status` int(11) NOT NULL COMMENT 'статус турнира'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -369,6 +417,12 @@ ALTER TABLE `disciplines`
   ADD PRIMARY KEY (`idDiscipline`);
 
 --
+-- Индексы таблицы `groups`
+--
+ALTER TABLE `groups`
+  ADD PRIMARY KEY (`idGroup`);
+
+--
 -- Индексы таблицы `matchDescription`
 --
 ALTER TABLE `matchDescription`
@@ -422,16 +476,23 @@ ALTER TABLE `playerTransfers`
   ADD KEY `idTeam` (`idTeam`);
 
 --
--- Индексы таблицы `prizeTournament`
---
-ALTER TABLE `prizeTournament`
-  ADD PRIMARY KEY (`idTournament`);
-
---
 -- Индексы таблицы `prognoz`
 --
 ALTER TABLE `prognoz`
   ADD PRIMARY KEY (`idUser`);
+
+--
+-- Индексы таблицы `regions`
+--
+ALTER TABLE `regions`
+  ADD PRIMARY KEY (`idRegion`);
+
+--
+-- Индексы таблицы `results`
+--
+ALTER TABLE `results`
+  ADD PRIMARY KEY (`idTournament`),
+  ADD KEY `idTeam` (`idTeam`);
 
 --
 -- Индексы таблицы `roles`
@@ -439,6 +500,14 @@ ALTER TABLE `prognoz`
 ALTER TABLE `roles`
   ADD PRIMARY KEY (`idRole`),
   ADD KEY `idDiscipline` (`idDiscipline`);
+
+--
+-- Индексы таблицы `score`
+--
+ALTER TABLE `score`
+  ADD KEY `idGroup` (`idGroup`),
+  ADD KEY `idTournament` (`idTournament`),
+  ADD KEY `idTeam` (`idTeam`);
 
 --
 -- Индексы таблицы `statuses`
@@ -473,7 +542,8 @@ ALTER TABLE `teams`
 ALTER TABLE `tournaments`
   ADD PRIMARY KEY (`idTournament`),
   ADD KEY `stage` (`stage`),
-  ADD KEY `status` (`status`);
+  ADD KEY `status` (`status`),
+  ADD KEY `region` (`region`);
 
 --
 -- Индексы таблицы `tournamentStages`
@@ -504,6 +574,12 @@ ALTER TABLE `disciplines`
   MODIFY `idDiscipline` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id дисциплины', AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT для таблицы `groups`
+--
+ALTER TABLE `groups`
+  MODIFY `idGroup` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id группы';
+
+--
 -- AUTO_INCREMENT для таблицы `matches`
 --
 ALTER TABLE `matches`
@@ -528,16 +604,22 @@ ALTER TABLE `playerTransfers`
   MODIFY `idTransfer` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id трансфера';
 
 --
--- AUTO_INCREMENT для таблицы `prizeTournament`
---
-ALTER TABLE `prizeTournament`
-  MODIFY `idTournament` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id турнира';
-
---
 -- AUTO_INCREMENT для таблицы `prognoz`
 --
 ALTER TABLE `prognoz`
   MODIFY `idUser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT для таблицы `regions`
+--
+ALTER TABLE `regions`
+  MODIFY `idRegion` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id региона', AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT для таблицы `results`
+--
+ALTER TABLE `results`
+  MODIFY `idTournament` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id турнира';
 
 --
 -- AUTO_INCREMENT для таблицы `roles`
@@ -631,6 +713,20 @@ ALTER TABLE `playerTransfers`
   ADD CONSTRAINT `playertransfers_ibfk_2` FOREIGN KEY (`idPlayer`) REFERENCES `players` (`idPlayer`);
 
 --
+-- Ограничения внешнего ключа таблицы `results`
+--
+ALTER TABLE `results`
+  ADD CONSTRAINT `results_ibfk_1` FOREIGN KEY (`idTeam`) REFERENCES `teams` (`idTeam`);
+
+--
+-- Ограничения внешнего ключа таблицы `score`
+--
+ALTER TABLE `score`
+  ADD CONSTRAINT `score_ibfk_1` FOREIGN KEY (`idTeam`) REFERENCES `teams` (`idTeam`),
+  ADD CONSTRAINT `score_ibfk_2` FOREIGN KEY (`idGroup`) REFERENCES `groups` (`idGroup`),
+  ADD CONSTRAINT `score_ibfk_3` FOREIGN KEY (`idTournament`) REFERENCES `tournaments` (`idTournament`);
+
+--
 -- Ограничения внешнего ключа таблицы `substitutions`
 --
 ALTER TABLE `substitutions`
@@ -653,7 +749,8 @@ ALTER TABLE `teams`
 ALTER TABLE `tournaments`
   ADD CONSTRAINT `tournaments_ibfk_1` FOREIGN KEY (`idTournament`) REFERENCES `prizeTournament` (`idTournament`),
   ADD CONSTRAINT `tournaments_ibfk_2` FOREIGN KEY (`stage`) REFERENCES `tournamentStages` (`idStage`),
-  ADD CONSTRAINT `tournaments_ibfk_3` FOREIGN KEY (`status`) REFERENCES `tournamentStatus` (`idStatus`);
+  ADD CONSTRAINT `tournaments_ibfk_3` FOREIGN KEY (`status`) REFERENCES `tournamentStatus` (`idStatus`),
+  ADD CONSTRAINT `tournaments_ibfk_4` FOREIGN KEY (`region`) REFERENCES `regions` (`idRegion`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
