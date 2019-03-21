@@ -1,0 +1,29 @@
+body{
+    padding: 0;
+    margin: 0;
+    background-color: black;
+}
+a{
+    text-decoration: none;
+    color: white;
+}
+.up-footer{
+    background-image: radial-gradient(at center 0px, rgb(39, 127, 131) -150%, rgb(46, 54, 68) 45%, rgb(46, 54, 68) 85%);
+    min-height: 200px;
+}
+.register{
+    text-transform: uppercase;
+    font-weight: 800;
+}
+.menu ul{
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+}
+.menu ul li{
+    border: 1px solid rgb(102,102,102);
+    padding: 0 1.5em 0 1.5em;
+    background-color: rgb(39,44,55);
+}
+
+
