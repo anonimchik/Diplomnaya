@@ -6,25 +6,52 @@
     <title>Page Title</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="styles/main.css">
-    <script src="main.js"></script>
+    <link rel="stylesheet" href="fontawesome-free-5.8.1-web/css/all.css">
+    <script language="javascript" rel="javascript" type="text/javascript" src="jquery-3.3.1.min.js"></script>
+    <script src="./js/main.js"></script>
 </head>
 <body>
-    <div class="up-footer">
+    <div class="header">
         <div class="logo"></div>
         <div class="login-info">
             <a href="" class="register">
-                <span>Регистрация</span>
+                <i class="fas fa-user-edit"></i>
+                <span class="register-text">Регистрация</span>
             </a>
         </div>
     </div>
-    <nav class="menu">
-        <ul>
-            <li><a href="">asd</a></li>
-            <li><a href="">asd</a></li>
-            <li><a href=""></a></li>
-            <li><a href=""></a></li>
-            <li><a href=""></a></li>
+    <div class="nav-wrapper">
+        <nav class="menu">
+            <ul>
+                <li><a href=""><i class="fas fa-home"></i>Главная</a></li>
+                <li><a href=""><i class="fas fa-gamepad"></i>Матчи</a></li>
+                <li><a href=""><i class="fas fa-users"></i>Команды</a></li>
+                <li><a href=""><i class="fas fa-trophy"></i>Турниры</a></li>
+                <li><a href=""><i class="fas fa-film"></i>Видео</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="slider-wrapper">
+        <ul class="slider" data-current="0">
+            <li class="slide"><img class="slider-image" src="./images/img/background.png" alt=""></li>
+            <li class="slide"></li>
+            <li class="slide"></li>
+            <li class="slide"></li>
         </ul>
-    </nav>
+    </div>
+    <!---
+    <div>
+        <video id="video" src="./EPICENTER XL- Интро [RU].mp4" type="video/mp4" autoplay loop muted></video>
+    </div>
+    --->
+    <div class="tournaments">
+        <div></div>
+    </div>
+    <div class="news-header">Последние новости</div>
+    <div class="news-wrapper">
+        <div class="news"><img class="news-image" src="./images/img/cs_go.jpg" alt=""></div>
+        <div class="news"><img class="news-image" src="./images/img/cs_go.jpg" alt=""></div>
+        <div class="news"><img class="news-image" src="./images/img/cs_go.jpg" alt=""></div>
+    </div>
 </body>
 </html>

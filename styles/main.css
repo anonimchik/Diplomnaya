@@ -7,23 +7,88 @@ a{
     text-decoration: none;
     color: white;
 }
-.up-footer{
+.header{
     background-image: radial-gradient(at center 0px, rgb(39, 127, 131) -150%, rgb(46, 54, 68) 45%, rgb(46, 54, 68) 85%);
     min-height: 200px;
+    border: 1px solid rgb(102, 102, 102);
 }
-.register{
+.register-text, .fa-user-edit{
     text-transform: uppercase;
     font-weight: 800;
+    border: 1px solid #000;
+    padding: .5em;
+    list-style: none;
+}
+.nav-wrapper{
+    background-color: rgb(39,44,55);
+    padding: .1em;
+    border-bottom: 1px solid #666666;
+    border-top: 1px solid #666666;
 }
 .menu ul{
     display: flex;
     flex-direction: row;
     list-style: none;
+    justify-content: center;
 }
-.menu ul li{
-    border: 1px solid rgb(102,102,102);
-    padding: 0 1.5em 0 1.5em;
+.menu ul li a{
+    padding: 1em 1.5em 1em 1.5em;
+    border-left: 1.5px solid #2e3644;
     background-color: rgb(39,44,55);
+    color: rgb(194, 190, 183);
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 18px;
 }
-
-
+.menu ul li a:hover{
+    color: rgb(255, 255, 255);
+    background-color: #17181c;
+}
+.menu ul li:last-child a{
+    border-right: 1.5px solid #2e3644;
+}
+.menu ul li a i{
+    padding-right: .5em;
+    color: rgb(93, 255, 168);
+}
+.slider-wrapper{
+    height: 400px;
+    overflow: hidden;
+    position: relative;
+    border-top: 1px solid #666666;
+}
+.slider-wrapper ul, .viewport ul li{
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+.slider{
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+.slider-image{
+    width: 100%;
+    image-rendering: crisp-edges;
+}
+.news-wrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 96%;
+    margin: 0 auto;
+}
+.news{
+    width: 31%;
+    padding: 0 1% 0 1%;
+}
+.news-header{
+    color: rgb(194, 190, 183);
+    padding: 1em;
+    font-weight: 800;
+    text-transform: uppercase;
+    padding-left: 4%;
+}
+.news-image{
+    width: 100%;
+}
