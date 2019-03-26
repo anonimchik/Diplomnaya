@@ -47,7 +47,7 @@ a{
 .menu ul li:last-child a{
     border-right: 1.5px solid #2e3644;
 }
-.menu ul li a i, .fa-newspaper{
+.menu ul li a i, .fa-newspaper, .fa-gamepad{
     padding-right: .5em;
     color: rgb(93, 255, 168);
 }
@@ -81,12 +81,13 @@ a{
     margin: 0 auto;
     color: white;
 }
-.news-wrapper{
+.news-wrapper, .tournament-wrapper{
     display: flex;
     flex-direction: row;
     justify-content: center;
     height: 300px;
     border: 1px solid #666666;
+    display: relative;
 }
 .news-image{
     width: 100%;
@@ -97,7 +98,7 @@ a{
 .news-image:hover{
     filter: saturate(1);
 }
-.news-header{
+.news-header, .tournament-header{
     font-size: 18px;
     text-transform: uppercase;
     font-weight: 800;
@@ -113,9 +114,23 @@ a{
     position: absolute;
     bottom: 20%;
     text-align: center;
-    z-index: 100;
+    z-index: 1000;
+    width: 100%;
+}
+.news-title-hover{
+    position: absolute;
+    bottom: 40%;
+    text-align: center;
+    z-index: 1000;
     width: 100%;
 }
 .news-text{
     font-size: 2.5em;
+}
+.tournament-block{
+    width: 50%;
+}
+.tournament-status{
+    display: absolute;
+    right: 0px;
 }
