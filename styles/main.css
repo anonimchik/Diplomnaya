@@ -12,12 +12,19 @@ a{
     min-height: 200px;
     border: 1px solid rgb(102, 102, 102);
 }
-.register-text, .fa-user-edit{
+.register-text, .enter-text{
+    text-transform: uppercase;
+    font-weight: 800;
+    border-top: 1px solid #000;
+    border-right: 1px solid #000;
+    border-bottom: 1px solid #000;
+    padding: .5em;
+}
+.fa-lock::before, .fa-user-edit::before{
     text-transform: uppercase;
     font-weight: 800;
     border: 1px solid #000;
     padding: .5em;
-    list-style: none;
 }
 .nav-wrapper{
     background-color: rgb(39,44,55);
@@ -73,6 +80,15 @@ a{
     object-position: center;
     width: 100%;
 }
+.video-block{
+    width: 96%;
+    margin: 0 auto;
+    background: url('../images/img/stripe.png');
+    box-sizing: border-box;
+}
+#video{
+    width: 100%;
+}
 
 /*       главный блок       */
 
@@ -85,7 +101,7 @@ a{
     display: flex;
     flex-direction: row;
     justify-content: center;
-    height: 300px;
+    min-height: 300px;
     border: 1px solid #666666;
     display: relative;
 }
@@ -109,28 +125,4 @@ a{
 }
 .news-block{
     position: relative;
-}
-.news-title{
-    position: absolute;
-    bottom: 20%;
-    text-align: center;
-    z-index: 1000;
-    width: 100%;
-}
-.news-title-hover{
-    position: absolute;
-    bottom: 40%;
-    text-align: center;
-    z-index: 1000;
-    width: 100%;
-}
-.news-text{
-    font-size: 2.5em;
-}
-.tournament-block{
-    width: 50%;
-}
-.tournament-status{
-    display: absolute;
-    right: 0px;
 }

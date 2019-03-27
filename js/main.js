@@ -5,5 +5,5 @@ $(function () {
             $(".news-title-hover").attr("class", "news-title");
         }
     );*/
-    alert($(".news-title").hover());
+    //alert($(".news-title").hover());
 });
