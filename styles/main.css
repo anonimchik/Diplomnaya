@@ -121,7 +121,7 @@ a{
     transform: scale(1.1);
     transition: all 1s ease-in-out;
 }
-.news-header, .tournament-header{
+.news-header, .tournament-header, .matches-header{
     font-size: 18px;
     text-transform: uppercase;
     font-weight: 800;
@@ -184,18 +184,57 @@ a{
     text-transform: uppercase;
 }
 /*     owlcarousel classes       */
-.owl-prev{
+.owl-prev{  /*кнопка назад*/
     position: absolute;
     top: 40%;
     left: -1.5%;
 }
-.owl-next{
+.owl-next{ /*кнопка вперед*/
     position: absolute;
     top: 40%;
     right: -1.5%;
 }
-.fa-chevron-circle-right, .fa-chevron-circle-left{
+.fa-chevron-circle-right, .fa-chevron-circle-left{ /*иконки вперед и назад*/
     font-size: 40px;
     color: rgb(93, 255, 168);
 }
+.owl-dot{
+    border: 1px solid #666666;
+    width: 30px;
+    height: 10px;
+    background-image: bottom, #1a1b1f, #2a2a34;
+}
 /*       end owl-carousel                   */
+
+/*  matches block  */
+.tabs-control{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.tabs-control li{
+    list-style: none;
+    padding: .5em 1em .5em 1em;
+    border: 1px solid #026340;
+}
+.tab-header a{
+    text-transform: uppercase;
+    font-weight: 900;   
+}
+.tab-header a:hover{
+    color: #026340;
+}
+.tab-header-active{
+    background-color: #026340;
+    text-transform: uppercase;
+    font-weight: 900;   
+}
+.tab-header-active:hover{
+    color: white;
+}
+.tabs-content{
+    display: none;
+}
+.tabs-content-active{
+    display: block;
+}
