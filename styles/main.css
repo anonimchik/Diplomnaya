@@ -207,34 +207,29 @@ a{
 /*       end owl-carousel                   */
 
 /*  matches block  */
-.tabs-control{
+.tabs{
     display: flex;
     flex-direction: row;
     justify-content: center;
 }
-.tabs-control li{
+.tabs li{
     list-style: none;
-    padding: .5em 1em .5em 1em;
     border: 1px solid #026340;
 }
-.tab-header a{
+.tab-link.current{
+   background-color: #026340;
+}
+.tabs li a{
     text-transform: uppercase;
     font-weight: 900;   
+    padding: .5em 1em .5em 1em;
 }
-.tab-header a:hover{
-    color: #026340;
-}
-.tab-header-active{
+.tabs li:hover{
     background-color: #026340;
-    text-transform: uppercase;
-    font-weight: 900;   
 }
-.tab-header-active:hover{
-    color: white;
-}
-.tabs-content{
-    display: none;
-}
-.tabs-content-active{
+.tab-content.current{
     display: block;
+}
+.tab-content{
+    display: none;
 }

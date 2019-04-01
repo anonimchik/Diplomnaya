@@ -79,23 +79,26 @@
                 asd
             </div>
        </div>
-       <section class="matches-wrapper">
+       <div class="matches-wrapper">
            <h3 class="matches-header"><i class="fas fa-gamepad"></i>Матчи</h3>
-           <div class="matches-block">
-                <ul class="tabs-control">
-                    <li class="tab-header-active"><a href="">Прошлые</a></li>
-                    <li class="tab-header"><a href="">Текущие</a></li>
-                    <li class="tab-header"><a href="">Будущие</a></li>
-                </ul>
-                <div class="tabs-content-active">
-                    asdas
-                </div>
-                <div class="tabs-content">
-                    asd
-                </div>
-           </div>
-
-       </section>
+            <div class="matches-block">
+            <ul class="tabs">
+                <li class="tab-link current" data-tab="tab-1"><a href="">Tab 1</a></li>
+                <li class="tab-link" data-tab="tab-2"><a href="">tab 2</a></li>
+                <li class="tab-link" data-tab="tab-3"><a href="">tab 3</a></li>
+                <li class="tab-link" data-tab="tab-4"><a href="">tab 4</a></li>
+            </ul>
+            <div id="tab-1" class="tab-content current">
+                Содержимое первого tab'a
+            </div>
+            <div id="tab-2" class="tab-content">
+                содержимое второго tab'a
+            </div>
+            <div id="tab-3" class="tab-content">
+                содержимое третьего tab'a
+            </div>
+            </div>
+        </div>
    </div>
    <script src="./OwlCarousel2-2.3.4/docs/assets/owlcarousel/owl.carousel.min.js"></script>
 </body>
