@@ -177,22 +177,25 @@ a{
     flex-direction: row;
     justify-content: space-between;
     border: 1px solid #666666;
+    flex-wrap: wrap;
 }
 .tournament-block:nth-child(2n){
-    min-width: 49.5%;
+    min-width: 46%;
     min-height: 200px;
-    max-width: 49.5%;
-    max-height: 500px;
     position: relative;
     border-left: 1px solid #666666;
+    border-bottom: 1px solid #666666;
+    border-top: 1px solid #666666;
+    padding: 1em;
 }
 .tournament-block:nth-child(2n+1){ /* блок турнира */
-    min-width: 49.5%;
+    min-width: 48%;
     min-height: 200px;
-    max-width: 49.5%;
-    max-height: 500px;
     position: relative;
     border-right: 1px solid #666666;
+    border-bottom: 1px solid #666666;
+    border-top: 1px solid #666666;
+    padding: 1em;
 }
 .tournament-href{ /* ссылочный блок турнира*/
     display: block;
@@ -206,6 +209,25 @@ a{
     padding: .5em 1em .5em 1em;
     text-transform: uppercase;
 }
+.tournament-name{
+    padding-left: 1em;
+}   
+.tournament-card-wrapper{
+    position: relative;
+}
+.tournament-card{
+    list-style: none;
+    margin-left: 5em;
+}
+.tournament-img{
+    position: absolute;
+    width: 100px;
+}
+.discharge{
+    color: #026340;
+    font-weight: 600;
+}
+
 /*     owlcarousel classes       */
 .owl-prev{  /*кнопка назад*/
     position: absolute;

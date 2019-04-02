@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
@@ -13,6 +13,12 @@
     <script src="./js/main.js"></script>
 </head>
 <body>
+    <?php 
+        include_once('classes.php');
+        $db=new Database;
+        $db->setDbSettings("localhost", "root", "", "course_database");
+        $db->open_connection();
+    ?>
     <div class="header">
         <div class="logo"></div>
         <div class="login-info">
@@ -73,32 +79,15 @@
        <div class="tournament-wrapper">
             <div class="tournament-block">
                 <span class="tournament-status"><i class="fas fa-clock"></i>Ожидается</span>
-                <h3 class="tournament-name"><a href="">asdasd</a></h3>
-                <div class="tournament-card-wrapper">
-                    <img class="tournament-img" src="./images/img/Eslonelogo.png" alt="">
-                    <ul class="tournament-card">
-                        <li>Тут какая-то серия <span class="discharge">asadasd</span></li>
-                        <li>Тут какая-то локация <span class="discharge">asd</span></li>
-                        <li>Тут какой-то призовой <span class="discharge">asd</span></li>
-                        <li>Тут сколько-то участников <span class="discharge">11444</span></li>
-                        <li>Тут какой то формат <span class="discharge">фыв</span></li>
-                    </ul>
-                </div>
+                <a class="tournament-href" href="">
+                <?php
+                    $db->setQuery("select * from tournaments");
+                    $db->show_tournaments();
+                ?>
+                </a>
             </div>
             <div class="tournament-block">
                 asd
-            </div>
-            <div class="tournament-block">
-                    asd
-            </div>
-            <div class="tournament-block">
-                    asd
-            </div>
-            <div class="tournament-block">
-                    asd
-            </div>
-            <div class="tournament-block">
-                    asd
             </div>
        </div>
        <div class="matches-wrapper">

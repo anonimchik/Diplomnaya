@@ -97,5 +97,24 @@ class Database
             echo "Запрос не был выполнен. Код ошибки -".mysql_errno().". Cообщение ошибки - ".mysql_error().".";
         }
     }
+    
+    /*     работа с сайтом */
+
+    function show_tournaments()
+    {
+        $result=mysql_query($this->query);
+        if(!mysql_error($this->link))
+        {
+            while($row = mysql_fetch_array($result)) 
+            {
+                echo $row["description"];
+                echo "<span>".$row["seria"]."</span><br><span>".$row["description"]."</span>";
+            }
+        }
+        else
+        {
+            echo "Запрос не был выполнен. Код ошибки -".mysql_errno().". Cообщение ошибки - ".mysql_error().".";
+        }
+    }
 }
 ?>
