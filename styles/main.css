@@ -278,3 +278,8 @@ a{
 .tab-content{
     display: none;
 }
+
+/*    match page    */
+.bacground-image{
+    max-height: 25%;
+}
