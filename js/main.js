@@ -23,4 +23,20 @@ $(function () {
         $(this).parent().addClass('current');
         $("#"+tab_id).addClass('current');
     })
+    $(".match-href").hover(function () {
+            $(".fas.fa-video").css("color", "rgb(93, 255, 168)");  
+            $(".match-href").css("cursor", "pointer");       
+        }, function () {
+            $(".fas.fa-video").css("color", "white"); 
+        }
+    );
+    $(".vs").hover(function () {
+            $(".vs").css("color", "rgb(193, 241, 135)");    
+        }, function () {
+            $(".vs").css("color", "white");    
+        }
+    );
+    $(".match-href").click(function () { 
+       location.href="#";
+    });
 });

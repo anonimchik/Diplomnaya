@@ -73,7 +73,7 @@ a{
 .menu ul li:last-child a{
     border-right: 1.5px solid #2e3644;
 }
-.menu ul li a i, .fa-newspaper, .fa-gamepad, .fa-clock{
+.menu ul li a i, .fa-newspaper, .fa-gamepad, .fa-clock, .fa-exchange-alt, .fa-trophy, .fa-star{
     padding-right: .5em;
     color: rgb(93, 255, 168);
 }
@@ -144,7 +144,7 @@ a{
     transform: scale(1.1);
     transition: all 1s ease-in-out;
 }
-.news-header, .tournament-header{
+.news-header{
     font-size: 18px;
     text-transform: uppercase;
     font-weight: 800;
@@ -179,8 +179,66 @@ a{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    margin-bottom: 1em;
 }
-.matches-header{
+.tournament-img{
+    max-height: 50px;
+    max-width: 80px;
+}
+.matches-content{
+    display: block;
+    width: 100%;
+    position: relative;
+}
+.match-href{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border: 1px solid #666666;
+    min-height: 40px;
+    background-color: rgb(39,44,55);
+    align-items: center;
+}
+.translation-wrapper{
+    margin-left: 1em;
+}
+.tournament-href{
+    margin: 0 1em;
+}
+.tournament-image{
+    max-width: 50px;
+}
+.teams-wrapper{
+    font-size: 18px;
+    font-weight: 900;
+}
+.first-team, .second-team{
+    text-transform: uppercase;
+}
+.vs{
+    font-style: normal;
+}
+.transfer-href{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1em;
+    border: 1px solid #666666;
+    background-color: rgb(39,44,55);
+}
+.discipline-name{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    margin-right: auto;
+    margin-left: 5px;
+}
+.transfer{
+    margin-right: auto;
+}
+.matches-header, .tournament-header{
     font-size: 18px;
     text-transform: uppercase;
     font-weight: 800;
@@ -189,10 +247,11 @@ a{
     margin: 0;
     background: #2e3644 url("../images/img/stripe.png");
 }
-.matches-block{
+.matches-block, .tournament-wrapper{
     width: 65%;
+    position: relative;
 }
-.transfer-block{
+.transfer-block, .facts{
     width: 34%;
 }
 .transfer-header{
@@ -204,9 +263,29 @@ a{
     margin: 0;
     background: #2e3644 url("../images/img/stripe.png");
 }
-
 /*    конец блока матчей и трансферов*/
 
+/*     блок турниров и интересных фактов*/
+
+.tournament-facts-wrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.tournament-block{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #666666;
+    background-color: rgb(39,44,55);
+    padding: .5em 1em;
+}
+.tournament-name{
+    margin-left: 1em;
+}
+
+/*     конец блока турниров и интересных фактов*/
 /*     owlcarousel classes       */
 .owl-prev{  /*кнопка назад*/
     position: absolute;
