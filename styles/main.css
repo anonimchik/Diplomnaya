@@ -144,7 +144,7 @@ a{
     transform: scale(1.1);
     transition: all 1s ease-in-out;
 }
-.news-header, .tournament-header, .matches-header{
+.news-header, .tournament-header{
     font-size: 18px;
     text-transform: uppercase;
     font-weight: 800;
@@ -172,61 +172,40 @@ a{
 .title-text:hover{
     color: rgb(0,255,102);
 }
-.tournament-wrapper{
+
+/*      блок матчей и трансферов*/
+
+.matches-transfer-wrapper{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    border: 1px solid #666666;
-    flex-wrap: wrap;
 }
-.tournament-block:nth-child(2n){
-    min-width: 46%;
-    min-height: 200px;
-    position: relative;
-    border-left: 1px solid #666666;
-    border-bottom: 1px solid #666666;
-    border-top: 1px solid #666666;
-    padding: 1em;
-}
-.tournament-block:nth-child(2n+1){ /* блок турнира */
-    min-width: 48%;
-    min-height: 200px;
-    position: relative;
-    border-right: 1px solid #666666;
-    border-bottom: 1px solid #666666;
-    border-top: 1px solid #666666;
-    padding: 1em;
-}
-.tournament-href{ /* ссылочный блок турнира*/
-    display: block;
-    width: 100%;
-    height: 100%;
-}
-.tournament-status{ /* статус турнира */
-    position: absolute;
-    right: 0;
-    top: 0;
-    padding: .5em 1em .5em 1em;
+.matches-header{
+    font-size: 18px;
     text-transform: uppercase;
+    font-weight: 800;
+    border: 1px solid #666666;
+    padding: .8em;
+    margin: 0;
+    background: #2e3644 url("../images/img/stripe.png");
 }
-.tournament-name{
-    padding-left: 1em;
-}   
-.tournament-card-wrapper{
-    position: relative;
+.matches-block{
+    width: 65%;
 }
-.tournament-card{
-    list-style: none;
-    margin-left: 5em;
+.transfer-block{
+    width: 34%;
 }
-.tournament-img{
-    position: absolute;
-    width: 100px;
+.transfer-header{
+    font-size: 18px;
+    text-transform: uppercase;
+    font-weight: 800;
+    border: 1px solid #666666;
+    padding: .8em;
+    margin: 0;
+    background: #2e3644 url("../images/img/stripe.png");
 }
-.discharge{
-    color: #026340;
-    font-weight: 600;
-}
+
+/*    конец блока матчей и трансферов*/
 
 /*     owlcarousel classes       */
 .owl-prev{  /*кнопка назад*/
@@ -251,7 +230,7 @@ a{
 }
 /*       end owl-carousel                   */
 
-/*  matches block  */
+/*  tabs block  */
 .tabs{
     display: flex;
     flex-direction: row;
@@ -280,6 +259,3 @@ a{
 }
 
 /*    match page    */
-.bacground-image{
-    max-height: 25%;
-}
