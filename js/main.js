@@ -37,6 +37,30 @@ $(function () {
         }
     );
     $(".match-href").click(function () { 
-       location.href="#";
+       location.href="#"; //ссылка на страницу матча
     });
+    $(".news-image").hover(function () {
+            $($(this)).css({
+                    "width": "100%",
+                    "height": "100%",
+                    "object-fit": "cover",
+                    "z-index": "1",
+                    "flex-wrap": "wrap",
+                    "transform": "scale(1.1)",
+                    "transition": "all 1s ease-in-out"
+            });
+            $(this).parent().children(".news-title").children(".title-text").css({"color":"rgb(0,255,102)"});
+        }, function () {
+            $($(this)).css({
+                "width": "100%",
+                "height": "100%",
+                "object-fit": "cover",
+                "z-index": "1",
+                "flex-wrap": "wrap",
+                "transform": "scale(1)",
+                "transition": "all 1s ease-in-out"
+        });
+        $(this).parent().children(".news-title").children(".title-text").css({"color":"inherit"});
+        }
+    );
 });
