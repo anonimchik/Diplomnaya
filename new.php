@@ -1,4 +1,5 @@
 <?php
+
 set_time_limit(600);
 include_once('libraries/curl_query.php');
 include_once('libraries/simplehtmldom_1_7/simple_html_dom.php');
@@ -6,11 +7,71 @@ include_once('classes.php');
 $team=new Team;
 $player=new Players;
 $db=new Database('localhost', 'root', '', 'course_database');
+$tournament=new Tournament;
 $startTime=microtime(true);
 $teamName=""; //переменная для хранения информации о названии команды
 $ref=""; //переменная для хранения ссылки конкретной команды
 $teamPage="";
-$siteRef='https://www.cybersport.ru';
+$siteRef='https://ggscore.com';
+
+for($i=0; $i<2; $i++) //передвижение по страницам
+{
+    if($href!=null)
+    {
+        $html=curl_get($siteRef.$href);
+        $dom=str_get_html($html);
+    }
+    else
+    {
+        $html=curl_get($siteRef."/ru/dota-2/tournaments");
+        $dom=str_get_html($html);
+    }
+    switch ($i) {
+        case 0:
+            foreach($dom->find(".pagination") as $pagination)
+            {
+            $href=$pagination->children(1)->children(0)->href;
+            }
+        break;
+        case 1:
+            foreach($dom->find(".pagination") as $pagination)
+            {
+            $href=$pagination->children(2)->children(0)->href;
+            }
+        break;
+        default:
+            foreach($dom->find(".pagination") as $pagination)
+            {
+            $href=$pagination->children(3)->children(0)->href;
+            }
+        break;
+    }
+    foreach ($dom->find(".t-item") as $match_table) 
+    {
+        $html=curl_get($siteRef.$match_table->children(0)->children(0)->href);
+        $dom=str_get_html($html);
+        foreach ($dom->find(".t-top") as $main_block) 
+        {
+            //$tournament->event[]=preg_replace("(Dota 2 турнир)", "", $main_block->children(1)->plaintext);
+            if(!is_object($main_block->children(3))) // турнир закончен или длится
+            {
+                $tournament->logo[]=$main_block->children(2)->children(0)->children(0)->children(0)->children(0)->children(0)->src;
+                $tournament->event[]=$main_block->children(2)->children(0)->children(0)->children(0)->children(1)->children(0)->plaintext;
+                $tournament->description[]=$main_block->children(2)->children(0)->children(0)->children(0)->children(1)->children(2)->plaintext;
+                $tournament->begDate[]= $tournament->description[]=$main_block->children(2)->children(0)->children(0)->children(0)->children(1)->children(1)->children(0)->children(0)->children(1)->plaintext; 
+                echo preg_replace("(/$)", "", $tournament->description[]=$main_block->children(2)->children(0)->children(0)->children(0)->children(1)->children(1)->children(0)->children(1)->children(1));
+            }
+            else //турнир ожидается
+            {
+                $tournament->logo[]=$main_block->children(3)->children(0)->children(0)->children(0)->children(0)->children(0)->src;
+            }
+            break;
+        }
+        break;
+    }
+}
+
+/*
 for ($i=0; $i<1; $i++) 
 { 
     if($href!=null)
@@ -155,7 +216,7 @@ for($i=0; $i<count($team->logo); $i++)
         $db->setQuery("insert into teams(name, logo, appearenceDate, site, prize, description, achievement) values('".$team->name[$i]."', './images/teamLogos/".mb_convert_encoding($team->name[$i], 'cp1251', 'utf-8').".png',  
         ".$team->appearenceDate[$i].",'".$team->site[$i]."', ".$team->prize[$i].", '".$team->description[$i]."', '".$team->achievement[$i]."' )");
         $db->insert_record();*/
-    }      
+   /* }   
 }
 for($i=0; $i<count($player->photoRef); $i++)
 {
@@ -167,8 +228,9 @@ for($i=0; $i<count($player->photoRef); $i++)
         //saveImage("", $player->photoRef[$i], "./images/playerPhotos/".mb_convert_encoding($player->nickname[$i], 'cp1251', 'utf-8').'.png');
         $db->setQuery("insert into players(idTeam, nickname, photoRef, status, role) values(".$idTeam.", '".$player->nickname[$i]."', './images/playerPhotos/".mb_convert_encoding($player->nickname[$i], 'cp1251', 'utf-8').".png', ".$db->show_record("idStatus").", ".$player->role[$i].")");
         $db->insert_record();
-    }*/
+    }*//*
 }
 $db->close_connection();
+*/
 echo number_format((microtime(true)-$startTime)/60, 2, ":" ,"");
 ?>

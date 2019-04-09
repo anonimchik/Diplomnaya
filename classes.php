@@ -37,6 +37,7 @@ class Players
 class Tournament
 {
     var $event;
+    var $logo;
     var $seria;
     var $location;
     var $prize;
