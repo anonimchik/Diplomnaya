@@ -39,6 +39,9 @@ class Tournament
     var $event;
     var $logo;
     var $seria;
+    var $slot;
+    var $qualification;
+    var $team;
     var $location;
     var $prize;
     var $begDate;

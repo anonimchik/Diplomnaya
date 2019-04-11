@@ -46,12 +46,13 @@ for($i=0; $i<2; $i++) //передвижение по страницам
             }
         break;
     }
-    foreach ($dom->find(".t-item") as $match_table) 
+    foreach($dom->find(".t-item") as $match_table) 
     {
         $html=curl_get($siteRef.$match_table->children(0)->children(0)->href);
         $dom=str_get_html($html);
         foreach ($dom->find(".t-top") as $main_block) 
         {
+            //echo $main_block;
             //$tournament->event[]=preg_replace("(Dota 2 турнир)", "", $main_block->children(1)->plaintext);
             if(!is_object($main_block->children(3))) // турнир ожидается
             {
@@ -65,19 +66,43 @@ for($i=0; $i<2; $i++) //передвижение по страницам
             else //турнир прошел или длится
             {
                 $tournament->logo[]=$main_block->children(3)->children(0)->children(0)->children(0)->children(0)->children(0)->src;
-                //$tournament->event[]=$main_block->children(2)->children(0)->children(0)->children(0)->children(1)->children(0)->plaintext;
-                //$tournament->description[]=$main_block->children(2)->children(0)->children(0)->children(0)->children(1)->children(2)->plaintext;
-                //$tournament->begDate[]=$tournament->description[]=$main_block->children(2)->children(0)->children(0)->children(0)->children(1)->children(1)->children(0)->children(0)->children(1)->plaintext; 
-                //$tournament->prize[]=preg_replace('(\$ )', "", $main_block->children(2)->children(0)->children(0)->children(0)->children(1)->children(1)->children(0)->children(1)->children(1));
+                $tournament->event[]=$main_block->children(3)->children(0)->children(0)->children(0)->children(1)->children(0)->plaintext;
+                $tournament->description[]=$main_block->children(3)->children(0)->children(0)->children(0)->children(1)->children(2)->plaintext;
+                $tournament->begDate[]=$tournament->description[]=$main_block->children(3)->children(0)->children(0)->children(0)->children(1)->children(1)->children(0)->children(0)->children(1)->plaintext; 
+                $tournament->prize[]=preg_replace('(\$ )', "", $main_block->children(3)->children(0)->children(0)->children(0)->children(1)->children(1)->children(0)->children(1)->children(1));
                 if(is_object($main_block->children(3)->children(0)->children(0)->children(0)->children(1)->children(1)->children(0)->children(3)))
                 {
-                    $main_block->children(3)->children(0)->children(0)->children(0)->children(1)->children(1)->children(0)->children(3)->children(1)->plaintext;
+                    $tournament->location[]=$main_block->children(3)->children(0)->children(0)->children(0)->children(1)->children(1)->children(0)->children(3)->children(1)->plaintext;
+                }
+                foreach($dom->find('div.tb') as $team_card)
+                {
+                    if(!is_object($team_card->children(0)->children(0)))
+                    {
+                        $tournament->team[]=$team_card->children(0)->plaintext;
+                        $team->href[]=$team_card->children(0)->href;
+                        $team->logo[]=$team_card->children(1)->children(0)->children(0)->src;
+                        $tournament->qualification[]=$team_card->children(1)->children(2)->plaintext;
+                        foreach($dom->find('.teamcard table tbody tr') as $player)
+                        {
+                            //echo $player;
+                        }
+                    }
+                    else
+                    {
+                       $tournament->logo[]=$team_card->children(0)->children(0)->children(0)->src;
+                       $tournament->slot[]=$team_card->children(0)->children(2)->plaintext;
+                    }
                 }
             }   
             
         }
         
     }
+}
+for($i=0; $i<count($tournament->event); $i++)
+{
+    echo $tournament->event[$i]."<br>";
+    echo $tournament->team[$i]."<br>";
 }
 
 /*
