@@ -82,19 +82,26 @@ for($i=0; $i<2; $i++) //передвижение по страницам
                         $team->href[]=$team_card->children(0)->href;
                         $team->logo[]=$team_card->children(1)->children(0)->children(0)->src;
                         $tournament->qualification[]=$team_card->children(1)->children(2)->plaintext;
-                        var_dump(is_callable($dom->find('*.teamcard table tbody tr')));
-                        /*try {
-                            foreach($dom->find('.teamcard table tbody tr') as $player_card)
+                        if(is_object($team_card->children(1)->children(1)))
+                        {
+
+                            if(is_object($team_card->children(1)->children(1)->children(0)->children(0)))
                             {
-                                $html=curl_get($siteRef."/ru/dota-2/player/".$player_card->children(1)->children(1)->plaintext);
-                                var_dump($html);
-                                $dom=str_get_html($html);
-                                break;
+                               echo $team_card->children(1)->children(1)->children(0);
+                                foreach($dom->find('.teamcard table tbody tr') as $player_card)
+                                {
+                                    echo $player_card;
+                                    $html=curl_get($siteRef."/ru/dota-2/player/".$player_card->children(1)->children(1)->plaintext);
+                                    //var_dump($html);
+                                    $dom=str_get_html($html);
+                                    break;
+                                }
                             }
-                        } catch (Throwable $th) {
-                            $th->__toString();
-                        }*/
-                        
+                            else
+                            {
+                                //   
+                            }
+                        }                    
                     }
                     else
                     {
