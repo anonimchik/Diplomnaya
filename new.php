@@ -78,14 +78,23 @@ for($i=0; $i<2; $i++) //передвижение по страницам
                 {
                     if(!is_object($team_card->children(0)->children(0)))
                     {
-                        $tournament->team[]=$team_card->children(0)->plaintext;
+                        $tournament->team[]=$teamName=$team_card->children(0)->plaintext;
                         $team->href[]=$team_card->children(0)->href;
                         $team->logo[]=$team_card->children(1)->children(0)->children(0)->src;
                         $tournament->qualification[]=$team_card->children(1)->children(2)->plaintext;
-                        foreach($dom->find('.teamcard table tbody tr') as $player)
-                        {
-                            //echo $player;
-                        }
+                        var_dump(is_callable($dom->find('*.teamcard table tbody tr')));
+                        /*try {
+                            foreach($dom->find('.teamcard table tbody tr') as $player_card)
+                            {
+                                $html=curl_get($siteRef."/ru/dota-2/player/".$player_card->children(1)->children(1)->plaintext);
+                                var_dump($html);
+                                $dom=str_get_html($html);
+                                break;
+                            }
+                        } catch (Throwable $th) {
+                            $th->__toString();
+                        }*/
+                        
                     }
                     else
                     {
@@ -99,11 +108,7 @@ for($i=0; $i<2; $i++) //передвижение по страницам
         
     }
 }
-for($i=0; $i<count($tournament->event); $i++)
-{
-    echo $tournament->event[$i]."<br>";
-    echo $tournament->team[$i]."<br>";
-}
+
 
 /*
 for ($i=0; $i<1; $i++) 
