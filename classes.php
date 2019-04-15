@@ -27,9 +27,15 @@ class Players
 {
     var $nickname;
     var $team;
+    var $age;
+    var $country;
+    var $countryFlag;
+    var $line;
+    var $name;
     var $photoRef;
     var $status;
     var $role;
+    var $position;
     var $accessionDate;
     var $facts;
     var $biography;

@@ -52,8 +52,7 @@ for($i=0; $i<2; $i++) //передвижение по страницам
         $dom=str_get_html($html);
         foreach ($dom->find(".t-top") as $main_block) 
         {
-            //echo $main_block;
-            //$tournament->event[]=preg_replace("(Dota 2 турнир)", "", $main_block->children(1)->plaintext);
+           
             if(!is_object($main_block->children(3))) // турнир ожидается
             {
                 $tournament->logo[]=$main_block->children(2)->children(0)->children(0)->children(0)->children(0)->children(0)->src;
@@ -66,7 +65,7 @@ for($i=0; $i<2; $i++) //передвижение по страницам
             else //турнир прошел или длится
             {
                 $tournament->logo[]=$main_block->children(3)->children(0)->children(0)->children(0)->children(0)->children(0)->src;
-                $tournament->event[]=$main_block->children(3)->children(0)->children(0)->children(0)->children(1)->children(0)->plaintext;
+                echo $tournament->event[]=$main_block->children(3)->children(0)->children(0)->children(0)->children(1)->children(0)->plaintext;
                 $tournament->description[]=$main_block->children(3)->children(0)->children(0)->children(0)->children(1)->children(2)->plaintext;
                 $tournament->begDate[]=$tournament->description[]=$main_block->children(3)->children(0)->children(0)->children(0)->children(1)->children(1)->children(0)->children(0)->children(1)->plaintext; 
                 $tournament->prize[]=preg_replace('(\$ )', "", $main_block->children(3)->children(0)->children(0)->children(0)->children(1)->children(1)->children(0)->children(1)->children(1));
@@ -78,37 +77,51 @@ for($i=0; $i<2; $i++) //передвижение по страницам
                 {
                     if(!is_object($team_card->children(0)->children(0)))
                     {
-                        $tournament->team[]=$teamName=$team_card->children(0)->plaintext;
+                        echo $tournament->team[]=$teamName=$team_card->children(0)->plaintext;
                         $team->href[]=$team_card->children(0)->href;
                         $team->logo[]=$team_card->children(1)->children(0)->children(0)->src;
                         $tournament->qualification[]=$team_card->children(1)->children(2)->plaintext;
                         if(is_object($team_card->children(1)->children(1)))
                         {
-
-                            if(is_object($team_card->children(1)->children(1)->children(0)->children(0)))
+                            for($i=0; $i<5; $i++)
                             {
-                               echo $team_card->children(1)->children(1)->children(0);
-                                foreach($dom->find('.teamcard table tbody tr') as $player_card)
+                                $player->position[]=$team_card->children(1)->children(1)->children(0)->children(0)->children(0)->plaintext;
+                                $html=curl_get($siteRef.'/ru/dota-2/player/'.$team_card->children(1)->children(1)->children(0)->children($i)->children(1)->children(1)->plaintext);
+                                //echo $siteRef.'/ru/dota-2/player/'.$team_card->children(1)->children(1)->children(0)->children($i)->children(1)->children(1)->plaintext."<br>";
+                                $dom=str_get_html($html);
+                                if(is_object($dom))
                                 {
-                                    echo $player_card;
-                                    $html=curl_get($siteRef."/ru/dota-2/player/".$player_card->children(1)->children(1)->plaintext);
-                                    //var_dump($html);
-                                    $dom=str_get_html($html);
-                                    break;
+                                    foreach($dom->find('.pAvaBg') as $player_card)
+                                    {
+                                        if(is_object($player_card->children(2)) and is_object($player_card->children(1)->children(2)))
+                                        {
+                                            $player->photoRef[]=$player_card->children(0)->children(0)->src;
+                                            $player->team[]=$teamName;
+                                            echo $player->nickname[]=$player_card->children(1)->children(1)->plaintext;
+                                            $player->name[]=$player_card->children(1)->children(2)->children(0)->children(1)."<br>";
+                                            
+                                        }
+                                    }
                                 }
+                                break; 
                             }
-                            else
-                            {
-                                //   
-                            }
-                        }                    
-                    }
+                            
+                        }
+                        else
+                        {
+                           //
+                        }
+                    }                    
                     else
                     {
                        $tournament->logo[]=$team_card->children(0)->children(0)->children(0)->src;
                        $tournament->slot[]=$team_card->children(0)->children(2)->plaintext;
                     }
                 }
+                /*foreach($dom->find('.teamcard') as $team_card)
+                {
+                    echo $team_card;
+                }*/
             }   
             
         }
@@ -279,4 +292,3 @@ for($i=0; $i<count($player->photoRef); $i++)
 $db->close_connection();
 */
 echo number_format((microtime(true)-$startTime)/60, 2, ":" ,"");
-?>
