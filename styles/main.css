@@ -259,6 +259,10 @@ a{
 }
 .transfer-block, .facts{
     width: 34%;
+    background-color: rgb(39,44,55); 
+}
+.second-slide{
+    position: relative;
 }
 .transfer-header{
     font-size: 18px;
@@ -277,6 +281,9 @@ a{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+}
+.fact-wrapper{
+    width: 100%;
 }
 .tournament-block{
     display: flex;
@@ -344,3 +351,77 @@ a{
 }
 
 /*    match page    */
+
+/* invisible-block */
+
+.triangle{
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-bottom: 40px solid #666666;
+    width: 0px;
+    position: absolute;
+    right: 50px;
+    top: -41px;
+}
+.enter-invisible{
+    color: white;
+    width: 350px;
+    border: 1px solid #666666;
+    border-radius: 3px;
+    margin: 1em;
+    position: absolute;
+    z-index: 5;
+    right: 0;
+    top: 99px;
+}
+.enter-header{
+    background: url('../images/img/stripe.png') #2e3644;
+    border: 1px solid #666666;
+    margin: 0;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    padding: .3em 0;
+}
+i.fa-times{
+    position: absolute;
+    right: 15px;
+    cursor: pointer;
+}
+.enter-main{
+    background-color: rgb(39,44,55);   
+    border-left: 1px solid #666666;
+    border-right: 1px solid #666666;
+    border-bottom: 1px solid #666666;
+    padding: 1em;
+}
+.login-password input{
+    margin-bottom: 1em;
+    border: 2px solid #666666;
+    padding: .5em 0 .5em .5em;
+    border-radius: 5px;
+}
+input:active{
+    outline: none;
+}
+.remember-forgot{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 1em;
+}
+.forgot{
+    color: rgb(93, 255, 168); 
+}
+.enter-main input[type="button"]{
+    width: 100%;
+    color: white;
+    font-weight: 700;
+    background: radial-gradient(at center 0px, rgb(93, 255, 168) -90%, rgb(39, 127, 131) 82%, rgb(39, 127, 131) 150%);
+    border: 1px solid rgb(39, 127, 131);
+    padding: .5em 0;
+    border-radius: 5px;
+    cursor: pointer;    
+    font-size: 20px;
+}
+/* end invisible block*/

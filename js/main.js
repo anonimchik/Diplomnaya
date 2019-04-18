@@ -22,7 +22,7 @@ $(function () {
         $('.tab-content').removeClass('current');
         $(this).parent().addClass('current');
         $("#"+tab_id).addClass('current');
-    })
+    });
     $(".match-href").hover(function () {
             $(".fas.fa-video").css("color", "rgb(93, 255, 168)");  
             $(".match-href").css("cursor", "pointer");       
@@ -63,4 +63,13 @@ $(function () {
         $(this).parent().children(".news-title").children(".title-text").css({"color":"inherit"});
         }
     );
+    $(".enter-invisible").hide();
+    $("a.enter").click(function (e) { 
+        e.preventDefault();
+        $(".enter-invisible").show();
+    });
+    $("i.fa-times").click(function (e) { 
+        e.preventDefault();
+        $(".enter-invisible").hide();
+    });
 });
