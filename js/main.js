@@ -64,6 +64,7 @@ $(function () {
         }
     );
     $(".enter-invisible").hide();
+    $(".registration-invisible").hide();
     $("a.enter").click(function (e) { 
         e.preventDefault();
         $(".enter-invisible").show();
@@ -71,5 +72,13 @@ $(function () {
     $("i.fa-times").click(function (e) { 
         e.preventDefault();
         $(".enter-invisible").hide();
+    });
+    $("a.registration").click(function (e) { 
+        e.preventDefault();
+        $(".registration-invisible").show();
+    });
+    $("i.fa-times").click(function (e) { 
+        e.preventDefault();
+        $(".    registration-invisible").hide();
     });
 });

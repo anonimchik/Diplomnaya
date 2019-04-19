@@ -26,6 +26,9 @@ a{
 .fa-edit, .fa-lock{
     margin: 3em 0;
 }
+.fa-lock::before{
+    background-color: rgba(93, 255, 169, 0.616);
+}
 .registration, .enter{
     border: 1px solid rgba(239, 237, 239, 0.301);
     padding: .59em 0;
@@ -354,7 +357,7 @@ a{
 
 /* invisible-block */
 
-.triangle{
+.triangle-enter{
     border-left: 20px solid transparent;
     border-right: 20px solid transparent;
     border-bottom: 40px solid #666666;
@@ -363,7 +366,16 @@ a{
     right: 50px;
     top: -41px;
 }
-.enter-invisible{
+.triangle-registration{
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-bottom: 40px solid #666666;
+    width: 0px;
+    position: absolute;
+    right: 190px;
+    top: -41px;
+}
+.enter-invisible, .registration-invisible{
     color: white;
     width: 350px;
     border: 1px solid #666666;
@@ -374,7 +386,7 @@ a{
     right: 0;
     top: 99px;
 }
-.enter-header{
+.enter-header, .registration-header{
     background: url('../images/img/stripe.png') #2e3644;
     border: 1px solid #666666;
     margin: 0;
@@ -388,7 +400,7 @@ i.fa-times{
     right: 15px;
     cursor: pointer;
 }
-.enter-main{
+.enter-main, .registration-main{
     background-color: rgb(39,44,55);   
     border-left: 1px solid #666666;
     border-right: 1px solid #666666;
@@ -401,7 +413,7 @@ i.fa-times{
     padding: .5em 0 .5em .5em;
     border-radius: 5px;
 }
-input:active{
+input:focus, input:active{
     outline: none;
 }
 .remember-forgot{
@@ -413,7 +425,7 @@ input:active{
 .forgot{
     color: rgb(93, 255, 168); 
 }
-.enter-main input[type="button"]{
+.enter-main input[type="button"], .registration-main input[type="button"]{
     width: 100%;
     color: white;
     font-weight: 700;
