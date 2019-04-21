@@ -79,6 +79,6 @@ $(function () {
     });
     $("i.fa-times").click(function (e) { 
         e.preventDefault();
-        $(".    registration-invisible").hide();
+        $(".registration-invisible").hide();
     });
 });
