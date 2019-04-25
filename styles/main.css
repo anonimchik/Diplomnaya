@@ -27,7 +27,7 @@ a{
     margin: 3em 0;
 }
 .fa-lock::before{
-    background-color: rgba(93, 255, 169, 0.616);
+    background: radial-gradient(at center 0px, rgb(93, 255, 168) -5%, rgb(39, 126, 131) 90%, rgb(39, 127, 131) -112%);
 }
 .registration, .enter{
     border: 1px solid rgba(239, 237, 239, 0.301);
@@ -437,3 +437,34 @@ input:focus, input:active{
     font-size: 20px;
 }
 /* end invisible block*/
+
+/* scrollbar styles */
+
+::-webkit-scrollbar-button {
+    background-image:url('');
+    background-repeat:no-repeat;
+    width:5px;
+    height:0px
+}   
+::-webkit-scrollbar-track {
+    background-color: #1c1e1f;
+} 
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+    background-color: #2a2c2e;
+}  
+::-webkit-scrollbar-thumb:hover{
+    background-color: #3a3a3a;
+}   
+::-webkit-resizer{
+    background-image:url('');
+    background-repeat:no-repeat;
+    width:4px;
+    height:0px
+}  
+::-webkit-scrollbar{
+    width: 15px;
+}
+
+/* end scrollbar styles*/

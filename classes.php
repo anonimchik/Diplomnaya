@@ -14,14 +14,12 @@ class Team
 class Match
 {
     var $datetime;
-    var $team1;
-    var $team2;
-    var $teamRef1;
-    var $teamRef2;
-    var $score1;
-    var $score2;
+    var $teams;
+    var $score;
     var $matchRef;
+    var $format;
     var $round;
+    var $status;
 }
 class Players
 {
@@ -39,6 +37,7 @@ class Players
     var $accessionDate;
     var $facts;
     var $biography;
+    var $prize;
 }   
 class Tournament
 {
