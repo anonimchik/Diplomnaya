@@ -256,9 +256,13 @@ a{
     margin: 0;
     background: #2e3644 url("../images/img/stripe.png");
 }
-.matches-block, .tournament-wrapper{
+.matches-block, .tournament-index-wrapper{
     width: 65%;
     position: relative;
+}
+.tournament-wrapper{
+    position: relative;
+    width: 100%;
 }
 .transfer-block, .facts{
     width: 34%;
@@ -333,8 +337,13 @@ a{
 }
 .tabs li{
     list-style: none;
-    border: 1px solid #026340;
+    border-left: 1px solid #026340;
+    border-top: 1px solid #026340;
+    border-bottom: 1px solid #026340;
     padding: .5em;
+}
+.tabs li:nth-child(3n){
+    border-right: 1px solid #026340;
 }
 .tab-link.current{
    background-color: #026340;
