@@ -13,8 +13,8 @@
     <script src="./js/main.js"></script>
 </head>
 <body>
-    <?php 
-        include_once('classes.php');
+    <?php
+        require_once('classes.php');
         $db=new Database;
         $db->setDbSettings("localhost", "root", "", "course_database");
         $db->open_connection();
@@ -22,22 +22,44 @@
     <div class="header">
         <div class="logo"></div>
         <div class="login-info">
-            <a href="" class="register">
-                <i class="fas fa-user-edit"><span class="register-text">Регистрация</span></i>
-            </a>
-            <span class="or-text">или</span>
-            <a href="" class="enter">
-                <i class="fas fa-lock"><span class="enter-text">Вход</span></i>
-            </a>
+            <a href="" class="registration"><i class="fas fa-edit"><span class="registration-text">Регистрация</span></i></a>
+            <span class="or">или</span>
+            <a href="" class="enter"><i class="fas fa-lock"><span class="enter-text">Вход</span></i></a>
         </div>
+        <div class="enter-invisible">
+                <div class="triangle-enter"></div>
+                <h3 class="enter-header">Вход <i class="fas fa-times"></i></h3>
+                <div class="enter-main">
+                    <div class="login-password">
+                        <input type="text" name="login" placeholder="Логин" size="40">
+                        <input type="password" name="password" placeholder="Пароль" size="40">
+                    </div>
+                    <div class="remember-forgot">
+                        <label><input type="checkbox" name="remember"><span>Запомнить меня</span></label>
+                        <a href="" class="forgot">Забыли пароль?</a>
+                    </div>
+                    <input type="button" value="Войти">
+                </div>
+            </div>
+            <div class="registration-invisible">
+            <div class="triangle-registration"></div>
+            <h3 class="registration-header">Регистрация <i class="fas fa-times"></i></h3>
+            <div class="registration-main">
+                <div class="login-password">
+                    <input type="text" name="login" placeholder="Логин" size="40">
+                    <input type="password" name="password" placeholder="Пароль" size="40">
+                </div>
+                <input type="button" value="Зарегистрироваться">
+            </div>
+        </div>  
     </div>
     <div class="nav-wrapper">
         <nav class="menu">
             <ul>
-                <li><a href=""><i class="fas fa-home"></i>Главная</a></li>
-                <li><a href=""><i class="fas fa-gamepad"></i>Матчи</a></li>
+                <li><a href="#"><i class="fas fa-home"></i>Главная</a></li>
+                <li><a href="matches.php"><i class="fas fa-gamepad"></i>Матчи</a></li>
                 <li><a href=""><i class="fas fa-users"></i>Команды</a></li>
-                <li><a href=""><i class="fas fa-trophy"></i>Турниры</a></li>
+                <li><a href="tournament.php"><i class="fas fa-trophy"></i>Турниры</a></li>
                 <li><a href=""><i class="fas fa-film"></i>Видео</a></li>
             </ul>
         </nav>
@@ -74,43 +96,81 @@
                     <img class="news-image" src="./images/img/dota2.jpg" alt="">    
                 </a>
             </div>
-       </div>
-       <h3 class="tournament-header"><i class="fas fa-gamepad"></i>Турниры</h3>
-       <div class="tournament-wrapper">
-            <div class="tournament-block">
-                <span class="tournament-status"><i class="fas fa-clock"></i>Ожидается</span>
-                <a class="tournament-href" href="">
-                <?php
-                    $db->setQuery("select * from tournaments");
-                    $db->show_tournaments();
-                ?>
+        </div>
+        <div class="administration-panel-wrapper">
+            <button type="button" name="add-tournament"><i class="fas fa-plus-circle">Добавить турнир</i></button>
+            <button type="bytton" name="delete-tournament"><i class="fas fa-minus-circle">Удалить турнир</i></button>
+        </div>
+        <div class="matches-transfer-wrapper">
+            <div class="matches-block">
+                <h3 class="matches-header"><i class="fas fa-gamepad"></i>Матчи</h3>
+                <div class="match-wrapper">
+                    <div class="match-href">
+                        <div class="translation-wrapper">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <div class="teams-wrapper">
+                            <span class="first-team">TBD</span>
+                            <span class="country-flag"></span>
+                            <i class="vs">vs</i>
+                            <span class="second-team">TBD</span>
+                            <span class="country-flag"></span>
+                        </div>
+                        <div class="tournament-match-wrapper">
+                            <span class="date">дд.мм.гггг</span>
+                            <span class="time">чч:мм</span>
+                            <a class="tournament-href" href="">
+                                <img src="./images/img/pic-20190311-1000x500-3096092874.jpeg" alt="" class="tournament-image">
+                            </a>
+                        </div>
+                    </div>
+                </div>                
+            </div>
+            <div class="transfer-block">
+                <h3 class="transfer-header"><i class="fas fa-exchange-alt"></i>Трансферы</h3>
+                <a href="" class="transfer-href">
+                    <div class="player-block">
+                        <img src="./images/playerPhotos/9pasha.png" alt="" class="player-photo">
+                    </div>
+                    <div class="discipline-name">
+                        <span class="name">TBD</span>
+                        <span class="discipline">Dota-2</span>
+                    </div>
+                    <div class="transfer">
+                            <span class="team-from">TBD</span>
+                            <i class="fas fa-angle-double-right"></i>
+                            <span class="team-to">TBD</span>
+                    </div>
+                    <div class="date-wrapper">
+                        <span class="date">xx.xx</span>
+                    </div>
                 </a>
             </div>
-            <div class="tournament-block">
-                asd
+        </div>
+       <div class="tournament-facts-wrapper">
+            <div class="tournament-index-wrapper">
+                <h3 class="tournament-header"><i class="fas fa-trophy"></i>Турниры</h3>
+                <?php
+                    $query="select idTournament, event, tournamentLogo, DATE_FORMAT(dateBegin, '%e'), DATE_FORMAT(dateBegin, '%c'), DATE_FORMAT(dateBegin, '%Y'), prize 
+                    from tournaments limit 10";
+                    $db->setQuery($query);
+                    $db->show_tournaments();
+                ?>
+            </div>
+            <div class="facts">
+                <h3 class="tournament-header"><i class="fas fa-star"></i>Интересные факты</h3>
+                <div class="fact-wrapper">
+                    <h3 class="fact-title">Команда ботов OPENAI победила в 99,4% матчей</h3>
+                    С 18 по 21 апреля любой желающий мог собрать команду и сразиться с OPENAI FIVE. Из 7257 матчей команды людей смогли выиграть только 42.
+                    Наибольший успех показала команда из СНГ под руководством Александра "AINODEHKA" Колясева, она выиграла 10 матчей. 
+                </div> 
             </div>
        </div>
-       <div class="matches-wrapper">
-           <h3 class="matches-header"><i class="fas fa-gamepad"></i>Матчи</h3>
-            <div class="matches-block">
-            <ul class="tabs">
-                <li class="tab-link current" data-tab="tab-1"><a href="">Tab 1</a></li>
-                <li class="tab-link" data-tab="tab-2"><a href="">tab 2</a></li>
-                <li class="tab-link" data-tab="tab-3"><a href="">tab 3</a></li>
-                <li class="tab-link" data-tab="tab-4"><a href="">tab 4</a></li>
-            </ul>
-            <div id="tab-1" class="tab-content current">
-                Содержимое первого tab'a
-            </div>
-            <div id="tab-2" class="tab-content">
-                содержимое второго tab'a
-            </div>
-            <div id="tab-3" class="tab-content">
-                содержимое третьего tab'a
-            </div>
-            </div>
-        </div>
+   </div>
+   <div class="footer">
+       &copy; 2019 gginfo - все для любителей киберспорта.
    </div>
    <script src="./OwlCarousel2-2.3.4/docs/assets/owlcarousel/owl.carousel.min.js"></script>
+   <!--<iframe width="560" height="315" src="https://www.youtube.com/embed/hacY_WnG8QU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>--->
 </body>
 </html>

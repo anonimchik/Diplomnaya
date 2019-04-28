@@ -67,19 +67,32 @@ for($i=0; $i<1; $i++) //передвижение по страницам
             if(!is_object($main_block->children(3))) // турнир ожидается
             {
                 $tournament->logo[]=$main_block->children(2)->children(0)->children(0)->children(0)->children(0)->children(0)->src;
+                $tournament->alt[]=preg_replace("( logo)", "", $main_block->children(2)->children(0)->children(0)->children(0)->children(0)->children(0)->getAttribute("alt"));
                 $tournament->event[]=$main_block->children(2)->children(0)->children(0)->children(0)->children(1)->children(0)->plaintext;
                 $tournament->description[]=$main_block->children(2)->children(0)->children(0)->children(0)->children(1)->children(2)->plaintext;
-                $tournament->begDate[]=$tournament->description[]=$main_block->children(2)->children(0)->children(0)->children(0)->children(1)->children(1)->children(0)->children(0)->children(1)->plaintext; 
-                $tournament->prize[]=preg_replace('(\$ )', "", $main_block->children(2)->children(0)->children(0)->children(0)->children(1)->children(1)->children(0)->children(1)->children(1));   
+                $tournament->begDate[]=$main_block->children(2)->children(0)->children(0)->children(0)->children(1)->children(1)->children(0)->children(0)->children(1)->plaintext; 
+                $tournament->prize[]=preg_replace('(\$ )', "", $main_block->children(2)->children(0)->children(0)->children(0)->children(1)->children(1)->children(0)->children(1)->children(1)->plaintext);   
             }
             else //турнир прошел или длится
             {
                 $tournament->logo[]=$main_block->children(3)->children(0)->children(0)->children(0)->children(0)->children(0)->src;
-                echo $tournament->event[]=$main_block->children(3)->children(0)->children(0)->children(0)->children(1)->children(0)->plaintext."<br>";
+                echo $tournament->alt[]=preg_replace("( logo)", "", $main_block->children(3)->children(0)->children(0)->children(0)->children(0)->children(0)->getAttribute("alt"));
+                $tournament->event[]=$event=$main_block->children(3)->children(0)->children(0)->children(0)->children(1)->children(0)->plaintext;
                 $tournament->description[]=$main_block->children(3)->children(0)->children(0)->children(0)->children(1)->children(2)->plaintext;
-                $tournament->begDate[]=$tournament->description[]=$main_block->children(3)->children(0)->children(0)->children(0)->children(1)->children(1)->children(0)->children(0)->children(1)->plaintext; 
-                $tournament->prize[]=preg_replace('(\$ )', "", $main_block->children(3)->children(0)->children(0)->children(0)->children(1)->children(1)->children(0)->children(1)->children(1));
-                // добавить статус турнира
+                $tournament->begDate[]=$main_block->children(3)->children(0)->children(0)->children(0)->children(1)->children(1)->children(0)->children(0)->children(1)->plaintext; 
+                $tournament->prize[]=preg_replace('(\$ )', "", $main_block->children(3)->children(0)->children(0)->children(0)->children(1)->children(1)->children(0)->children(1)->children(1)->plaintext);
+                foreach($dom->find(".s-pass") as $tournamentHref)
+                {
+                    if($siteRef.$tournamentHref->children(0)->href!=$siteRef.$match_table->children(0)->children(0)->href)
+                    {
+                        $html=curl_get($siteRef.$tournamentHref->children(0)->href);
+                        $dom1=str_get_html($html);
+                        foreach($dom1->find(".t-top") as $tournamentTitle)
+                        {
+                            $tournament->linkTournament[]=preg_replace("(/ Dota 2 турнир)", "", $tournamentTitle->children(1)->plaintext);
+                        }
+                    }
+                }
                 if(is_object($main_block->children(3)->children(0)->children(0)->children(0)->children(1)->children(1)->children(0)->children(3)))
                 {
                     $tournament->location[]=$main_block->children(3)->children(0)->children(0)->children(0)->children(1)->children(1)->children(0)->children(3)->children(1)->plaintext;
@@ -91,6 +104,7 @@ for($i=0; $i<1; $i++) //передвижение по страницам
                     $dom1=str_get_html($html);
                     foreach($dom1->find(".otstup") as $match_block)
                     {
+                        $match->event=$event;
                         $match->format[]=$match_block->children(0)->children(1)->children(2)->children(2);
                         $match->teams[]=preg_replace("(Матч )", "", $match_block->children(0)->children(1)->children(2)->children(0)->children(0)->plaintext);
                         $match->datetime[]=$match_block->children(0)->children(1)->children(2)->children(1);
@@ -104,27 +118,28 @@ for($i=0; $i<1; $i++) //передвижение по страницам
                     $dom1=str_get_html($html);
                     foreach($dom1->find(".otstup") as $match_block)
                     {
+                        $match->event=$event;
                         $match->format[]=$match_block->children(0)->children(1)->children(2)->children(2);
-                        echo $match->teams[]=preg_replace("(Матч )", "", $match_block->children(0)->children(1)->children(2)->children(0)->children(0)->plaintext);
+                        $match->teams[]=preg_replace("(Матч )", "", $match_block->children(0)->children(1)->children(2)->children(0)->children(0)->plaintext);
                         $match->datetime[]=$match_block->children(0)->children(1)->children(2)->children(1);
                         $match->round[]=$match_block->children(0)->children(2)->children(1)->children(0)->children(1);
-                        if(is_object($match_block->children(1)->children(1)->children(1)->children(1)))
+                        /*if(is_object($match_block->children(1)->children(1)->children(1)->children(1)))
                         {
                             if(is_object($match_block->children(1)->children(1)->children(1)->children(1)->children(0)))
                             {
                                 foreach($dom1->find(".video") as $videoHref)
                                 {
-                                    echo $videoHref->getAttribute("onclick")."sadsda    ";
+                                    $videoHref->getAttribute("onclick")."sadsda    ";
                                 }
                             }
-                        }
+                        }*/
                     }
                 }
                 foreach($dom->find('div.tb') as $team_card)
                 {
                     if(!is_object($team_card->children(0)->children(0)))
                     {
-                        $tournament->team[]=$teamName=$team_card->children(0)->plaintext;
+                        $tournament->team[]=$event."|".$teamName=$team_card->children(0)->plaintext;
                         $team->href[]=$team_card->children(0)->href;
                         $team->logo[]=$team_card->children(1)->children(0)->children(0)->src;
                         $tournament->qualification[]=$team_card->children(1)->children(2)->plaintext;
@@ -171,15 +186,22 @@ for($i=0; $i<1; $i++) //передвижение по страницам
                        $tournament->slot[]=$team_card->children(0)->children(2)->plaintext;
                     }
                 }
-            }   
+            }  
             
         }
         
     }
     
 }
-
-
+$db->setDbSettings("localhost", "root", "", "course_database");
+$db->open_connection();
+for($i=0; $i<count($tournament->team); $i++)
+{
+    saveImage("", $siteRef.$tournament->logo[$i], "./images/teamLogos/".mb_convert_encoding($tournament->alt[$i], 'cp1251', 'utf-8').".png");
+    $query="insert into tournaments(event, tournamentLogo, seria, description, prize, dateBegin) values('".$tournament->event[$i]."', 'images/teamLogos/".$tournament->alt[$i].".png', '".$tournament->seria[$i]."', '".$tournament->description[$i]."', ".preg_replace("(,)", "", $tournament->prize[$i]).", '".$tournament->begDate[$i]."')";
+    $db->setQuery($query);
+    $db->insert_record();
+}
 /*
 for ($i=0; $i<1; $i++) 
 { 

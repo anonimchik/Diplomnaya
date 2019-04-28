@@ -33,9 +33,9 @@ $(function () {
                     "height": "100%",
                     "object-fit": "cover",
                     "z-index": "1",
-                    "flex-wrap": "wrap",
                     "transform": "scale(1.1)",
-                    "transition": "all 1s ease-in-out"
+                    "filter": "saturate(1)",
+                    "transition": "all .8s ease-in-out"
             });
             $(this).parent().children(".news-title").children(".title-text").css({"color":"rgb(0,255,102)"});
         }, function () {
@@ -44,11 +44,36 @@ $(function () {
                 "height": "100%",
                 "object-fit": "cover",
                 "z-index": "1",
-                "flex-wrap": "wrap",
                 "transform": "scale(1)",
-                "transition": "all 1s ease-in-out"
+                "filter": "saturate(.5)",
+                "transition": "all .8s ease-in-out"
         });
         $(this).parent().children(".news-title").children(".title-text").css({"color":"inherit"});
+        }
+    );
+    
+    $(".title-text").hover(function () {
+            $(this).css({"color":"rgb(0,255,102)"}); 
+            $(this).parent().parent().children(".news-image").css({
+                "width": "100%",
+                "height": "100%",
+                "object-fit": "cover",
+                "z-index": "1",
+                "transform": "scale(1.1)",
+                "filter": "saturate(1)",
+                "transition": "all .8s ease-in-out" 
+            })
+        }, function () {
+            $(this).css({"color":"inherit"});
+            $(this).parent().parent().children(".news-image").css({
+                "width": "100%",
+                "height": "100%",
+                "object-fit": "cover",
+                "z-index": "1",
+                "transform": "scale(1)",
+                "filter": "saturate(1)",
+                "transition": "all .8s ease-in-out" 
+            })
         }
     );
 
@@ -79,6 +104,18 @@ $(function () {
         e.preventDefault();
         $(".registration-invisible").hide();
     });
+
+    $(".tournament-block").click(function (e) { 
+        e.preventDefault();
+        location.href=$(this).attr("data-href");
+    });
+
+    $(".tournament-block").hover(function () {
+            $(this).css("color", "white");
+        }, function () {
+            $(this).css("color", "#a6c6cb");
+        }
+    )
 
     if($("div").is(".owl-carousel"))
     {

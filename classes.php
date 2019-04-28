@@ -1,8 +1,19 @@
 <?php
+$monthName=array(1=>"Января",
+                2=>"Февраля",
+                3=>"Марта",
+                4=>"Апреля",
+                5=>"Мая",
+                6=>"Июня",
+                7=>"Июля",
+                8=>"Августа",
+                9=>"Сентября",
+                10=>"Октября",
+                11=>"Ноября",
+                12=>"Декабря");
 class Team
 {
     var $name;
-    var $place;
     var $prize; 
     var $description;
     var $wonTournaments;
@@ -13,6 +24,7 @@ class Team
 }
 class Match
 {
+    var $event;
     var $datetime;
     var $teams;
     var $score;
@@ -43,6 +55,7 @@ class Tournament
 {
     var $event;
     var $logo;
+    var $alt;
     var $seria;
     var $slot;
     var $qualification;
@@ -54,8 +67,7 @@ class Tournament
     var $description;
     var $format;
     var $status;
-    var $stage;
-    var $stageHref;
+    var $linkTournament;
 }
 class Database
 {
@@ -106,18 +118,31 @@ class Database
             echo "Запрос не был выполнен. Код ошибки -".mysql_errno().". Cообщение ошибки - ".mysql_error().".";
         }
     }
-    
+      
     /*     работа с сайтом */
 
     function show_tournaments()
     {
+        global $monthName;
         $result=mysql_query($this->query);
         if(!mysql_error($this->link))
         {
             while($row = mysql_fetch_array($result)) 
             {
-                echo $row["description"];
-                echo "<span>".$row["seria"]."</span><br><span>".$row["description"]."</span>";
+                echo ' 
+                <div class="tournament-block" data-href=tournament.php?idtour='.$row[0].'>
+                    <div class="tournament-title-img">
+                        <img src="'.$row["tournamentLogo"].'" title="'.$row["event"].'" class="tournament-img">
+                        <span class="tournament-name">'.$row["event"].'</span>
+                    </div>
+                    <div class="remainder">
+                        <span>
+                    </div>
+                    <div class="date-prize">
+                        <span class="date">'.$row[3]." ".$monthName[$row[4]]." $row[5]".'</span>
+                        <span class="prize">$'.$row["prize"].'</span>
+                    </div>
+                </div>';
             }
         }
         else

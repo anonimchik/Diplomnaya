@@ -20,8 +20,14 @@ a{
     width: 70%;
 }
 .login-info{
-    width: 313px;
+    width: 360px;
     height: 100%;
+}
+.or{
+    color: white;
+    margin: 0 .5em;
+    font-weight: 800;
+    font-size: 1em;
 }
 .fa-edit, .fa-lock{
     margin: 3em 0;
@@ -147,15 +153,6 @@ a{
     filter: saturate(.5);
     z-index: 1;
 }
-.news-image:hover{
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: 1;
-    flex-wrap: wrap;
-    transform: scale(1.1);
-    transition: all 1s ease-in-out;
-}
 .news-header{
     font-size: 18px;
     text-transform: uppercase;
@@ -191,8 +188,10 @@ a{
     margin-bottom: 1em;
 }
 .tournament-img{
-    max-height: 50px;
-    max-width: 80px;
+    height: 37px;
+    width: 80px;
+    object-fit: cover;
+    padding-right: .8em;
 }
 .matches-content{
     display: block;
@@ -210,9 +209,6 @@ a{
 }
 .translation-wrapper{
     margin-left: 1em;
-}
-.tournament-href{
-    margin: 0 1em;
 }
 .tournament-image{
     max-width: 50px;
@@ -259,6 +255,8 @@ a{
 .matches-block, .tournament-index-wrapper{
     width: 65%;
     position: relative;
+    display: flex;
+    flex-direction: column;
 }
 .tournament-wrapper{
     position: relative;
@@ -267,6 +265,7 @@ a{
 .transfer-block, .facts{
     width: 34%;
     background-color: rgb(39,44,55); 
+    height: 100%;
 }
 .second-slide{
     position: relative;
@@ -290,7 +289,15 @@ a{
     justify-content: space-between;
 }
 .fact-wrapper{
-    width: 100%;
+    font-weight: 800;
+    padding: 1.5em;
+    border: 1px solid #666666;
+    font-size: 1em;
+}
+.fact-title{
+    text-align: center;
+    margin-top: 0;
+    font-size: 1.5em;   
 }
 .tournament-block{
     display: flex;
@@ -298,11 +305,30 @@ a{
     justify-content: space-between;
     align-items: center;
     border: 1px solid #666666;
-    background-color: rgb(39,44,55);
-    padding: .5em 1em;
+    background-color: rgb(39,44,55);  /*#424f5a*/
+    padding: .5em 2em;
+    cursor: pointer;
+    color: #a6c6cb;
+    font-weight: 800;
 }
 .tournament-name{
-    margin-left: 1em;
+    font-weight: 900;
+    font-size: 18px;
+    text-transform: uppercase;
+}
+.tournament-title-img{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.date-prize{
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    width: 40%;
+}
+.date{
+    flex-grow: .8;
 }
 
 /*     конец блока турниров и интересных фактов*/
@@ -452,6 +478,17 @@ label span{
     font-size: 20px;
 }
 /* end invisible block*/
+
+.footer{
+    color: white;
+    padding: 1em;
+    border: 1px solid #666666;
+    background-color: rgb(39,44,55);
+    margin-top: .5em;
+    text-align: center;
+    font-weight: 800;
+    font-size: 1em;
+}
 
 /* scrollbar styles */
 
