@@ -31,8 +31,8 @@
                 <h3 class="enter-header">Вход <i class="fas fa-times"></i></h3>
                 <div class="enter-main">
                     <div class="login-password">
-                        <input type="text" name="login" placeholder="Логин" size="40">
-                        <input type="password" name="password" placeholder="Пароль" size="40">
+                        <input type="text" name="login" placeholder="Логин">
+                        <input type="password" name="password" placeholder="Пароль">
                     </div>
                     <div class="remember-forgot">
                         <label><input type="checkbox" name="remember"><span>Запомнить меня</span></label>
@@ -97,9 +97,25 @@
                 </a>
             </div>
         </div>
-        <div class="administration-panel-wrapper">
-            <button type="button" name="add-tournament"><i class="fas fa-plus-circle">Добавить турнир</i></button>
-            <button type="bytton" name="delete-tournament"><i class="fas fa-minus-circle">Удалить турнир</i></button>
+        <div class="administration-panel-block">
+            <button type="button" name="add-tournament" class="add-tournament"><i class="fas fa-plus-circle">Добавить турнир</i></button>
+            <button type="bytton" name="delete-tournament" class="delete-tournament "><i class="fas fa-minus-circle">Удалить турнир</i></button>
+            <div class="administration-panel-wrapper">
+                <div class="text-block">
+                    <span>Наименование турнира</span>
+                    <span>Дата проведения турнира</span>
+                    <span>Сумма призовых</span>
+                    <span>Логотип турира</span>
+                </div>
+                <div class="inputs">
+                    <input type="text" id="">
+                    <input type="datetime-local" id="">
+                    <input type="number" name="" id="">                 
+                </div>
+                <input type="text" name="tournament-name" placeholder="Наименование турнира">
+                <img class="image-block">
+                <input type="file" id="image-selector" accept="image/*">
+            </div>
         </div>
         <div class="matches-transfer-wrapper">
             <div class="matches-block">

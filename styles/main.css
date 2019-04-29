@@ -400,7 +400,7 @@ a{
     border-bottom: 40px solid #666666;
     width: 0px;
     position: absolute;
-    right: 50px;
+    right: 55px;
     top: -41px;
 }
 .triangle-registration{
@@ -409,7 +409,7 @@ a{
     border-bottom: 40px solid #666666;
     width: 0px;
     position: absolute;
-    right: 190px;
+    right: 296px;
     top: -41px;
 }
 .enter-invisible, .registration-invisible{
@@ -450,6 +450,7 @@ i.fa-times{
     border: 2px solid #666666;
     padding: .5em 0 .5em .5em;
     border-radius: 5px;
+    width: 97%;
 }
 input:focus, button:focus, button:active, input:active{
     outline: none;
@@ -489,6 +490,31 @@ label span{
     font-weight: 800;
     font-size: 1em;
 }
+
+/* administration panel styles*/
+.fa-plus-circle::before{
+    color: rgb(93, 255, 168);
+    padding-right: .5em;  
+}
+.fa-minus-circle::before{
+    color: rgba(255, 0, 0, 0.705);
+    padding-right: .5em;
+}
+.add-tournament, .delete-tournament{
+    background: rgb(39,44,55);
+    border: none;
+    border-radius: 5px;
+    padding: .5em;
+    font-weight: 800;
+    color: white;
+    font-size: 1em;
+}
+.administration-panel-wrapper{
+    border: 1px solid #666666;
+    background: rgb(39,44,55);
+}
+
+/* end administration panel styles*/
 
 /* scrollbar styles */
 

@@ -117,6 +117,17 @@ $(function () {
         }
     )
 
+    $("input[type=file]").change(function (e) { 
+        var filename=$("#image-selector")[0].files[0].name;
+        var fullpath='./images/tournamentLogos/'+filename;
+        alert(fullpath);
+        $(".image-block").css({"background":"url("+fullpath+") no-repeat",
+                                "height":"37px",
+                                "width":"80px",
+                                "object-fit":"cover",
+                                "border":"none"});
+    });
+
     if($("div").is(".owl-carousel"))
     {
         $(".owl-carousel").owlCarousel( //установка параметров слайдера 
