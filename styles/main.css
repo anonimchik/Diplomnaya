@@ -91,7 +91,7 @@ a{
 .menu ul li:last-child a{
     border-right: 1.5px solid #2e3644;
 }
-.menu ul li a i, .fa-newspaper, .fa-gamepad, .fa-clock, .fa-exchange-alt, .fa-trophy, .fa-star{
+.menu ul li a i, .fa-newspaper, .fa-gamepad, .fa-clock, .fa-exchange-alt, .fa-trophy, .fa-star, .fa-eye{
     padding-right: .5em;
     color: rgb(93, 255, 168);
 }
@@ -243,7 +243,7 @@ a{
 .transfer{
     margin-right: auto;
 }
-.matches-header, .tournament-header{
+.matches-header, .tournament-header, .preview-window-title, .administration-panel-title{
     font-size: 18px;
     text-transform: uppercase;
     font-weight: 800;
@@ -445,18 +445,17 @@ i.fa-times{
     border-bottom: 1px solid #666666;
     padding: 1em;
 }
+input{
+    border: 2px solid #666666;
+    border-radius: 5px;
+}
 .login-password input{
     margin-bottom: 1em;
-    border: 2px solid #666666;
     padding: .5em 0 .5em .5em;
-    border-radius: 5px;
     width: 97%;
 }
 input:focus, button:focus, button:active, input:active{
     outline: none;
-}
-label span{
-    vertical-align: top;
 }
 .remember-forgot{
     display: flex;
@@ -503,16 +502,106 @@ label span{
 .add-tournament, .delete-tournament{
     background: rgb(39,44,55);
     border: none;
-    border-radius: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
     padding: .5em;
     font-weight: 800;
     color: white;
     font-size: 1em;
+    cursor: pointer;
 }
 .administration-panel-wrapper{
-    border: 1px solid #666666;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 1em;
+}
+.administration-panel{
+    width: 50%;
     background: rgb(39,44,55);
 }
+.admin-form{
+    padding: 1em;
+    margin: 0;
+    border: 1px solid #666666;
+}
+.admin-form li{
+    display: flex;
+    flex-direction: row;
+    font-weight: 800;
+    font-size: 1.5em;
+    margin: .5em 0;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.admin-form li>input, .admin-form li>div.numeric-field{
+    max-width: calc(100%/1.9);
+    flex-grow: 5;
+}
+.image-block-wrapper{
+    width: 80px;
+    height: 37px;
+}
+.fa-file-upload::before{
+    font-size: 50px !important;
+    position: absolute;
+    top: 10px;
+    left: 32px;
+    color: #666666;
+    font-size: 1em;
+}
+#logo-tournament{
+    display: none;
+}
+.file-label{
+    width: 100px;
+    height: 100px;
+    display: block;
+    position: relative;
+    border: 2px dashed #666666;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 0 auto;
+}
+.file-label:hover{
+    border: 2px solid rgb(186, 181, 171);
+    transition: 200ms color;
+}
+label.file-label:hover > i.fa-file-upload::before{
+    color: rgb(186, 181, 171);
+    transition: 200ms color;
+}
+label.file-label:hover > i span{
+    color: rgb(186, 181, 171);
+}
+label span{
+    position: absolute;
+    bottom: 5px;
+    font-size: 14px;
+    text-align: center;
+    color: #666666;
+}
+input[type=number]::-webkit-inner-spin-button, /* сброс стрелок в input number*/
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+}
+input[type=number]{
+    -moz-appearance: textfield;
+    width: 75%;
+    height: 22px;
+}
+div.numeric-field>i.fa-plus-circle::before, div.numeric-field>i.fa-minus-circle::before{
+    padding: 0 !important;
+    vertical-align: sub;
+    cursor: pointer;
+}
+.preview-window-wrapper{
+    width: 49%;
+}
+
 
 /* end administration panel styles*/
 

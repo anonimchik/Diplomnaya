@@ -135,9 +135,6 @@ class Database
                         <img src="'.$row["tournamentLogo"].'" title="'.$row["event"].'" class="tournament-img">
                         <span class="tournament-name">'.$row["event"].'</span>
                     </div>
-                    <div class="remainder">
-                        <span>
-                    </div>
                     <div class="date-prize">
                         <span class="date">'.$row[3]." ".$monthName[$row[4]]." $row[5]".'</span>
                         <span class="prize">$'.$row["prize"].'</span>
