@@ -99,25 +99,26 @@
         </div>
         <div class="administration-panel-block">
             <button type="button" name="add-tournament" class="add-tournament"><i class="fas fa-plus-circle">Добавить турнир</i></button>
-            <button type="bytton" name="delete-tournament" class="delete-tournament "><i class="fas fa-minus-circle">Удалить турнир</i></button>
+            <button type="bytton" name="delete-tournament" class="delete-tournament"><i class="fas fa-minus-circle">Удалить турнир</i></button>
+            <button class="hide-administration-panel"><i class="far fa-eye">Показать панель администратора</i></button>
             <div class="administration-panel-wrapper">
                 <form action="" class="administration-panel" method="post">
                     <h3 class="administration-panel-title">Создание турнира</h3>
                     <ul class="admin-form">
                         <li>
                             <label for="name-tournament" class="name-tournament">Наименование турнира</label>
-                            <input type="text" id="name-tournament">
+                            <input type="text" id="name-tournament" required autocomplete="off">
                         </li>
                         <li>
                             <label for="logo-tournament" class="logo-tournament">Логотип турнира</label>
                             <label class="file-label" for="logo-tournament">
                                 <i class="fas fa-file-upload"><span>Добавить изображение</span></i>
                             </label>
-                            <input type="file" id="logo-tournament" accept="image/*">
+                            <input type="file" id="logo-tournament" required accept="image/*">
                         </li>
                         <li>
                             <label for="tournament-date-begin">Дата начала</label>
-                            <input type="date" id="tournament-date-begin">
+                            <input type="date" required id="tournament-date-begin">
                         </li>
                         <li>
                             <label for="tournament-date-end">Дата завершения</label>
@@ -127,7 +128,7 @@
                             <label for="tournament-prize">Сумма призовых ($)</label>
                             <div class="numeric-field">
                                 <i class="fas fa-minus-circle"></i>
-                                <input type="number" min="0" id="tournament-prize">
+                                <input type="number" required min="0" id="tournament-prize">
                                 <i class="fas fa-plus-circle"></i>
                             </div>
                         </li>
@@ -140,14 +141,16 @@
                 </form>
                 <div class="preview-window-wrapper">
                     <h3 class="preview-window-title"><i class="fas fa-eye"></i>Предварительный просмотр</h3>
-                    <div class="tournament-block">
-                        <div class="tournament-title-img">
-                            <img src="" class="tournament-img">
-                            <span class="tournament-name"></span>
-                        </div>
-                        <div class="date-prize">
-                            <span class="date"></span>
-                            <span class="prize"></span>
+                    <div class="tournament-block-wrapper">
+                        <div class="tournament-block">
+                            <div class="tournament-title-img">
+                                <img src="" class="tournament-img">
+                                <span class="tournament-name"></span>
+                            </div>
+                            <div class="date-prize">
+                                <span class="date"></span>
+                                <span class="prize"></span>
+                            </div>
                         </div>
                     </div>
                 </div>

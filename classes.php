@@ -130,14 +130,17 @@ class Database
             while($row = mysql_fetch_array($result)) 
             {
                 echo ' 
-                <div class="tournament-block" data-href=tournament.php?idtour='.$row[0].'>
-                    <div class="tournament-title-img">
-                        <img src="'.$row["tournamentLogo"].'" title="'.$row["event"].'" class="tournament-img">
-                        <span class="tournament-name">'.$row["event"].'</span>
-                    </div>
-                    <div class="date-prize">
-                        <span class="date">'.$row[3]." ".$monthName[$row[4]]." $row[5]".'</span>
-                        <span class="prize">$'.$row["prize"].'</span>
+                <div class="tournament-block-wrapper" data-href=tournament.php?idtour='.$row[0].'>
+                    <label class="checkbox-del-tour"><i class="fas fa-check"></i><input type="checkbox" id="del-tour"></label>
+                    <div class="tournament-block">
+                        <div class="tournament-title-img">
+                            <img src="'.$row["tournamentLogo"].'" title="'.$row["event"].'" class="tournament-img">
+                            <span class="tournament-name">'.$row["event"].'</span>
+                        </div>
+                        <div class="date-prize">
+                            <span class="date">'.$row[3]." ".$monthName[$row[4]]." $row[5]".'</span>
+                            <span class="prize">$'.$row["prize"].'</span>
+                        </div>
                     </div>
                 </div>';
             }

@@ -1,4 +1,4 @@
-var fullpath;
+var fullpath, idTournament="";
 $(function () {
     $('ul.tabs li a').click(function(e){
         e.preventDefault();
@@ -157,6 +157,48 @@ $(function () {
         }
     });
 
+    $(".add-tournament").click(function (e) { 
+        e.preventDefault();
+        if(!$(".administration-panel-wrapper").is(":visible")){
+            $(".administration-panel-wrapper").css({"display":"flex"});
+            var offset = $(".administration-panel").offset();
+            var top = offset.top;
+            $("html").animate({scrollTop:top}, 1000);
+        }
+    });
+
+    $(".delete-tournament").click(function (e) { 
+        e.preventDefault();
+        if(!$(".checkbox-del-tour").is(":visible")){
+            $(".checkbox-del-tour").show();
+            var offset = $(".tournament-facts-wrapper").offset();
+            var top = offset.top;
+            $("html").animate({scrollTop:top}, 1000);
+        }
+    });
+
+    $(".hide-administration-panel").click(function (e) { 
+        e.preventDefault();
+        if($(this).text()=="Показать панель администратора")
+        {
+            $(this).html("<i class='far fa-eye-slash'>Скрыть панель администратора</i>");
+            if(!$(".checkbox-del-tour").is(":visible")){
+                $(".checkbox-del-tour").show();
+            }
+            if(!$(".administration-panel-wrapper").is(":visible")){
+                $(".administration-panel-wrapper").css({"display":"flex"});
+                var offset = $(".administration-panel").offset();
+                var top = offset.top;
+                $("html").animate({scrollTop:top}, 1000);
+            }
+        }
+        else{
+            $(this).html("<i class='far fa-eye'>Показать панель администратора</i>");
+            $(".checkbox-del-tour").hide();
+            $(".administration-panel-wrapper").hide();
+        }
+    });
+
     $("#preview").click(function (e) { 
         e.preventDefault();
         var monthName=["Января","Февраля","Марта","Апреля","Мая","Июня","Июля","Августа","Сентября","Октября","Ноября","Декабря"];
@@ -164,12 +206,27 @@ $(function () {
         date=date.split("-");
         var year=date[0];
         var month=date[1];
+        console.log(month);
         var day=date[2];
         date=day+" "+monthName[month.replace("0","")]+" "+year;
         $("div.preview-window-wrapper div.tournament-block div.tournament-title-img span.tournament-name").text($("#name-tournament").val());
         $("div.preview-window-wrapper div.tournament-block div.tournament-title-img img.tournament-img").attr("src", fullpath);
         $("div.preview-window-wrapper div.tournament-block div.date-prize span.date").text(date);
         $("div.preview-window-wrapper div.tournament-block div.date-prize span.prize").text("$"+$("#tournament-prize").val());
+    });
+
+    $(".tournament-block-wrapper").change(function (e) { 
+        if(!$(this).find("#del-tour").is(":checked")){
+            $(this).find(".fa-check").css({"display":"none"});
+            $(this).find(".checkbox-del-tour").css({"border":"2px solid #666666"})
+            idTournament=idTournament.replace($(this).attr("data-href").replace("tournament.php?idtour=","")+",","");
+        }
+        else{
+            $(this).find(".fa-check").css({"display":"block"});
+            idTournament+=$(this).attr("data-href").replace("tournament.php?idtour=","")+",";
+            $(this).find(".checkbox-del-tour").css({"border":"2px solid rgb(186, 181, 171)"})
+        }      
+        console.log(idTournament);  
     });
 
     if($("div").is(".owl-carousel"))
