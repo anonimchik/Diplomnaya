@@ -130,7 +130,7 @@ class Database
             while($row = mysql_fetch_array($result)) 
             {
                 echo ' 
-                <div class="tournament-block-wrapper" data-href=tournament.php?idtour='.$row[0].'>
+                <div class="tournament-block-wrapper" data-href=tournament1.php?idtour='.$row[0].'>
                     <label class="checkbox-del-tour"><i class="fas fa-check"></i><input type="checkbox" id="del-tour"></label>
                     <div class="tournament-block">
                         <div class="tournament-title-img">

@@ -382,19 +382,31 @@ a{
     display: flex;
     flex-direction: row;
     justify-content: center;
+    margin: 1em 0 0 0;
+    padding: 0;
 }
 .tabs li{
     list-style: none;
-    border-left: 1px solid #026340;
-    border-top: 1px solid #026340;
-    border-bottom: 1px solid #026340;
+    background-color: #2e3644;
     padding: .5em;
 }
+.tabs li:nth-child(2n){
+    border-right: 2px solid #666666;
+    border-top: 2px solid #666666;
+    border-left: 2px solid #666666;
+}
 .tabs li:nth-child(3n){
-    border-right: 1px solid #026340;
+    border-right: 2px solid #666666;
+    border-top: 2px solid #666666;
+    border-top-right-radius: 5px;
+}
+.tabs li:first-child{
+    border-top-left-radius: 5px;
+    border-left: 2px solid #666666;
+    border-top: 2px solid #666666;
 }
 .tab-link.current{
-   background-color: #026340;
+   background-color: #666666;
 }
 .tabs li a{
     text-transform: uppercase;
@@ -402,7 +414,7 @@ a{
     padding: .5em 1em .5em 1em;
 }
 .tabs li:hover{
-    background-color: #026340;
+    background-color: #666666;
 }
 .tab-content.current{
     color: white;

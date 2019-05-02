@@ -108,7 +108,7 @@ $(function () {
 
     $(".tournament-block").click(function (e) { 
         e.preventDefault();
-        location.href=$(this).attr("data-href");
+        location.href=$(this).parent().attr("data-href");
     });
 
     $(".tournament-block").hover(function () {
