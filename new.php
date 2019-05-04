@@ -98,21 +98,21 @@ for($i=0; $i<1; $i++) //передвижение по страницам
                 {
                     $tournament->location[]=$main_block->children(3)->children(0)->children(0)->children(0)->children(1)->children(1)->children(0)->children(3)->children(1)->plaintext;
                 }
-                foreach($dom->find('#block_matches_current .mtable tbody tr') as $match_block) //предстоящие/лайв матчи
+                /*foreach($dom->find('#block_matches_current .mtable tbody tr') as $match_block) //предстоящие/лайв матчи
                 {
                     $matchRef=$match_block->getAttribute("data-href");
                     $html=curl_get($siteRef.$matchRef);
                     $dom1=str_get_html($html);
                     foreach($dom1->find(".otstup") as $match_block)
                     {
-                        $match->event=$event;
-                        $match->format[]=$match_block->children(0)->children(1)->children(2)->children(2);
+                        $match->event[]=$event;
+                        $match->format[]=$match_block->children(0)->children(1)->children(2)->children(2)->plaintext;
                         $match->teams[]=preg_replace("(Матч )", "", $match_block->children(0)->children(1)->children(2)->children(0)->children(0)->plaintext);
-                        $match->datetime[]=$match_block->children(0)->children(1)->children(2)->children(1);
-                        $match->round[]=$match_block->children(0)->children(2)->children(1)->children(0)->children(1);
+                        $match->datetime[]=$match_block->children(0)->children(1)->children(2)->children(1)->plaintext;
+                        $match->round[]=$match_block->children(0)->children(2)->children(1)->children(0)->children(1)->plaintext;
                     }
                 }
-                /*foreach($dom->find('#block_matches_past .mtable tbody tr') as $match_block) //прошедшие
+                foreach($dom->find('#block_matches_past .mtable tbody tr') as $match_block) //прошедшие
                 {
                     $matchRef=$match_block->getAttribute("data-href");
                     $html=curl_get($siteRef.$matchRef);
@@ -133,10 +133,10 @@ for($i=0; $i<1; $i++) //передвижение по страницам
                                     $videoHref->getAttribute("onclick")."sadsda    ";
                                 }
                             }
-                        }*/
-                   /* }
+                        }
+                    }
                 }*/
-                /*foreach($dom->find('div.tb') as $team_card)
+                foreach($dom->find('div.tb') as $team_card)
                 {
                     if(!is_object($team_card->children(0)->children(0)))
                     {
@@ -161,19 +161,19 @@ for($i=0; $i<1; $i++) //передвижение по страницам
                                             {
                                                 $player->photoRef[]=$player_card->children(0)->children(0)->src;
                                                 $player->nickname[]=$player_card->children(1)->children(1)->plaintext;
-                                                $player->name[]=$player_card->children(1)->children(2)->children(0)->children(1);
-                                                $player->age[]=preg_replace('( лет|год|года)', '', $player_card->children(1)->children(2)->children(1)->children(1));
+                                                $player->name[]=$player_card->children(1)->children(2)->children(0)->children(1)->plaintext;
+                                                $player->age[]=preg_replace('( лет|год|года)', '', $player_card->children(1)->children(2)->children(1)->children(1))->plaintext;
                                                 $player->country[]=$player_card->children(1)->children(2)->children(2)->children(1)->plaintext;
                                                 $player->countryFlag[]=$player_card->children(1)->children(2)->children(2)->children(1)->children(0)->src;
                                                 $player->team[]=$player_card->children(1)->children(2)->children(3)->children(1)->plaintext;
-                                                $player->role[]=$player_card->children(1)->children(2)->children(4)->children(1);
-                                                $player->line[]=$player_card->children(1)->children(2)->children(5)->children(1);
-                                                $player->prize[]=$player_card->children(1)->children(2)->children(7)->children(1);
+                                                $player->role[]=$player_card->children(1)->children(2)->children(4)->children(1)->plaintext;
+                                                $player->line[]=$player_card->children(1)->children(2)->children(5)->children(1)->plaintext;
+                                                $player->prize[]=$player_card->children(1)->children(2)->children(7)->children(1)->plaintext;
                                             }
                                         }
                                     }
                                 }
-                                break; 
+                                //break; 
                             } 
                         }
                         else
@@ -186,7 +186,7 @@ for($i=0; $i<1; $i++) //передвижение по страницам
                        $tournament->logo[]=$team_card->children(0)->children(0)->children(0)->src;
                        $tournament->slot[]=$team_card->children(0)->children(2)->plaintext;
                     }
-                }*/
+                }
             }  
             
         }
@@ -194,9 +194,9 @@ for($i=0; $i<1; $i++) //передвижение по страницам
     }
     
 }
-/*$db->setDbSettings("localhost", "root", "", "course_database");
+$db->setDbSettings("localhost", "root", "", "course_database");
 $db->open_connection();
-for($i=0; $i<count($tournament->team); $i++)
+/*for($i=0; $i<count($tournament->team); $i++)
 {
     saveImage("", $siteRef.$tournament->logo[$i], "./images/teamLogos/".mb_convert_encoding($tournament->alt[$i], 'cp1251', 'utf-8').".png");
     $query="insert into tournaments(event, tournamentLogo, seria, description, prize, dateBegin) values('".$tournament->event[$i]."', 'images/teamLogos/".$tournament->alt[$i].".png', '".$tournament->seria[$i]."', '".$tournament->description[$i]."', ".preg_replace("(,)", "", $tournament->prize[$i]).", '".$tournament->begDate[$i]."')";
@@ -204,9 +204,21 @@ for($i=0; $i<count($tournament->team); $i++)
     $db->insert_record();
 }*/
 
-for($i=0; $i<count($match->event); $i++)
+/*for($i=0; $i<count($tournament->team); $i++)
 {
-    echo $match->event[$i]." ".$match->format[$i]." ".$match->teams[$i]." ".$match->datetime[$i]." ".$match->round[$i]."<br>";
+    $db->setQuery("insert into teams(idDiscipline, name) values(1, '".substr($tournament->team[$i], strpos($tournament->team[$i], "|")+1)."')");
+    $db->insert_team(substr($tournament->team[$i], strpos($tournament->team[$i], "|")+1));
+    $db->setQuery("select idTournament from tournaments where event='".substr($tournament->team[$i], 0, strpos($tournament->team[$i], "|"))."'");
+    $event=$db->find_id("idTournament");
+    $db->setQuery("select idTeam from teams where name='".substr($tournament->team[$i], strpos($tournament->team[$i], "|")+1)."'");
+    $team=$db->find_id("idTeam");
+    $db->setQuery("insert into tournamentmembers(idTournament, idTeam) values(".$event.", ".$team.")");
+    $db->insert_members();
+}*/
+
+for($i=0; $i<count($player->name); $i++)
+{
+    echo $player->team[$i]." ".$player->country[$i]." ".$player->nickname[$i]." ".$player->nickname[$i]." ".$player->role[$i]." ".$player->line[$i]." ".$player->prize[$i]."<br>";
 }
 
 /*
@@ -371,3 +383,4 @@ for($i=0; $i<count($player->photoRef); $i++)
 $db->close_connection();
 */
 echo number_format((microtime(true)-$startTime)/60, 2, ":" ,"");
+?>

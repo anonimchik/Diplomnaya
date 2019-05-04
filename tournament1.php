@@ -13,6 +13,12 @@
     <script src="js/main.js"></script>
 </head>
 <body>
+    <?php
+        require_once('classes.php');
+        $db=new Database;
+        $db->setDbSettings("localhost", "root", "", "course_database");
+        $db->open_connection();
+    ?>
     <div class="header">
         <div class="logo"></div>
         <div class="login-info">
@@ -57,8 +63,8 @@
             </ul>
         </nav>
     </div>
-    <span class="tournament-title">Турниры</span>
     <div class="tournament-bg-wrapper">
+        <span class="tournament-title">Турниры</span>
         <div class="tournament-bg"></div>
     </div>
     <div class="main-content">
@@ -68,57 +74,27 @@
             <li class="tab-link" data-tab="tab-3"><a href="">Будущие</a></li>
         </ul>
         <div id="tab-1" class="tab-content current">
-            <div class="tournament-wrapper">
+            <div class="tournament-indexx-wrapper">
                 <h3 class="tournament-header"><i class="fas fa-trophy"></i>Турниры</h3>
-                <div class="tournament-block">
-                    <a href="" class="href-tournament">
-                        <img src="./images/img/pic-20190311-1000x500-3096092874.jpeg" alt="" class="tournament-img">
-                        <span class="tournament-name">Tournament title</span>
-                    </a>
-                    <div class="date">
-                        <span class="rest-time"></span>
-                        <span class="date">дд мм </span>
-                    </div>
-                    <div class="prize-wrapper">
-                        <span class="prize">$0</span>
-                    </div>
-                </div>
+                <?php
+                    $db->getTournamentPage($_GET['idtour'], -1);
+                ?>
             </div>
         </div>
         <div id="tab-2" class="tab-content">
-            <div class="tournament-wrapper">
+            <div class="tournament-indexx-wrapper">
                 <h3 class="tournament-header"><i class="fas fa-trophy"></i>Турниры</h3>
-                <div class="tournament-block">
-                    <a href="" class="href-tournament">
-                        <img src="./images/img/pic-20190311-1000x500-3096092874.jpeg" alt="" class="tournament-img">
-                        <span class="tournament-name">Tournament title</span>
-                    </a>
-                    <div class="date">
-                        <span class="rest-time"></span>
-                        <span class="date">дд мм </span>
-                    </div>
-                    <div class="prize-wrapper">
-                        <span class="prize">$0</span>
-                    </div>
-                </div>
+                <?php
+                    $db->getTournamentPage($_GET['idtour'], 0);
+                ?>
             </div>
         </div>
         <div id="tab-3" class="tab-content">
-            <div class="tournament-wrapper">
+            <div class="tournament-indexx-wrapper">
                 <h3 class="tournament-header"><i class="fas fa-trophy"></i>Турниры</h3>
-                <div class="tournament-block">
-                    <a href="" class="href-tournament">
-                        <img src="./images/img/pic-20190311-1000x500-3096092874.jpeg" alt="" class="tournament-img">
-                        <span class="tournament-name">Tournament title</span>
-                    </a>
-                    <div class="date">
-                        <span class="rest-time"></span>
-                        <span class="date">дд мм </span>
-                    </div>
-                    <div class="prize-wrapper">
-                        <span class="prize">$0</span>
-                    </div>
-                </div>
+                <?php
+                    $db->getTournamentPage($_GET['idtour'], 1);
+                ?>
             </div>
         </div>
     </div>

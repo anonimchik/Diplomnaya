@@ -97,13 +97,7 @@ class Database
     {
         $this->query=$query;
     }
-    function insert_record()
-    {  
-        mysql_query($this->query);
-        if(mysql_error($this->link))
-        {echo $this->query."\nЗапрос не был выполнен. Код ошибки -".mysql_errno().". Cообщение ошибки - ".mysql_error().".";}
-    }
-    function show_record($columnName)
+    function find_id($columnName)
     {
         $result=mysql_query($this->query);
         if(!mysql_error($this->link))
@@ -116,6 +110,30 @@ class Database
         else
         {
             echo "Запрос не был выполнен. Код ошибки -".mysql_errno().". Cообщение ошибки - ".mysql_error().".";
+        }
+    }
+    function insert_members()
+    {
+        mysql_query($this->query);
+        if(mysql_error($this->link))
+        {
+            echo $this->query."\nЗапрос не был выполнен. Код ошибки -".mysql_errno().". Cообщение ошибки - ".mysql_error().".";
+        }
+    }
+    function insert_team($team)
+    {  
+        mysql_query("call checkTeam('".$team."')");
+        if(mysql_error($this->link))
+        {
+            echo $this->query."\nЗапрос не был выполнен. Код ошибки -".mysql_errno().". Cообщение ошибки - ".mysql_error().".";
+        }
+        else
+        {
+            mysql_query($this->query);
+            if(mysql_error($this->link))
+            {
+                echo $this->query."\nЗапрос не был выполнен. Код ошибки -".mysql_errno().". Cообщение ошибки - ".mysql_error().".";
+            }
         }
     }
       
@@ -148,6 +166,83 @@ class Database
         else
         {
             echo "Запрос не был выполнен. Код ошибки -".mysql_errno().". Cообщение ошибки - ".mysql_error().".";
+        }
+    }
+    
+    function getTournamentPage($idtour, $time)
+    {
+        global $monthName;
+        if(!isset($idtour))
+        {
+            switch ($time) {
+                case 0:
+                    $this->query="select idTournament, event, tournamentLogo, DATE_FORMAT(dateBegin, '%e'), DATE_FORMAT(dateBegin, '%c'), DATE_FORMAT(dateBegin, '%Y'), prize 
+                    from tournaments where dateBegin<=now() limit 10";
+                    break;
+                case -1:
+                    $this->query="select idTournament, event, tournamentLogo, DATE_FORMAT(dateBegin, '%e'), DATE_FORMAT(dateBegin, '%c'), DATE_FORMAT(dateBegin, '%Y'), prize 
+                    from tournaments where dateBegin<=now() limit 10";
+                    break;
+                default:
+                    $this->query="select idTournament, event, tournamentLogo, DATE_FORMAT(dateBegin, '%e'), DATE_FORMAT(dateBegin, '%c'), DATE_FORMAT(dateBegin, '%Y'), prize 
+                    from tournaments where dateBegin>now() limit 10";
+                    break;
+            }
+            $result=mysql_query($this->query);
+            if(!mysql_error($this->link))
+            {
+                while($row = mysql_fetch_array($result)) 
+                {
+                    echo ' 
+                    <div class="tournament-block-wrapper" data-href=tournament1.php?idtour='.$row[0].'>
+                        <label class="checkbox-del-tour"><i class="fas fa-check"></i><input type="checkbox" id="del-tour"></label>
+                        <div class="tournament-block">
+                            <div class="tournament-title-img">
+                                <img src="'.$row["tournamentLogo"].'" title="'.$row["event"].'" class="tournament-img">
+                                <span class="tournament-name">'.$row["event"].'</span>
+                            </div>
+                            <div class="date-prize">
+                                <span class="date">'.$row[3]." ".$monthName[$row[4]]." $row[5]".'</span>
+                                <span class="prize">$'.$row["prize"].'</span>
+                            </div>
+                        </div>
+                    </div>';
+                }
+            }
+            else
+            {
+                echo "Запрос не был выполнен. Код ошибки -".mysql_errno().". Cообщение ошибки - ".mysql_error().".";
+            }
+        }
+        else
+        {
+            $this->query="select idTournament, event, tournamentLogo, DATE_FORMAT(dateBegin, '%e'), DATE_FORMAT(dateBegin, '%c'), DATE_FORMAT(dateBegin, '%Y'), prize 
+            from tournaments where idTournament=$idtour";
+            $result=mysql_query($this->query);
+            if(!mysql_error($this->link))
+            {
+                while($row = mysql_fetch_array($result)) 
+                {
+                    echo ' 
+                    <div class="tournament-block-wrapper" data-href=tournament1.php?idtour='.$row[0].'>
+                        <label class="checkbox-del-tour"><i class="fas fa-check"></i><input type="checkbox" id="del-tour"></label>
+                        <div class="tournament-block">
+                            <div class="tournament-title-img">
+                                <img src="'.$row["tournamentLogo"].'" title="'.$row["event"].'" class="tournament-img">
+                                <span class="tournament-name">'.$row["event"].'</span>
+                            </div>
+                            <div class="date-prize">
+                                <span class="date">'.$row[3]." ".$monthName[$row[4]]." $row[5]".'</span>
+                                <span class="prize">$'.$row["prize"].'</span>
+                            </div>
+                        </div>
+                    </div>';
+                }
+            }
+            else
+            {
+                echo "Запрос не был выполнен. Код ошибки -".mysql_errno().". Cообщение ошибки - ".mysql_error().".";
+            }
         }
     }
 }

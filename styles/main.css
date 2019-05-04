@@ -258,7 +258,7 @@ a{
     display: flex;
     flex-direction: column;
 }
-.tournament-wrapper{
+.tournament-wrapper, .tournament-indexx-wrapper{
     position: relative;
     width: 100%;
 }
@@ -312,6 +312,7 @@ a{
     flex-direction: row;
     justify-content: space-between;
     align-items: center;  
+    color: rgb(166, 198, 203);
     padding: .5em 2em .5em 2em;
     cursor: pointer;
     font-weight: 800;
