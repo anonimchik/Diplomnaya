@@ -141,6 +141,7 @@ for($i=0; $i<1; $i++) //передвижение по страницам
                     if(!is_object($team_card->children(0)->children(0)))
                     {
                         $tournament->team[]=$event."|".$teamName=$team_card->children(0)->plaintext;
+                        $team->name[]=$teamName;
                         $team->href[]=$team_card->children(0)->href;
                         $team->logo[]=$team_card->children(1)->children(0)->children(0)->src;
                         $tournament->qualification[]=$team_card->children(1)->children(2)->plaintext;
@@ -218,7 +219,17 @@ $db->open_connection();
 
 for($i=0; $i<count($player->name); $i++)
 {
-    echo $player->team[$i]." ".$player->country[$i]." ".$player->nickname[$i]." ".$player->nickname[$i]." ".$player->role[$i]." ".$player->line[$i]." ".$player->prize[$i]."<br>";
+    $db->setQuery("select idTeam from teams where name='".$player->team[$i]."'");
+    $teamName=$db->find_id("idTeam");
+    $db->setQuery("select idRole from roles where role='".$player->role[$i]."'");
+    $role=$db->find_id("idRole");
+    $db->setQuery("insert into players(idTeam, idDiscipline, country, countryFlag, name, nickname, photoRef, idRole, line, prize) 
+    values($teamName, 1, '".$player->country[$i]."', 'images/countryFlags/".$player->country[$i].".png', '".$player->name[$i]."', '".$player->nickname[$i]."', 'images/playerPhotos/".$player->nickname[$i].".png', $role, '".$player->line[$i]."', ".$player->prize[$i].")");
+    $db->insert_members();
+    /*
+    saveImage("", $siteRef.$player->countryFlag[$i], "./images/countryFlags/".mb_convert_encoding($player->country[$i], 'cp-1251', 'utf-8').".png");
+    saveImage("", $siteRef.$player->photoRef[$i], "./images/playerPhotos/".mb_convert_encoding($player->nickname[$i], 'cp-1251', 'utf-8').".png");
+    */
 }
 
 /*

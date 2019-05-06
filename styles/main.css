@@ -714,12 +714,12 @@ button[type="reset"], button[type="submit"], button#preview{
 }
 .tournament-title{
     color: white;
-    margin: 0 auto;
     position: absolute;
-    z-index: 5;
+    z-index: 1;
     text-transform: uppercase;
     font-weight: 900;
     font-size: 40px;
-    margin: 10% 44%; 
+    left: calc(100%/2.2);
+    top: calc(100%/2.2);
 }
 /* end styles for tournament page*/
