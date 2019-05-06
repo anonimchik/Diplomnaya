@@ -64,37 +64,72 @@
         </nav>
     </div>
     <div class="tournament-bg-wrapper">
-        <span class="tournament-title">Турниры</span>
+        <?php 
+            $db->getTournamentName($_GET['idtour']);
+        ?>
         <div class="tournament-bg"></div>
     </div>
     <div class="main-content">
-        <ul class="tabs">
-            <li class="tab-link current" data-tab="tab-1"><a href="">Прошедшие</a></li>
-            <li class="tab-link" data-tab="tab-2"><a href="">Текущие</a></li>
-            <li class="tab-link" data-tab="tab-3"><a href="">Будущие</a></li>
-        </ul>
-        <div id="tab-1" class="tab-content current">
-            <div class="tournament-indexx-wrapper">
-                <h3 class="tournament-header"><i class="fas fa-trophy"></i>Турниры</h3>
-                <?php
-                    $db->getTournamentPage($_GET['idtour'], -1);
-                ?>
-            </div>
-        </div>
-        <div id="tab-2" class="tab-content">
-            <div class="tournament-indexx-wrapper">
-                <h3 class="tournament-header"><i class="fas fa-trophy"></i>Турниры</h3>
-                <?php
-                    $db->getTournamentPage($_GET['idtour'], 0);
-                ?>
-            </div>
-        </div>
-        <div id="tab-3" class="tab-content">
-            <div class="tournament-indexx-wrapper">
-                <h3 class="tournament-header"><i class="fas fa-trophy"></i>Турниры</h3>
-                <?php
-                    $db->getTournamentPage($_GET['idtour'], 1);
-                ?>
+        <?php
+            $db->getTournamentPage($_GET['idtour']);
+        ?>
+        <div class="tournament-wrapper">
+            <div class="tournament-page-block">
+                <div class="tournament-info-block">
+                    <img src="images/tournamentLogos/EPICENTER Major.png" alt="">
+                    <span class="tournament-info-title">Epicenter</span>
+                    <div class="begDate-block">
+                        <span>Дата начала</span>
+                        <span>22 апреля</span>
+                    </div>
+                    <div class="prize-block">
+                        <span>Призовой фонд</span>
+                        <span class="prize">$ 123123</span>
+                    </div>
+                    <div class="seria-block">
+                        <span>Серия</span>
+                        <span class="seria">dotapit</span>
+                    </div>
+                </div>
+                <div class="teams-wrapper-block">
+                    <h3 class="teams-title"><i class="fas fa-users">Команды</i></h3>
+                    <div class="teams-block">
+                        <div class="team-block-wrapper">
+                            <div class="team-block">
+                                <a href="" class="team-title">Nip</a>
+                                <img src="images/playerPhotos/4dr.png" alt="" class="team-logo">
+                                <div class="players-wrapper-block">
+                                    <div class="players-block">
+                                        <span class="position-number">1</span>
+                                        <img src="images/countryFlags/Эстония.png" alt="" class="player-country">
+                                        <span class="player">SOLO</span>
+                                    </div>
+                                    <div class="players-block">
+                                        <span class="position-number">1</span>
+                                        <img src="images/countryFlags/Эстония.png" alt="" class="player-country">
+                                        <span class="player">SOLO</span>
+                                    </div>
+                                    <div class="players-block">
+                                        <span class="position-number">1</span>
+                                        <img src="images/countryFlags/Эстония.png" alt="" class="player-country">
+                                        <span class="player">SOLO</span>
+                                    </div>
+                                    <div class="players-block">
+                                        <span class="position-number">1</span>
+                                        <img src="images/countryFlags/Эстония.png" alt="" class="player-country">
+                                        <span class="player">SOLO</span>
+                                    </div>
+                                    <div class="players-block">
+                                        <span class="position-number">1</span>
+                                        <img src="images/countryFlags/Эстония.png" alt="" class="player-country">
+                                        <span class="player">SOLO</span>
+                                    </div>
+                                </div>
+                                <a href="" class="invite">Europe</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

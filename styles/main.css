@@ -243,7 +243,7 @@ a{
 .transfer{
     margin-right: auto;
 }
-.matches-header, .tournament-header, .preview-window-title, .administration-panel-title{
+.matches-header, .tournament-header, .preview-window-title, .administration-panel-title, .teams-title{
     font-size: 18px;
     text-transform: uppercase;
     font-weight: 800;
@@ -719,7 +719,96 @@ button[type="reset"], button[type="submit"], button#preview{
     text-transform: uppercase;
     font-weight: 900;
     font-size: 40px;
-    left: calc(100%/2.2);
-    top: calc(100%/2.2);
+    width: 100%;
+    text-align: center;
+    top: 50%;
+}
+.tournament-page-block{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.tournament-info-block{
+    display: flex;
+    flex-direction: column;
+    padding: 1em;
+    border: 1px solid #666666;
+    background-color: rgb(39,44,55);
+    font-size: 16px;
+    height: 100%;
+}
+.tournament-info-block img{
+    width: 300px;
+    height: 200px;
+    object-fit: contain;
+}
+.tournament-info-title{
+    text-transform: uppercase;
+    font-weight: 900;
+    font-size: 20px;
+}
+.begDate-block, .prize-block, .seria-block{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: .4em 0;
+}
+.begDate-block, .prize-block{
+    border-bottom: 1px solid #666666;
+}
+.prize{
+    font-weight: 900;
+}
+.seria{
+    cursor: pointer;
+    color: rgb(82, 187, 220);
+}
+.seria:hover{
+    text-decoration: underline;
+    color: #2faee7;
+}
+.teams-wrapper-block{
+    width: 73%;
+}
+h3.teams-title i.fa-users::before{
+    padding-right: .5em;
+    color: rgb(93, 255, 168);
+}
+.teams-block{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    min-height: 500px;
+    padding: 1em;
+    background-color: rgb(39,44,55);
+    border-right: 1px solid #666666;
+    border-bottom: 1px solid #666666;
+    border-left: 1px solid #666666;
+}
+.team-block{
+    width: 100px;
+    text-align: center;
+    border: 1px solid #666666;
+    padding: .5em 0;
+}
+.team-logo{
+    width: 90%;
+    margin: .5em 0;
+}
+.players-wrapper-block{ 
+    display: flex;
+    flex-direction: column;
+    width: 90%; 
+    margin: 0 auto;
+}
+.players-block{   
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+.player-country{
+    max-width: 15px;
+    object-fit: cover;
 }
 /* end styles for tournament page*/

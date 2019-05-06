@@ -18,6 +18,8 @@ class Team
     var $description;
     var $wonTournaments;
     var $logo;
+    var $country;
+    var $countryFlag;
     var $appearenceDate;
     var $site;
     var $achievement;
@@ -169,25 +171,43 @@ class Database
         }
     }
     
-    function getTournamentPage($idtour, $time)
+    function getTournamentName($idtour)
+    {
+        if(!isset($idtour))
+        {
+            echo '<span class="tournament-title">Турниры</span>';
+        }
+        else
+        {
+            $this->query="select event from tournaments where idTournament=".$idtour;
+            $result=mysql_query($this->query);
+            if(!mysql_error($this->link))
+            {
+                while($row = mysql_fetch_array($result)) 
+                {
+                    echo '<span class="tournament-title">Турнир '.$row['event'].'</span>';
+                }
+            }
+        }
+    }
+
+    function getTournamentPage($idtour)
     {
         global $monthName;
         if(!isset($idtour))
         {
-            switch ($time) {
-                case 0:
-                    $this->query="select idTournament, event, tournamentLogo, DATE_FORMAT(dateBegin, '%e'), DATE_FORMAT(dateBegin, '%c'), DATE_FORMAT(dateBegin, '%Y'), prize 
-                    from tournaments where dateBegin<=now() limit 10";
-                    break;
-                case -1:
-                    $this->query="select idTournament, event, tournamentLogo, DATE_FORMAT(dateBegin, '%e'), DATE_FORMAT(dateBegin, '%c'), DATE_FORMAT(dateBegin, '%Y'), prize 
-                    from tournaments where dateBegin<=now() limit 10";
-                    break;
-                default:
-                    $this->query="select idTournament, event, tournamentLogo, DATE_FORMAT(dateBegin, '%e'), DATE_FORMAT(dateBegin, '%c'), DATE_FORMAT(dateBegin, '%Y'), prize 
-                    from tournaments where dateBegin>now() limit 10";
-                    break;
-            }
+            echo '
+                <ul class="tabs">
+                    <li class="tab-link current" data-tab="tab-1"><a href="">Прошедшие</a></li>
+                    <li class="tab-link" data-tab="tab-2"><a href="">Текущие</a></li>
+                    <li class="tab-link" data-tab="tab-3"><a href="">Будущие</a></li>
+                </ul>
+                <div id="tab-1" class="tab-content current">
+                    <div class="tournament-indexx-wrapper">
+                        <h3 class="tournament-header"><i class="fas fa-trophy"></i>Турниры</h3>';
+
+            $this->query="select idTournament, event, tournamentLogo, DATE_FORMAT(dateBegin, '%e'), DATE_FORMAT(dateBegin, '%c'), DATE_FORMAT(dateBegin, '%Y'), prize 
+            from tournaments where dateBegin<=now() limit 10";
             $result=mysql_query($this->query);
             if(!mysql_error($this->link))
             {
@@ -213,11 +233,17 @@ class Database
             {
                 echo "Запрос не был выполнен. Код ошибки -".mysql_errno().". Cообщение ошибки - ".mysql_error().".";
             }
-        }
-        else
-        {
+            echo '
+                    </div>
+                </div>';
+
+            echo ' 
+                <div id="tab-2" class="tab-content">
+                    <div class="tournament-indexx-wrapper">
+                        <h3 class="tournament-header"><i class="fas fa-trophy"></i>Турниры</h3>';
+
             $this->query="select idTournament, event, tournamentLogo, DATE_FORMAT(dateBegin, '%e'), DATE_FORMAT(dateBegin, '%c'), DATE_FORMAT(dateBegin, '%Y'), prize 
-            from tournaments where idTournament=$idtour";
+            from tournaments where dateBegin<=now() limit 10";
             $result=mysql_query($this->query);
             if(!mysql_error($this->link))
             {
@@ -237,6 +263,74 @@ class Database
                             </div>
                         </div>
                     </div>';
+                }
+            }
+            else
+            {
+                echo "Запрос не был выполнен. Код ошибки -".mysql_errno().". Cообщение ошибки - ".mysql_error().".";
+            }
+            echo '
+                    </div>
+                </div>';
+
+            echo '
+                <div id="tab-3" class="tab-content">
+                    <div class="tournament-indexx-wrapper">
+                        <h3 class="tournament-header"><i class="fas fa-trophy"></i>Турниры</h3>';
+
+            $this->query="select idTournament, event, tournamentLogo, DATE_FORMAT(dateBegin, '%e'), DATE_FORMAT(dateBegin, '%c'), DATE_FORMAT(dateBegin, '%Y'), prize 
+            from tournaments where dateBegin>now() limit 10";
+            if(!mysql_error($this->link))
+            {
+                while($row = mysql_fetch_array($result)) 
+                {
+                    echo ' 
+                    <div class="tournament-block-wrapper" data-href=tournament1.php?idtour='.$row[0].'>
+                        <label class="checkbox-del-tour"><i class="fas fa-check"></i><input type="checkbox" id="del-tour"></label>
+                        <div class="tournament-block">
+                            <div class="tournament-title-img">
+                                <img src="'.$row["tournamentLogo"].'" title="'.$row["event"].'" class="tournament-img">
+                                <span class="tournament-name">'.$row["event"].'</span>
+                            </div>
+                            <div class="date-prize">
+                                <span class="date">'.$row[3]." ".$monthName[$row[4]]." $row[5]".'</span>
+                                <span class="prize">$'.$row["prize"].'</span>
+                            </div>
+                        </div>
+                    </div>';
+                }
+            }
+            else
+            {
+                echo "Запрос не был выполнен. Код ошибки -".mysql_errno().". Cообщение ошибки - ".mysql_error().".";
+            }
+            echo '
+                    </div>
+                </div>';
+        }
+        else
+        {
+            $this->query="select idTournament, event, tournamentLogo, DATE_FORMAT(dateBegin, '%e'), DATE_FORMAT(dateBegin, '%c'), DATE_FORMAT(dateBegin, '%Y'), prize 
+            from tournaments where idTournament=$idtour";
+            $result=mysql_query($this->query);
+            if(!mysql_error($this->link))
+            {
+                while($row = mysql_fetch_array($result)) 
+                {
+                    /*echo ' 
+                    <div class="tournament-block-wrapper" data-href=tournament1.php?idtour='.$row[0].'>
+                        <label class="checkbox-del-tour"><i class="fas fa-check"></i><input type="checkbox" id="del-tour"></label>
+                        <div class="tournament-block">
+                            <div class="tournament-title-img">
+                                <img src="'.$row["tournamentLogo"].'" title="'.$row["event"].'" class="tournament-img">
+                                <span class="tournament-name">'.$row["event"].'</span>
+                            </div>
+                            <div class="date-prize">
+                                <span class="date">'.$row[3]." ".$monthName[$row[4]]." $row[5]".'</span>
+                                <span class="prize">$'.$row["prize"].'</span>
+                            </div>
+                        </div>
+                    </div>';*/
                 }
             }
             else

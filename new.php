@@ -1,6 +1,6 @@
 <?php
 
-set_time_limit(800);
+set_time_limit(1000);
 include_once('libraries/curl_query.php');
 include_once('libraries/simplehtmldom_1_7/simple_html_dom.php');
 include_once('classes.php');
@@ -142,7 +142,16 @@ for($i=0; $i<1; $i++) //передвижение по страницам
                     {
                         $tournament->team[]=$event."|".$teamName=$team_card->children(0)->plaintext;
                         $team->name[]=$teamName;
-                        $team->href[]=$team_card->children(0)->href;
+                        $html=curl_get($siteRef.$team_card->children(0)->href);
+                        $dom1=str_get_html($html);
+                        foreach($dom1->find(".pAvaBg") as $teamBlock)
+                        {
+                            $team->logo[]=$teamBlock->children(0)->children(0)->src;
+                            $team->name[]=$teamBlock->children(1)->children(0)->children(0)->plaintext."<br>";
+                            $team->countryFlag[]=$teamBlock->children(1)->children(1)->children(0)->children(1)->children(0)->src;
+                            $team->country[]=$teamBlock->children(1)->children(1)->children(0)->children(1)->plaintext;
+                            //echo $teamBlock->children(1)->children(1)->children(0)->children(7);
+                        }
                         $team->logo[]=$team_card->children(1)->children(0)->children(0)->src;
                         $tournament->qualification[]=$team_card->children(1)->children(2)->plaintext;
                         if(is_object($team_card->children(1)->children(1)))
@@ -217,7 +226,7 @@ $db->open_connection();
     $db->insert_members();
 }*/
 
-for($i=0; $i<count($player->name); $i++)
+/*for($i=0; $i<count($player->name); $i++)
 {
     $db->setQuery("select idTeam from teams where name='".$player->team[$i]."'");
     $teamName=$db->find_id("idTeam");
@@ -226,11 +235,10 @@ for($i=0; $i<count($player->name); $i++)
     $db->setQuery("insert into players(idTeam, idDiscipline, country, countryFlag, name, nickname, photoRef, idRole, line, prize) 
     values($teamName, 1, '".$player->country[$i]."', 'images/countryFlags/".$player->country[$i].".png', '".$player->name[$i]."', '".$player->nickname[$i]."', 'images/playerPhotos/".$player->nickname[$i].".png', $role, '".$player->line[$i]."', ".$player->prize[$i].")");
     $db->insert_members();
-    /*
+    
     saveImage("", $siteRef.$player->countryFlag[$i], "./images/countryFlags/".mb_convert_encoding($player->country[$i], 'cp-1251', 'utf-8').".png");
-    saveImage("", $siteRef.$player->photoRef[$i], "./images/playerPhotos/".mb_convert_encoding($player->nickname[$i], 'cp-1251', 'utf-8').".png");
-    */
-}
+    saveImage("", $siteRef.$player->photoRef[$i], "./images/playerPhotos/".mb_convert_encoding($player->nickname[$i], 'cp-1251', 'utf-8').".png");   
+}*/
 
 /*
 for ($i=0; $i<1; $i++) 
