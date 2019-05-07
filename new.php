@@ -66,6 +66,7 @@ for($i=0; $i<1; $i++) //передвижение по страницам
         {    
             if(!is_object($main_block->children(3))) // турнир ожидается
             {
+                //echo $tournament->seria[]=$main_block->children(2)->children(0)->children(0)->children(0)->children(1)->children(1)->children(0)->children(2)->children(1)->plaintext;
                 $tournament->logo[]=$main_block->children(2)->children(0)->children(0)->children(0)->children(0)->children(0)->src;
                 $tournament->alt[]=preg_replace("( logo)", "", $main_block->children(2)->children(0)->children(0)->children(0)->children(0)->children(0)->getAttribute("alt"));
                 $tournament->event[]=$main_block->children(2)->children(0)->children(0)->children(0)->children(1)->children(0)->plaintext;
@@ -75,7 +76,10 @@ for($i=0; $i<1; $i++) //передвижение по страницам
             }
             else //турнир прошел или длится
             {
-                $tournament->seria[]=$main_block->children(3)->children(0)->children(0)->children(0)->children(1)->children(1)->children(0)->children(2)->plaintext;
+                if(is_object($main_block->children(3)->children(0)->children(0)->children(0)->children(1)->children(1)->children(0)->children(2)))
+                {
+                    echo $tournament->seria[]=$main_block->children(3)->children(0)->children(0)->children(0)->children(1)->children(1)->children(0)->children(2)->children(1)->plaintext;
+                }
                 $tournament->logo[]=$main_block->children(3)->children(0)->children(0)->children(0)->children(0)->children(0)->src;
                 $tournament->alt[]=preg_replace("( logo)", "", $main_block->children(3)->children(0)->children(0)->children(0)->children(0)->children(0)->getAttribute("alt"));
                 $tournament->event[]=$event=$main_block->children(3)->children(0)->children(0)->children(0)->children(1)->children(0)->plaintext;
@@ -94,10 +98,10 @@ for($i=0; $i<1; $i++) //передвижение по страницам
                         }
                     }
                 }
-                if(is_object($main_block->children(3)->children(0)->children(0)->children(0)->children(1)->children(1)->children(0)->children(3)))
+                /*if(is_object($main_block->children(3)->children(0)->children(0)->children(0)->children(1)->children(1)->children(0)->children(3)))
                 {
-                    $tournament->location[]=$main_block->children(3)->children(0)->children(0)->children(0)->children(1)->children(1)->children(0)->children(3)->children(1)->plaintext;
-                }
+                    echo $tournament->location[]=$main_block->children(3)->children(0)->children(0)->children(0)->children(1)->children(1)->children(0)->children(3)->children(1)->plaintext;
+                }*/
                 /*foreach($dom->find('#block_matches_current .mtable tbody tr') as $match_block) //предстоящие/лайв матчи
                 {
                     $matchRef=$match_block->getAttribute("data-href");
@@ -150,11 +154,11 @@ for($i=0; $i<1; $i++) //передвижение по страницам
                             $team->name[]=$teamBlock->children(1)->children(0)->children(0)->plaintext."<br>";
                             $team->countryFlag[]=$teamBlock->children(1)->children(1)->children(0)->children(1)->children(0)->src;
                             $team->country[]=$teamBlock->children(1)->children(1)->children(0)->children(1)->plaintext;
-                            echo $teamBlock->children(1)->children(1)->children(7)->children(3);
+                            $team->prize[]=$teamBlock->children(1)->children(1)->children(7)->children(2)->plaintext;
                         }
                         $team->logo[]=$team_card->children(1)->children(0)->children(0)->src;
-                        $tournament->qualification[]=$team_card->children(1)->children(2)->plaintext;
-                        if(is_object($team_card->children(1)->children(1)))
+                        echo $tournament->qualification[]=$team_card->children(1)->children(2)->plaintext."|".$teamName."|".$event;
+                        /*if(is_object($team_card->children(1)->children(1)))
                         {
                             for($i=0; $i<5; $i++)
                             {
@@ -184,18 +188,15 @@ for($i=0; $i<1; $i++) //передвижение по страницам
                                     }
                                 }
                                 //break; 
-                            } 
-                        }
-                        else
-                        {
-                           //
-                        }
+                            }
+                        }*/
                     }                    
-                    else
+                    /*else
                     {
-                       $tournament->logo[]=$team_card->children(0)->children(0)->children(0)->src;
-                       $tournament->slot[]=$team_card->children(0)->children(2)->plaintext;
-                    }
+                       //echo $tournament->logo[]=$team_card->children(0)->children(0)->children(0)->src."<br>";
+                       echo $event;
+                       echo"slot ".$tournament->slot[]=$team_card->children(0)->children(2)->plaintext."<br>";
+                    }*/
                 }
             }  
             
@@ -206,7 +207,7 @@ for($i=0; $i<1; $i++) //передвижение по страницам
 }
 $db->setDbSettings("localhost", "root", "", "course_database");
 $db->open_connection();
-/*for($i=0; $i<count($tournament->team); $i++)
+/*for($i=0; $i<count($tournament->event); $i++)
 {
     saveImage("", $siteRef.$tournament->logo[$i], "./images/teamLogos/".mb_convert_encoding($tournament->alt[$i], 'cp1251', 'utf-8').".png");
     $query="insert into tournaments(event, tournamentLogo, seria, description, prize, dateBegin) values('".$tournament->event[$i]."', 'images/teamLogos/".$tournament->alt[$i].".png', '".$tournament->seria[$i]."', '".$tournament->description[$i]."', ".preg_replace("(,)", "", $tournament->prize[$i]).", '".$tournament->begDate[$i]."')";
