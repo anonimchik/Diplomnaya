@@ -791,10 +791,14 @@ h3.teams-title i.fa-users::before{
     text-align: center;
     border: 1px solid #666666;
     padding: .5em 0;
+    position: relative;
 }
 .team-logo{
     width: 90%;
-    margin: .5em 0;
+    margin: 2.5em 5%;
+    position: absolute;
+    left: 0;
+    z-index: -1;
 }
 .players-wrapper-block{ 
     display: flex;

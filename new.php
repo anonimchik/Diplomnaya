@@ -150,7 +150,7 @@ for($i=0; $i<1; $i++) //передвижение по страницам
                             $team->name[]=$teamBlock->children(1)->children(0)->children(0)->plaintext."<br>";
                             $team->countryFlag[]=$teamBlock->children(1)->children(1)->children(0)->children(1)->children(0)->src;
                             $team->country[]=$teamBlock->children(1)->children(1)->children(0)->children(1)->plaintext;
-                            //echo $teamBlock->children(1)->children(1)->children(0)->children(7);
+                            echo $teamBlock->children(1)->children(1)->children(7)->children(3);
                         }
                         $team->logo[]=$team_card->children(1)->children(0)->children(0)->src;
                         $tournament->qualification[]=$team_card->children(1)->children(2)->plaintext;
