@@ -24,6 +24,7 @@ $startTime=microtime(true);
 $teamName=""; //переменная для хранения информации о названии команды
 $ref=""; //переменная для хранения ссылки конкретной команды
 $teamPage="";
+$event="";
 $siteRef='https://ggscore.com';
 
 for($i=0; $i<1; $i++) //передвижение по страницам
@@ -69,7 +70,7 @@ for($i=0; $i<1; $i++) //передвижение по страницам
                 //echo $tournament->seria[]=$main_block->children(2)->children(0)->children(0)->children(0)->children(1)->children(1)->children(0)->children(2)->children(1)->plaintext;
                 $tournament->logo[]=$main_block->children(2)->children(0)->children(0)->children(0)->children(0)->children(0)->src;
                 $tournament->alt[]=preg_replace("( logo)", "", $main_block->children(2)->children(0)->children(0)->children(0)->children(0)->children(0)->getAttribute("alt"));
-                $tournament->event[]=$main_block->children(2)->children(0)->children(0)->children(0)->children(1)->children(0)->plaintext;
+                $tournament->event[]=$event=$main_block->children(2)->children(0)->children(0)->children(0)->children(1)->children(0)->plaintext;
                 $tournament->description[]=$main_block->children(2)->children(0)->children(0)->children(0)->children(1)->children(2)->plaintext;
                 $tournament->begDate[]=$main_block->children(2)->children(0)->children(0)->children(0)->children(1)->children(1)->children(0)->children(0)->children(1)->plaintext; 
                 $tournament->prize[]=preg_replace('(\$ )', "", $main_block->children(2)->children(0)->children(0)->children(0)->children(1)->children(1)->children(0)->children(1)->children(1)->plaintext);   
@@ -78,7 +79,7 @@ for($i=0; $i<1; $i++) //передвижение по страницам
             {
                 if(is_object($main_block->children(3)->children(0)->children(0)->children(0)->children(1)->children(1)->children(0)->children(2)))
                 {
-                    echo $tournament->seria[]=$main_block->children(3)->children(0)->children(0)->children(0)->children(1)->children(1)->children(0)->children(2)->children(1)->plaintext;
+                    $tournament->seria[]=$main_block->children(3)->children(0)->children(0)->children(0)->children(1)->children(1)->children(0)->children(2)->children(1)->plaintext;
                 }
                 $tournament->logo[]=$main_block->children(3)->children(0)->children(0)->children(0)->children(0)->children(0)->src;
                 $tournament->alt[]=preg_replace("( logo)", "", $main_block->children(3)->children(0)->children(0)->children(0)->children(0)->children(0)->getAttribute("alt"));
@@ -102,7 +103,7 @@ for($i=0; $i<1; $i++) //передвижение по страницам
                 {
                     echo $tournament->location[]=$main_block->children(3)->children(0)->children(0)->children(0)->children(1)->children(1)->children(0)->children(3)->children(1)->plaintext;
                 }*/
-                /*foreach($dom->find('#block_matches_current .mtable tbody tr') as $match_block) //предстоящие/лайв матчи
+                foreach($dom->find('#block_matches_current .mtable tbody tr') as $match_block) //предстоящие/лайв матчи
                 {
                     $matchRef=$match_block->getAttribute("data-href");
                     $html=curl_get($siteRef.$matchRef);
@@ -123,11 +124,11 @@ for($i=0; $i<1; $i++) //передвижение по страницам
                     $dom1=str_get_html($html);
                     foreach($dom1->find(".otstup") as $match_block)
                     {
-                        $match->event=$event;
+                        $match->event[] =$event;
                         $match->format[]=$match_block->children(0)->children(1)->children(2)->children(2);
                         $match->teams[]=preg_replace("(Матч )", "", $match_block->children(0)->children(1)->children(2)->children(0)->children(0)->plaintext);
                         $match->datetime[]=$match_block->children(0)->children(1)->children(2)->children(1);
-                        $match->round[]=$match_block->children(0)->children(2)->children(1)->children(0)->children(1);*/
+                        $match->round[]=$match_block->children(0)->children(2)->children(1)->children(0)->children(1);
                         /*if(is_object($match_block->children(1)->children(1)->children(1)->children(1)))
                         {
                             if(is_object($match_block->children(1)->children(1)->children(1)->children(1)->children(0)))
@@ -137,10 +138,10 @@ for($i=0; $i<1; $i++) //передвижение по страницам
                                     $videoHref->getAttribute("onclick")."sadsda    ";
                                 }
                             }
-                        }
+                        }*/
                     }
-                }*/
-                foreach($dom->find('div.tb') as $team_card)
+                }
+                /*foreach($dom->find('div.tb') as $team_card)
                 {
                     if(!is_object($team_card->children(0)->children(0)))
                     {
@@ -151,13 +152,12 @@ for($i=0; $i<1; $i++) //передвижение по страницам
                         foreach($dom1->find(".pAvaBg") as $teamBlock)
                         {
                             $team->logo[]=$teamBlock->children(0)->children(0)->src;
-                            $team->name[]=$teamBlock->children(1)->children(0)->children(0)->plaintext."<br>";
+                            $team->name[]=$teamBlock->children(1)->children(0)->children(0)->plaintext;
                             $team->countryFlag[]=$teamBlock->children(1)->children(1)->children(0)->children(1)->children(0)->src;
                             $team->country[]=$teamBlock->children(1)->children(1)->children(0)->children(1)->plaintext;
                             $team->prize[]=$teamBlock->children(1)->children(1)->children(7)->children(2)->plaintext;
                         }
-                        $team->logo[]=$team_card->children(1)->children(0)->children(0)->src;
-                        echo $tournament->qualification[]=$team_card->children(1)->children(2)->plaintext."|".$teamName."|".$event;
+                        $tournament->qualification[]=$event."|".$team_card->children(1)->children(2)->plaintext."|".$teamName;
                         /*if(is_object($team_card->children(1)->children(1)))
                         {
                             for($i=0; $i<5; $i++)
@@ -196,9 +196,9 @@ for($i=0; $i<1; $i++) //передвижение по страницам
                        //echo $tournament->logo[]=$team_card->children(0)->children(0)->children(0)->src."<br>";
                        echo $event;
                        echo"slot ".$tournament->slot[]=$team_card->children(0)->children(2)->plaintext."<br>";
-                    }*/
+                    }
                 }
-            }  
+            } */ 
             
         }
         
@@ -240,6 +240,19 @@ $db->open_connection();
     saveImage("", $siteRef.$player->countryFlag[$i], "./images/countryFlags/".mb_convert_encoding($player->country[$i], 'cp-1251', 'utf-8').".png");
     saveImage("", $siteRef.$player->photoRef[$i], "./images/playerPhotos/".mb_convert_encoding($player->nickname[$i], 'cp-1251', 'utf-8').".png");   
 }*/
+
+/*for($i=0; $i<count($team->name); $i++)
+{
+    $db->setQuery("select idTeam from teams where name='".$team->name[$i]."'");
+    $teamId=$db->find_id("idTeam");
+    $db->setQuery("insert into teams(logo, countryFlag, country, prize) values('images/teamLogos/".$team->name[$i].".png', 'images/countryFlags/".$team->country[$i]."', '".$team->country[$i]."', ".$team->country[$i].") where idTeam=".$teamId."");
+    $db->insert_members();
+}*/
+
+for($i=0; $i<count($match->event); $i++)
+{
+    echo $match->event[$i]." ".$match->round[$i]." ".$match->format[$i]." ".$match->datetime[$i]." ".$match->teams[$i]."<br>";
+}
 
 /*
 for ($i=0; $i<1; $i++) 
