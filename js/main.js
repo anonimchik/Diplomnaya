@@ -229,6 +229,20 @@ $(function () {
         console.log(idTournament);  
     });
 
+    $("img.team-logo").hover(function () {
+            $(this).parent().children("div.players-wrapper-block").css({"opacity":"1"});
+            $(this).css({"opacity":".2"});     
+        }, function () {
+            $(this).css({"opacity":"1"});
+            $(this).parent().children("div.players-wrapper-block").css({"opacity":"0"});
+        }
+    );
+
+    $(".teams-block").click(function (e) { 
+        e.preventDefault();
+        location.href=$(this).attr("data-href");
+    });
+
     if($("div").is(".owl-carousel"))
     {
         $(".owl-carousel").owlCarousel( //установка параметров слайдера 

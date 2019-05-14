@@ -57,8 +57,8 @@
         <nav class="menu">
             <ul>
                 <li><a href="#"><i class="fas fa-home"></i>Главная</a></li>
-                <li><a href="matches.php"><i class="fas fa-gamepad"></i>Матчи</a></li>
-                <li><a href=""><i class="fas fa-users"></i>Команды</a></li>
+                <li><a href="matches1.php"><i class="fas fa-gamepad"></i>Матчи</a></li>
+                <li><a href="teams1.php"><i class="fas fa-users"></i>Команды</a></li>
                 <li><a href="tournament1.php"><i class="fas fa-trophy"></i>Турниры</a></li>
                 <li><a href=""><i class="fas fa-film"></i>Видео</a></li>
             </ul>

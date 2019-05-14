@@ -73,65 +73,6 @@
         <?php
             $db->getTournamentPage($_GET['idtour']);
         ?>
-        <div class="tournament-wrapper">
-            <div class="tournament-page-block">
-                <div class="tournament-info-block">
-                    <img src="images/tournamentLogos/EPICENTER Major.png" alt="">
-                    <span class="tournament-info-title">Epicenter</span>
-                    <div class="begDate-block">
-                        <span>Дата начала</span>
-                        <span>22 апреля</span>
-                    </div>
-                    <div class="prize-block">
-                        <span>Призовой фонд</span>
-                        <span class="prize">$ 123123</span>
-                    </div>
-                    <div class="seria-block">
-                        <span>Серия</span>
-                        <span class="seria">dotapit</span>
-                    </div>
-                </div>
-                <div class="teams-wrapper-block">
-                    <h3 class="teams-title"><i class="fas fa-users">Команды</i></h3>
-                    <div class="teams-block">
-                        <div class="team-block-wrapper">
-                            <div class="team-block">
-                                <a href="" class="team-title">Nip</a>
-                                <img src="images/playerPhotos/4dr.png" alt="" class="team-logo">
-                                <div class="players-wrapper-block">
-                                    <div class="players-block">
-                                        <span class="position-number">1</span>
-                                        <img src="images/countryFlags/Эстония.png" alt="" class="player-country">
-                                        <span class="player">SOLO</span>
-                                    </div>
-                                    <div class="players-block">
-                                        <span class="position-number">1</span>
-                                        <img src="images/countryFlags/Эстония.png" alt="" class="player-country">
-                                        <span class="player">SOLO</span>
-                                    </div>
-                                    <div class="players-block">
-                                        <span class="position-number">1</span>
-                                        <img src="images/countryFlags/Эстония.png" alt="" class="player-country">
-                                        <span class="player">SOLO</span>
-                                    </div>
-                                    <div class="players-block">
-                                        <span class="position-number">1</span>
-                                        <img src="images/countryFlags/Эстония.png" alt="" class="player-country">
-                                        <span class="player">SOLO</span>
-                                    </div>
-                                    <div class="players-block">
-                                        <span class="position-number">1</span>
-                                        <img src="images/countryFlags/Эстония.png" alt="" class="player-country">
-                                        <span class="player">SOLO</span>
-                                    </div>
-                                </div>
-                                <a href="" class="invite">Europe</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
     <div class="footer">
        &copy; 2019 gginfo - все для любителей киберспорта.

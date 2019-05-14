@@ -91,7 +91,7 @@ a{
 .menu ul li:last-child a{
     border-right: 1.5px solid #2e3644;
 }
-.menu ul li a i, .fa-newspaper, .fa-gamepad, .fa-clock, .fa-exchange-alt, .fa-trophy, .fa-star, .fa-eye{
+.menu ul li a i, .fa-newspaper, a i.fa-gamepad, .fa-clock, .fa-exchange-alt, .fa-trophy, .fa-star, .fa-eye{
     padding-right: .5em;
     color: rgb(93, 255, 168);
 }
@@ -137,6 +137,8 @@ a{
     width: 96%;
     margin: 0 auto;
     color: white;
+    background-color: rgba(39, 44, 55, 0.4);
+    padding: 1em 0;
 }
 .news-wrapper{
     display: flex;
@@ -243,7 +245,7 @@ a{
 .transfer{
     margin-right: auto;
 }
-.matches-header, .tournament-header, .preview-window-title, .administration-panel-title, .teams-title{
+.matches-header, .tournament-header, .preview-window-title, .administration-panel-title, .teams-title, .line-up-title, .description-title, .prize-places-header, .matches-block-header{
     font-size: 18px;
     text-transform: uppercase;
     font-weight: 800;
@@ -383,7 +385,7 @@ a{
     display: flex;
     flex-direction: row;
     justify-content: center;
-    margin: 1em 0 0 0;
+    margin: 0;
     padding: 0;
 }
 .tabs li{
@@ -522,7 +524,6 @@ input:focus, button:focus, button:active, input:active{
     padding: 1em;
     border: 1px solid #666666;
     background-color: rgb(39,44,55);
-    margin-top: .5em;
     text-align: center;
     font-weight: 800;
     font-size: 1em;
@@ -726,7 +727,7 @@ button[type="reset"], button[type="submit"], button#preview{
 .tournament-page-block{
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
 }
 .tournament-info-block{
     display: flex;
@@ -746,6 +747,8 @@ button[type="reset"], button[type="submit"], button#preview{
     text-transform: uppercase;
     font-weight: 900;
     font-size: 20px;
+    padding: 1em 0;
+    text-align: center;
 }
 .begDate-block, .prize-block, .seria-block{
     display: flex;
@@ -753,7 +756,7 @@ button[type="reset"], button[type="submit"], button#preview{
     justify-content: space-between;
     padding: .4em 0;
 }
-.begDate-block, .prize-block{
+.begDate-block, .prize-block, .seria-block{
     border-bottom: 1px solid #666666;
 }
 .prize{
@@ -768,51 +771,186 @@ button[type="reset"], button[type="submit"], button#preview{
     color: #2faee7;
 }
 .teams-wrapper-block{
-    width: 73%;
+    width: calc(150px*6);
 }
 h3.teams-title i.fa-users::before{
     padding-right: .5em;
     color: rgb(93, 255, 168);
 }
 .teams-block{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    min-height: 500px;
     padding: 1em;
     background-color: rgb(39,44,55);
     border-right: 1px solid #666666;
     border-bottom: 1px solid #666666;
     border-left: 1px solid #666666;
+    cursor: pointer;
 }
 .team-block{
-    width: 100px;
+    width: 120px;
     text-align: center;
     border: 1px solid #666666;
     padding: .5em 0;
     position: relative;
+    margin: .5em;
+    text-overflow: ellipsis;    
+    white-space: nowrap;
+    overflow: hidden;
+    background: #2e3644 url("../images/img/stripe.png");
+    color: rgb(166, 198, 203);
+}
+.team-block-wrapper{
+    width: 100%;
+    display: flex;
+    height: 100%;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
 }
 .team-logo{
-    width: 90%;
-    margin: 2.5em 5%;
+    width: 100%;
+    top: 30px;
     position: absolute;
     left: 0;
-    z-index: -1;
+    object-fit: contain;
+    height: 70%;
+    z-index: 1;
 }
 .players-wrapper-block{ 
     display: flex;
-    flex-direction: column;
-    width: 90%; 
-    margin: 0 auto;
+    flex-direction: column; 
+    padding: 1em .5em;   
+    margin-bottom: 1em;   
+    min-height: 70%;   
+    align-items: flex-start;
+    opacity: 0;
 }
-.players-block{   
+.players-block{
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
+    justify-content: space-around;
 }
 .player-country{
     max-width: 15px;
     object-fit: cover;
 }
+.position-block{
+    flex-grow: 1.5;
+}
+.invite{
+    position: absolute;
+    bottom: 5px;
+    margin: 0 auto;
+    width: 100%;
+    left: 0;
+}
+a.invite, a.team-title{
+    color: rgb(166, 198, 203);
+}
+a.invite:hover, a.team-title:hover{
+    text-decoration: underline;
+    color: rgb(82, 187, 235);
+}
+.matches-prize-places-block-wrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding-top: 1em;
+}
+.matches-block-wrapper{
+    width: 70%;
+}
+.prize-places-block-wrapper{
+    width: 25.4%;
+}
+.fa-gamepad::before, .fa-info::before, .fa-users::before{
+    padding-right: .5em;
+    color: rgb(93, 255, 168);
+}
+.match-block-wrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;   
+    background-color: #2e3644;
+    border-left: 1px solid #666666;
+    border-right: 1px solid #666666;
+    border-bottom: 1px solid #666666;
+    padding: .5em 0;  
+}
+.tournament-date-block img{
+    height: 17px;
+    width: 60px;   
+    object-fit: contain;
+    vertical-align: top;
+}
+.teams-block-wrapper img{
+    width: 17px;
+    height: 17px;
+    vertical-align: bottom;
+}
+h3.prize-places-header{
+    margin-top: 36px;
+}
 /* end styles for tournament page*/
+
+/*  styles for teams page*/
+.team-info-wrapper{
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+    border: 1px solid #666666;
+    padding: 1em;
+    background-color: #2e3644;
+}
+.country{
+    width: 17px;
+    vertical-align: bottom;
+}
+.country-block, .team-prize-block{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-bottom: 1px solid #666666;
+    padding-top: .5em;
+}
+.flag{
+    width: 180px;
+    height: 180px;
+    margin: 0 auto;
+}
+span.team-title{
+    text-align: center;
+    padding: 1em 0;
+    font-size: 1.2em;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+.team-info-description-wrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-bottom: 1em;
+}
+.description-wrapper{
+    width: 70%;
+}
+.description-block{
+    background-color: #2e3644;
+    border-left: 1px solid #666666;
+    border-right: 1px solid #666666;
+    border-bottom: 1px solid #666666;
+    padding: 1em;
+}
+.player-photo{
+    width: 100%;
+}
+.line-up-block{
+    width: 175px;
+    border: 1px solid #666666;
+    margin: 1em;
+}
+.line-up-wrapper{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+/*  end styles for teams page*/

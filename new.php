@@ -63,11 +63,13 @@ for($i=0; $i<1; $i++) //передвижение по страницам
     {
         $html=curl_get($siteRef.$match_table->children(0)->children(0)->href);
         $dom=str_get_html($html);
+        echo $match_table->children(1)->plaintext;
+        echo $match_table->children(0)->children(0)->children(0)->src;
         foreach ($dom->find(".t-top") as $main_block) 
         {    
             if(!is_object($main_block->children(3))) // турнир ожидается
             {
-                //echo $tournament->seria[]=$main_block->children(2)->children(0)->children(0)->children(0)->children(1)->children(1)->children(0)->children(2)->children(1)->plaintext;
+                $tournament->seria[]=$main_block->children(2)->children(0)->children(0)->children(0)->children(1)->children(1)->children(0)->children(2)->children(1)->plaintext;
                 $tournament->logo[]=$main_block->children(2)->children(0)->children(0)->children(0)->children(0)->children(0)->src;
                 $tournament->alt[]=preg_replace("( logo)", "", $main_block->children(2)->children(0)->children(0)->children(0)->children(0)->children(0)->getAttribute("alt"));
                 $tournament->event[]=$event=$main_block->children(2)->children(0)->children(0)->children(0)->children(1)->children(0)->plaintext;
@@ -99,24 +101,19 @@ for($i=0; $i<1; $i++) //передвижение по страницам
                         }
                     }
                 }
-                /*if(is_object($main_block->children(3)->children(0)->children(0)->children(0)->children(1)->children(1)->children(0)->children(3)))
-                {
-                    echo $tournament->location[]=$main_block->children(3)->children(0)->children(0)->children(0)->children(1)->children(1)->children(0)->children(3)->children(1)->plaintext;
-                }*/
-                foreach($dom->find('#block_matches_current .mtable tbody tr') as $match_block) //предстоящие/лайв матчи
+                /*foreach($dom->find('#block_matches_current .mtable tbody tr') as $match_block) //предстоящие/лайв матчи
                 {
                     $matchRef=$match_block->getAttribute("data-href");
                     $html=curl_get($siteRef.$matchRef);
                     $dom1=str_get_html($html);
                     foreach($dom1->find(".otstup") as $match_block)
                     {
-                        $match->event[]=$event;
                         $match->format[]=$match_block->children(0)->children(1)->children(2)->children(2)->plaintext;
                         $match->teams[]=preg_replace("(Матч )", "", $match_block->children(0)->children(1)->children(2)->children(0)->children(0)->plaintext);
                         $match->datetime[]=$match_block->children(0)->children(1)->children(2)->children(1)->plaintext;
                         $match->round[]=$match_block->children(0)->children(2)->children(1)->children(0)->children(1)->plaintext;
                     }
-                }
+                }*/
                 foreach($dom->find('#block_matches_past .mtable tbody tr') as $match_block) //прошедшие
                 {
                     $matchRef=$match_block->getAttribute("data-href");
@@ -124,11 +121,10 @@ for($i=0; $i<1; $i++) //передвижение по страницам
                     $dom1=str_get_html($html);
                     foreach($dom1->find(".otstup") as $match_block)
                     {
-                        $match->event[] =$event;
-                        $match->format[]=$match_block->children(0)->children(1)->children(2)->children(2);
+                        $match->format[]=$match_block->children(0)->children(1)->children(2)->children(2)->plaintext;
                         $match->teams[]=preg_replace("(Матч )", "", $match_block->children(0)->children(1)->children(2)->children(0)->children(0)->plaintext);
-                        $match->datetime[]=$match_block->children(0)->children(1)->children(2)->children(1);
-                        $match->round[]=$match_block->children(0)->children(2)->children(1)->children(0)->children(1);
+                        $match->datetime[]=$match_block->children(0)->children(1)->children(2)->children(1)->plaintext;
+                        $match->round[]=$match_block->children(0)->children(2)->children(1)->children(0)->children(1)->plaintext;
                         /*if(is_object($match_block->children(1)->children(1)->children(1)->children(1)))
                         {
                             if(is_object($match_block->children(1)->children(1)->children(1)->children(1)->children(0)))
@@ -141,12 +137,11 @@ for($i=0; $i<1; $i++) //передвижение по страницам
                         }*/
                     }
                 }
-                /*foreach($dom->find('div.tb') as $team_card)
+                foreach($dom->find('div.tb') as $team_card)
                 {
                     if(!is_object($team_card->children(0)->children(0)))
                     {
                         $tournament->team[]=$event."|".$teamName=$team_card->children(0)->plaintext;
-                        $team->name[]=$teamName;
                         $html=curl_get($siteRef.$team_card->children(0)->href);
                         $dom1=str_get_html($html);
                         foreach($dom1->find(".pAvaBg") as $teamBlock)
@@ -155,10 +150,10 @@ for($i=0; $i<1; $i++) //передвижение по страницам
                             $team->name[]=$teamBlock->children(1)->children(0)->children(0)->plaintext;
                             $team->countryFlag[]=$teamBlock->children(1)->children(1)->children(0)->children(1)->children(0)->src;
                             $team->country[]=$teamBlock->children(1)->children(1)->children(0)->children(1)->plaintext;
-                            $team->prize[]=$teamBlock->children(1)->children(1)->children(7)->children(2)->plaintext;
+                            $team->prize[]=$teamBlock->children(1)->children(1)->children(7)->children(1)->children(1)->plaintext;
                         }
                         $tournament->qualification[]=$event."|".$team_card->children(1)->children(2)->plaintext."|".$teamName;
-                        /*if(is_object($team_card->children(1)->children(1)))
+                        if(is_object($team_card->children(1)->children(1)))
                         {
                             for($i=0; $i<5; $i++)
                             {
@@ -189,21 +184,20 @@ for($i=0; $i<1; $i++) //передвижение по страницам
                                 }
                                 //break; 
                             }
-                        }*/
+                        }
                     }                    
                     /*else
                     {
                        //echo $tournament->logo[]=$team_card->children(0)->children(0)->children(0)->src."<br>";
                        echo $event;
                        echo"slot ".$tournament->slot[]=$team_card->children(0)->children(2)->plaintext."<br>";
-                    }
+                    }*/
                 }
-            } */ 
+            } 
             
         }
         
-    }
-    
+    }    
 }
 $db->setDbSettings("localhost", "root", "", "course_database");
 $db->open_connection();
@@ -217,8 +211,6 @@ $db->open_connection();
 
 /*for($i=0; $i<count($tournament->team); $i++)
 {
-    $db->setQuery("insert into teams(idDiscipline, name) values(1, '".substr($tournament->team[$i], strpos($tournament->team[$i], "|")+1)."')");
-    $db->insert_team(substr($tournament->team[$i], strpos($tournament->team[$i], "|")+1));
     $db->setQuery("select idTournament from tournaments where event='".substr($tournament->team[$i], 0, strpos($tournament->team[$i], "|"))."'");
     $event=$db->find_id("idTournament");
     $db->setQuery("select idTeam from teams where name='".substr($tournament->team[$i], strpos($tournament->team[$i], "|")+1)."'");
@@ -226,6 +218,7 @@ $db->open_connection();
     $db->setQuery("insert into tournamentmembers(idTournament, idTeam) values(".$event.", ".$team.")");
     $db->insert_members();
 }*/
+
 
 /*for($i=0; $i<count($player->name); $i++)
 {
@@ -235,24 +228,54 @@ $db->open_connection();
     $role=$db->find_id("idRole");
     $db->setQuery("insert into players(idTeam, idDiscipline, country, countryFlag, name, nickname, photoRef, idRole, line, prize) 
     values($teamName, 1, '".$player->country[$i]."', 'images/countryFlags/".$player->country[$i].".png', '".$player->name[$i]."', '".$player->nickname[$i]."', 'images/playerPhotos/".$player->nickname[$i].".png', $role, '".$player->line[$i]."', ".$player->prize[$i].")");
-    $db->insert_members();
-    
+    $db->insert_player($player->nickname[$i]);
     saveImage("", $siteRef.$player->countryFlag[$i], "./images/countryFlags/".mb_convert_encoding($player->country[$i], 'cp-1251', 'utf-8').".png");
     saveImage("", $siteRef.$player->photoRef[$i], "./images/playerPhotos/".mb_convert_encoding($player->nickname[$i], 'cp-1251', 'utf-8').".png");   
 }*/
 
-/*for($i=0; $i<count($team->name); $i++)
+for($i=0; $i<count($team->name); $i++)
 {
-    $db->setQuery("select idTeam from teams where name='".$team->name[$i]."'");
-    $teamId=$db->find_id("idTeam");
-    $db->setQuery("insert into teams(logo, countryFlag, country, prize) values('images/teamLogos/".$team->name[$i].".png', 'images/countryFlags/".$team->country[$i]."', '".$team->country[$i]."', ".$team->country[$i].") where idTeam=".$teamId."");
+    echo $team->name[$i]." ".$team->country[$i]." ".$team->logo[$i]."<br>";
+    $db->setQuery("insert into teams(name, logo, countryFlag, country, prize) values('".$team->name[$i]."', 'images/teamLogos/".$team->name[$i].".png', 'images/countryFlags/".$team->country[$i]."', '".$team->country[$i]."', ".$team->prize[$i].")");
+    $db->setQuery("update teams set logo='images/teamLogos/".$team->name[$i].".png', countryFlag='images/countryFlags/".$team->country[$i]."', country='".$team->country[$i]."', prize=".$team->prize[$i]." where idTeam=".$teamId."");
+    $db->insert_team($team->name[$i]);
+    saveImage("", $siteRef.$team->logo[$i], "./images/teamLogos/".mb_convert_encoding($team->name[$i], 'cp-1251', 'utf-8').".png");
+    saveImage("", $siteRef.$team->countryFlag[$i], "./images/countryFlags/".mb_convert_encoding($team->country[$i], 'cp-1251', 'utf-8').".png");
+}
+
+/*for($i=0; $i<count($tournament->qualification); $i++)
+{
+    $db->setQuery("select idTeam from teams where name='".substr($tournament->qualification[$i], strrpos($tournament->qualification[$i], "|")+1)."'");
+    $team=$db->find_id("idTournament");
+    $db->setQuery("select idTournament from tournaments where event='".substr($tournament->qualification[$i], 0, strpos($tournament->qualification[$i], "|"))."'");
+    $invite=substr($tournament->qualification[$i], strpos($tournament->qualification[$i], "|")+1, strrpos($tournament->qualification[$i], "|")-strpos($tournament->qualification[$i], "|")-1);
+    $event=$db->find_id("idTournament");
+    $db->setQuery("insert into tournamentmembers(invited) values(".$invite.") where idTournament=".$event." and idTeam=".$team."");
+    //$db->setQuery("update tournamentmembers set invited=".$invite." where idTournament=".$event." and idTeam=".$team."");
     $db->insert_members();
 }*/
 
-for($i=0; $i<count($match->event); $i++)
+/*for($i=0; $i<count($match->round); $i++)
 {
-    echo $match->event[$i]." ".$match->round[$i]." ".$match->format[$i]." ".$match->datetime[$i]." ".$match->teams[$i]."<br>";
-}
+    echo $match->teams[$i]."<br>";
+    $firstTeam=substr($match->teams[$i], 0, strpos($match->teams[$i], " vs"));
+    $secondTeam=substr($match->teams[$i], strpos($match->teams[$i], "vs ")+3); 
+    $round=substr($match->round[$i], strpos($match->round[$i], ',')+2);
+    $db->setQuery("select idTournament from tournaments where event='".substr($match->round[$i], 0, strpos($match->round[$i], ","))."'");
+    $tournament=$db->find_id("idTournament");
+    $db->setQuery("select idTeam from teams where name='".$firstTeam."'");
+    echo $firstTeam=$db->find_id("idTeam");
+    $db->setQuery("select idTeam from teams where name='".$secondTeam."'");
+    echo $secondTeam=$db->find_id("idTeam")."<br>";
+    $db->setQuery("select idMatchFormat from matchFormats where matchFormat='".$match->format[$i]."'");
+    $format=$db->find_id("idMatchFormat");
+    //echo "insert into matches(idTounament, idFirstTeam, idSecondTeam, date, round, idMatchFormat) values(".$tournament.", ".$firstTeam.", ".$secondTeam.", ".str_replace(',', '', $match->datetime[$i]).":00, '".$round."', ".$format.")";
+    /*$db->setQuery("insert into matches(idTounament, idFirstTeam, idSecondTeam, date, round, idMatchFormat) values(".$tournament.", ".$firstTeam.", ".$secondTeam.", ".str_replace(',', '', $match->datetime[$i]).", '".$round."', ".$format.")");
+    $db->insert_members();
+}*/
+
+
+
 
 /*
 for ($i=0; $i<1; $i++) 
