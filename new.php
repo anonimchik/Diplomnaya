@@ -201,15 +201,15 @@ for($i=0; $i<1; $i++) //передвижение по страницам
 }
 $db->setDbSettings("localhost", "root", "", "course_database");
 $db->open_connection();
-/*for($i=0; $i<count($tournament->event); $i++)
+for($i=0; $i<count($tournament->event); $i++)
 {
     saveImage("", $siteRef.$tournament->logo[$i], "./images/teamLogos/".mb_convert_encoding($tournament->alt[$i], 'cp1251', 'utf-8').".png");
     $query="insert into tournaments(event, tournamentLogo, seria, description, prize, dateBegin) values('".$tournament->event[$i]."', 'images/teamLogos/".$tournament->alt[$i].".png', '".$tournament->seria[$i]."', '".$tournament->description[$i]."', ".preg_replace("(,)", "", $tournament->prize[$i]).", '".$tournament->begDate[$i]."')";
     $db->setQuery($query);
-    $db->insert_record();
-}*/
+    $db->insert_members();
+}
 
-/*for($i=0; $i<count($tournament->team); $i++)
+for($i=0; $i<count($tournament->team); $i++)
 {
     $db->setQuery("select idTournament from tournaments where event='".substr($tournament->team[$i], 0, strpos($tournament->team[$i], "|"))."'");
     $event=$db->find_id("idTournament");
@@ -217,7 +217,7 @@ $db->open_connection();
     $team=$db->find_id("idTeam");
     $db->setQuery("insert into tournamentmembers(idTournament, idTeam) values(".$event.", ".$team.")");
     $db->insert_members();
-}*/
+}
 
 
 /*for($i=0; $i<count($player->name); $i++)
@@ -243,19 +243,19 @@ for($i=0; $i<count($team->name); $i++)
     saveImage("", $siteRef.$team->countryFlag[$i], "./images/countryFlags/".mb_convert_encoding($team->country[$i], 'cp-1251', 'utf-8').".png");
 }
 
-/*for($i=0; $i<count($tournament->qualification); $i++)
+for($i=0; $i<count($tournament->qualification); $i++)
 {
     $db->setQuery("select idTeam from teams where name='".substr($tournament->qualification[$i], strrpos($tournament->qualification[$i], "|")+1)."'");
     $team=$db->find_id("idTournament");
     $db->setQuery("select idTournament from tournaments where event='".substr($tournament->qualification[$i], 0, strpos($tournament->qualification[$i], "|"))."'");
     $invite=substr($tournament->qualification[$i], strpos($tournament->qualification[$i], "|")+1, strrpos($tournament->qualification[$i], "|")-strpos($tournament->qualification[$i], "|")-1);
     $event=$db->find_id("idTournament");
-    $db->setQuery("insert into tournamentmembers(invited) values(".$invite.") where idTournament=".$event." and idTeam=".$team."");
+    $db->setQuery("update tournamentmembers set invited='".$invite."' where idTournament=".$event." and idTeam=".$team."");
     //$db->setQuery("update tournamentmembers set invited=".$invite." where idTournament=".$event." and idTeam=".$team."");
     $db->insert_members();
-}*/
+}
 
-/*for($i=0; $i<count($match->round); $i++)
+for($i=0; $i<count($match->round); $i++)
 {
     echo $match->teams[$i]."<br>";
     $firstTeam=substr($match->teams[$i], 0, strpos($match->teams[$i], " vs"));
@@ -270,9 +270,9 @@ for($i=0; $i<count($team->name); $i++)
     $db->setQuery("select idMatchFormat from matchFormats where matchFormat='".$match->format[$i]."'");
     $format=$db->find_id("idMatchFormat");
     //echo "insert into matches(idTounament, idFirstTeam, idSecondTeam, date, round, idMatchFormat) values(".$tournament.", ".$firstTeam.", ".$secondTeam.", ".str_replace(',', '', $match->datetime[$i]).":00, '".$round."', ".$format.")";
-    /*$db->setQuery("insert into matches(idTounament, idFirstTeam, idSecondTeam, date, round, idMatchFormat) values(".$tournament.", ".$firstTeam.", ".$secondTeam.", ".str_replace(',', '', $match->datetime[$i]).", '".$round."', ".$format.")");
+    $db->setQuery("insert into matches(idTounament, idFirstTeam, idSecondTeam, date, round, idMatchFormat) values(".$tournament.", ".$firstTeam.", ".$secondTeam.", ".str_replace(',', '', $match->datetime[$i]).", '".$round."', ".$format.")");
     $db->insert_members();
-}*/
+}
 
 
 
