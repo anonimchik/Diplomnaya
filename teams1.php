@@ -58,8 +58,8 @@
                 <li><a href="index1.php"><i class="fas fa-home"></i>Главная</a></li>
                 <li><a href="matches1.php"><i class="fas fa-gamepad"></i>Матчи</a></li>
                 <li><a href="teams1.php"><i class="fas fa-users"></i>Команды</a></li>
-                <li><a href="tournaments1.php"><i class="fas fa-trophy"></i>Турниры</a></li>
-                <li><a href=""><i class="fas fa-film"></i>Видео</a></li>
+                <li><a href="players1.php"><i class="fas fa-user"></i>Игроки</a></li>
+                <li><a href="tournaments1.php"><i class="fas fa-trophy"></i></i>Турниры</a></li>
             </ul>
         </nav>
     </div>

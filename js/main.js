@@ -243,6 +243,11 @@ $(function () {
         location.href=$(this).attr("data-href");
     });
 
+    $(".match-block-wrapper").click(function (e) { 
+        e.preventDefault();
+        location.href=$(this).attr("data-href");
+    });
+
     if($("div").is(".owl-carousel"))
     {
         $(".owl-carousel").owlCarousel( //установка параметров слайдера 
