@@ -1352,18 +1352,41 @@ class Database
         ';
         $this->query="SELECT IF(idFirstTeam=".$idFirstTeam." AND idSecondTeam=".$idSecondTeam.", idFirstTeam, idSecondTeam), 
                     IF(idFirstTeam=".$idSecondTeam." AND idSecondTeam=".$idFirstTeam.", idFirstTeam, idSecondTeam), 
-                    IF(idFirstTeam=".$idFirstTeam." AND idSecondTeam=".$idSecondTeam.", finalScore, reverse(finalScore)) 
+                    finalScore, date, name, logo
                     FROM matches
                     LEFT JOIN matchdescription ON matchdescription.idMatch=matches.idMatch
-                    WHERE (idFirstTeam=".$idFirstTeam." AND idSecondTeam=".$idSecondTeam.") OR (idFirstTeam=".$idSecondTeam." AND idSecondTeam=".$idFirstTeam.")";
+                    LEFT JOIN teams on teams.idTeam=".$idFirstTeam."
+                    WHERE (idFirstTeam=".$idFirstTeam." AND idSecondTeam=".$idSecondTeam.") OR (idFirstTeam=".$idSecondTeam." AND idSecondTeam=".$idFirstTeam.") AND matches.idMatch<>".$idmatch."
+                    ORDER BY date DESC";
         $result=mysql_query($this->query);
+        $this->query="SELECT IF(idFirstTeam=".$idFirstTeam." AND idSecondTeam=".$idSecondTeam.", idFirstTeam, idSecondTeam), 
+                    IF(idFirstTeam=".$idSecondTeam." AND idSecondTeam=".$idFirstTeam.", idFirstTeam, idSecondTeam), 
+                    finalScore, date, name, logo
+                    FROM matches
+                    LEFT JOIN matchdescription ON matchdescription.idMatch=matches.idMatch
+                    LEFT JOIN teams on teams.idTeam=".$idSecondTeam."
+                    WHERE (idFirstTeam=".$idFirstTeam." AND idSecondTeam=".$idSecondTeam.") OR (idFirstTeam=".$idSecondTeam." AND idSecondTeam=".$idFirstTeam.") AND matches.idMatch<>".$idmatch."
+                    ORDER BY date DESC";
+        $subResult=mysql_query($this->query);
         if(!mysql_error($this->link))
         {
-            while($row=mysql_fetch_array($result))
+            while($row=mysql_fetch_array($result) and $subRow=mysql_fetch_array($subResult))
             {
                 echo
                 '
-                    '.$row[0].'  '.$row[1].'  '.$row[2].'<br>
+                    <div class="match-block">
+                        <div class="teams-block-wrapper">
+                            <span>'.$row['name'].'</span>
+                            <img src="'.$row['logo'].'" title="'.$row['name'].'">
+                            <span>'.$row['finalScore'].'</span>
+                            <img src="'.$subRow['logo'].'" title="'.$subRow['name'].'">
+                            <span>'.$subRow['name'].'</span>
+                        </div>
+                        <div class="date-tournament-block">
+                            <span>datetime</span>
+                            <img src="./images/tournamentLogos/miniLogos/Adrenaline Cyber League 2019.png" title="">
+                        </div>
+                    </div>
                 ';
             }
         }
@@ -1377,22 +1400,7 @@ class Database
 
 /*
 
-echo
-                        '
-                            <div class="match-block">
-                                <div class="teams-block-wrapper">
-                                    <span>'.$subRow['name'].'</span>
-                                    <img src="'.$subRow['logo'].'" title="'.$subRow['name'].'">
-                                    <span>'.$subRow['finalScore'].'</span>
-                                    <img src="./images/teamLogos/Black Hornets Gaming.png" title="">
-                                    <span>team</span>
-                                </div>
-                                <div class="date-tournament-block">
-                                    <span>datetime</span>
-                                    <img src="./images/tournamentLogos/miniLogos/Adrenaline Cyber League 2019.png" title="">
-                                </div>
-                            </div>
-                        ';
+
 
 */
 
