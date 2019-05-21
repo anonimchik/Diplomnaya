@@ -2,7 +2,7 @@ body{
     padding: 0;
     margin: 0;
     background-color: black;
-    max-width: 1350px;
+    max-width: 1300px;
     margin: 0 auto;
 }
 a{
@@ -135,7 +135,7 @@ a{
     margin: 0 auto;
     color: white;
     background-color: rgba(39, 44, 55, 0.4);
-    padding: 1em 2%;
+    padding: 1em 0;
 }
 .news-wrapper{
     display: flex;
@@ -923,9 +923,10 @@ h3.prize-places-header, h3.achievements-header{
     padding-top: .5em;
 }
 .flag{
-    width: 180px;
-    height: 180px;
-    margin: 0 auto;
+	width: 180px;
+	height: 180px;
+	margin: 0 auto;
+	object-fit: contain;
 }
 span.team-title{
     text-align: center;
@@ -980,13 +981,87 @@ span.team-title{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    padding: .1% 1%;
+    background-color: rgb(39,44,55);    
 }
-.team-name-logo-wrapper{
+.first-team-description, .players-wrapper{
     display: flex;
     flex-direction: row;
+}
+.first-team-players-block{
+    text-align: end;
+}
+.second-team-players-block{
+    text-align: start;
+}
+.player-block img{
+    width: 17px;
+    height: 17px;
+    object-fit: contain;
+    vertical-align: bottom;
+}
+.player-logo{
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+}
+.team{
+    font-size: 2em;
+    border-bottom: 1px solid #666666;
+    margin-bottom: .2em;
 }
 .team-players-block{
     display: flex;
     flex-direction: column;
+    justify-content: center;
+}
+.first-team-players-block, .second-team-players-block{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.match-description{
+	width: 300px;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+.players-wrapper a{
+    color: #bab5ab;
+}
+.players-wrapper a:hover{
+    color: white;
+}
+.score{
+	border: 1px solid #666666;
+	border-radius: 5px;
+	padding: .5em;
+	text-transform: uppercase;
+	margin: .5em 0;
+}
+.last-matches-wrapper{
+    display: flex;
+    flex-direction: row;
+}
+.match-block{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;  
+}
+.teams-block-wrapper{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	width: 48%;
+}
+.date-tournament-block{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	width: 48%;
+}
+.first-team-last-matches-block, .second-team-last-matches-block{
+    width: 48%;
 }
 /*   end styles for matches page   */

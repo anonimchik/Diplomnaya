@@ -1045,7 +1045,9 @@ class Database
 
     function getMatchPage($idmatch)
     {
-        if(!isset($idmatch))
+        $idFirstTeam=0;
+        $idSecondTeam=0;  
+        if(!isset($idmatch))//формирование страницы с перечнем матчей
         {
             echo
             '
@@ -1069,13 +1071,13 @@ class Database
             $result=mysql_query($this->query);
             $this->query="SELECT matches.idMatch, name, date, countryFlag, country, event, miniTournamentLogo, finalScore 
                         from matches 
-                        left join teams on matches.idFirstTeam=teams.idTeam 
+                        left join teams on matches.idSecondTeam=teams.idTeam 
                         left join tournaments on matches.idTournament=tournaments.idTournament 
                         left join matchdescription on matches.idMatch=matchdescription.idMatch 
                         where matches.status=1
                         order by date desc";
             $subResult=mysql_query($this->query);           
-            if(!mysql_error($this->link))
+            if(!mysql_error($this->link))//формирование блока с завершенными матчами
             {
                 while($row=mysql_fetch_array($result) and $subRow=mysql_fetch_array($subResult))
                 {
@@ -1123,13 +1125,13 @@ class Database
             $result=mysql_query($this->query);
             $this->query="SELECT matches.idMatch, name, date, countryFlag, country, event, miniTournamentLogo, finalScore 
                         from matches 
-                        left join teams on matches.idFirstTeam=teams.idTeam 
+                        left join teams on matches.idSecondTeam=teams.idTeam 
                         left join tournaments on matches.idTournament=tournaments.idTournament 
                         left join matchdescription on matches.idMatch=matchdescription.idMatch 
                         where matches.status=0
                         order by date desc";
             $subResult=mysql_query($this->query);
-            if(!mysql_error($this->link))
+            if(!mysql_error($this->link))//формирование блока с лайв матчами
             {
                 while($row=mysql_fetch_array($result) and $subRow=mysql_fetch_array($subResult))
                 {
@@ -1183,7 +1185,7 @@ class Database
                         where matches.status=-1 
                         order by date desc";
             $subResult=mysql_query($this->query);
-            if(!mysql_error($this->link))
+            if(!mysql_error($this->link))//формирование блока с будущими матчами
             {
                 while($row=mysql_fetch_array($result) and $subRow=mysql_fetch_array($subResult))
                 {
@@ -1215,30 +1217,187 @@ class Database
                 </div> 
             ';
         }
-        else
+        else //формирование старницы с конкретным матчем
         {
+            $this->query="SELECT date, round, event, finalScore, teams.name, logo, idTeam, matchFormat
+                        from matches
+                        LEFT JOIN matchdescription ON matchdescription.idMatch=matches.idMatch
+                        LEFT JOIN matchformats ON matchformats.idMatchFormat=matchdescription.idFormat
+                        LEFT JOIN teams ON teams.idTeam=matches.idFirstTeam
+                        LEFT JOIN tournaments ON tournaments.idTournament=matches.idTournament
+                        WHERE matches.idMatch=".$idmatch."";
+            $result=mysql_query($this->query);
+            if(!mysql_error($this->link))//вывод команды
+            {
+                while($row=mysql_fetch_array($result))
+                {
+                    $idFirstTeam=$row['idTeam'];
+                    echo
+                    '
+                        <div class="match-description-wrapper">
+                            <div class="first-team-description">
+                                <div class="first-team-players-block">
+                                    <div data-href="teams1.php?idteam='.$row['idTeam'].'" class="team">'.$row['name'].'</div>
+                                        <div class="players-wrapper">
+                    ';
+                    $this->query="SELECT idPlayer, nickname, countryFlag, country
+                                FROM players
+                                LEFT JOIN matches ON matches.idFirstTeam=players.idTeam
+                                WHERE matches.idFirstTeam=".$row['idTeam']."";
+                    $player_result=mysql_query($this->query);
+                    if(!mysql_error($this->link))//вывод игроков
+                    {
+                        while($playerRow=mysql_fetch_array($player_result))
+                        {
+                            echo 
+                            '
+                                <div class="player-block">
+                                    <img src="'.$playerRow['countryFlag'].'" title="'.$playerRow['country'].'"><a href="players1.php?idplayer='.$playerRow['idPlayer'].'">'.$playerRow['nickname'].'</a>&nbsp;&nbsp; 
+                                </div>
+                            ';
+                        }
+                    }
+                    else
+                    {
+                        echo "Запрос не был выполнен. Код ошибки -".mysql_errno().". Cообщение ошибки - ".mysql_error().".";
+                    }
+                    echo
+                    '
+                                            </div>
+                                        </div>
+                                    <img class="player-logo" src="'.$row['logo'].'" title="'.$row['name'].'">
+                                </div>
+                            <div class="match-description">
+                                <div class="datetime">'.$row['date'].'</div> 
+                                <div>'.$row['matchFormat'].'</div>
+                                <div data-score="'.$row['finalScore'].'" class="score">Показать счет</div>
+                                <div>'.$row['event'].', '.$row['round'].'</div>
+                            </div>
+                    ';
+                }
+            }
+            else
+            {
+                echo "Запрос не был выполнен. Код ошибки -".mysql_errno().". Cообщение ошибки - ".mysql_error().".";
+            }
+            $this->query="SELECT date, round, event, finalScore, teams.name, logo, idTeam
+                        from matches
+                        LEFT JOIN matchdescription ON matchdescription.idMatch=matches.idMatch
+                        LEFT JOIN teams ON teams.idTeam=matches.idSecondTeam
+                        LEFT JOIN tournaments ON tournaments.idTournament=matches.idTournament
+                        WHERE matches.idMatch=".$idmatch."";
+            $subResult=mysql_query($this->query);
+            if(!mysql_error($this->link))//вывод команды
+            {
+                while($subRow=mysql_fetch_array($subResult))
+                {
+                    $idSecondTeam=$subRow['idTeam'];
+                    echo
+                    '
+                        <div class="match-description-wrapper">
+                            <div class="first-team-description">
+                                <img class="player-logo" src="'.$subRow['logo'].'" title="'.$subRow['name'].'">
+                                <div class="second-team-players-block">
+                                    <div data-href="teams1.php?idteam='.$subRow['idTeam'].'" class="team">'.$subRow['name'].'</div>
+                                        <div class="players-wrapper">
+                    ';
+                    $this->query="SELECT idPlayer, nickname, countryFlag, country
+                            FROM players
+                            LEFT JOIN matches ON matches.idSecondTeam=players.idTeam
+                            WHERE matches.idSecondTeam=".$subRow['idTeam']." and idMatch=".$idmatch."";
+                    $playerSubResult=mysql_query($this->query);
+                    if(!mysql_error($this->link))//вывод игроков
+                    {
+                        while($playerSubRow=mysql_fetch_array($playerSubResult))
+                        {
+                            echo 
+                            '
+                                <div class="player-block">
+                                    <img src="'.$playerSubRow['countryFlag'].'" title="'.$playerSubRow['country'].'"><a href="players1.php?idplayer='.$playerSubRow['idPlayer'].'">'.$playerSubRow['nickname'].'</a>&nbsp;&nbsp; 
+                                </div>
+                            ';
+                        }
+                    }
+                    else
+                    {
+                        echo "Запрос не был выполнен. Код ошибки -".mysql_errno().". Cообщение ошибки - ".mysql_error().".";
+                    }
+                }
+                
+            }
+            else
+            {
+                echo "Запрос не был выполнен. Код ошибки -".mysql_errno().". Cообщение ошибки - ".mysql_error().".";
+            }
             echo
             '
-                <div class="match-description-wrapper">
-                    <div class="first-team-description">
-                        <div class="team-name-logo-wrapper">
-                            <div class="team-players-block">
-                                <div class="team">psg</div>
-                                <div class="players">ame asd</div>
+                                </div>
                             </div>
-                            <img src="./images/teamLogos/OG.png">
                         </div>
-                    </div>
-                    <div class="match-description">
-                        123
-                    </div>
-                    <div class="second-team-description">
-                        sad
                     </div>
                 </div>
             ';
+            
+            $this->getPastMatches($idmatch, $idFirstTeam, $idSecondTeam);
+        }
+    }
+
+    function getPastMatches($idmatch, $idFirstTeam, $idSecondTeam)
+    {
+        echo
+        '
+            <div class="last-matches-wrapper">
+            <div class="first-team-last-matches-block">
+                <h3 class="first-team-last-matches-header"><i class="fas fa-gamepad">Последние матчи</i></h3>
+        ';
+        $this->query="SELECT IF(idFirstTeam=".$idFirstTeam." AND idSecondTeam=".$idSecondTeam.", idFirstTeam, idSecondTeam), 
+                    IF(idFirstTeam=".$idSecondTeam." AND idSecondTeam=".$idFirstTeam.", idFirstTeam, idSecondTeam), 
+                    IF(idFirstTeam=".$idFirstTeam." AND idSecondTeam=".$idSecondTeam.", finalScore, reverse(finalScore)) 
+                    FROM matches
+                    LEFT JOIN matchdescription ON matchdescription.idMatch=matches.idMatch
+                    WHERE (idFirstTeam=".$idFirstTeam." AND idSecondTeam=".$idSecondTeam.") OR (idFirstTeam=".$idSecondTeam." AND idSecondTeam=".$idFirstTeam.")";
+        $result=mysql_query($this->query);
+        if(!mysql_error($this->link))
+        {
+            while($row=mysql_fetch_array($result))
+            {
+                echo
+                '
+                    '.$row[0].'  '.$row[1].'  '.$row[2].'<br>
+                ';
+            }
+        }
+        else
+        {
+            echo "Запрос не был выполнен. Код ошибки -".mysql_errno().". Cообщение ошибки - ".mysql_error().".";
         }
     }
 
 }
+
+/*
+
+echo
+                        '
+                            <div class="match-block">
+                                <div class="teams-block-wrapper">
+                                    <span>'.$subRow['name'].'</span>
+                                    <img src="'.$subRow['logo'].'" title="'.$subRow['name'].'">
+                                    <span>'.$subRow['finalScore'].'</span>
+                                    <img src="./images/teamLogos/Black Hornets Gaming.png" title="">
+                                    <span>team</span>
+                                </div>
+                                <div class="date-tournament-block">
+                                    <span>datetime</span>
+                                    <img src="./images/tournamentLogos/miniLogos/Adrenaline Cyber League 2019.png" title="">
+                                </div>
+                            </div>
+                        ';
+
+*/
+
 ?>
+
+
+
+
