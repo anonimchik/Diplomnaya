@@ -245,7 +245,8 @@ a{
     margin-right: auto;
 }
 .matches-header, .tournament-header, .preview-window-title, .administration-panel-title, .teams-title, 
-.line-up-title, .description-title, .prize-places-header, .matches-block-header, .achievements-header{
+.line-up-title, .description-title, .prize-places-header, .matches-block-header, .achievements-header,
+.first-team-last-matches-header, .second-team-last-matches-header{
     font-size: 18px;
     text-transform: uppercase;
     font-weight: 800;
@@ -395,10 +396,22 @@ a{
     margin: 0;
     padding: 0;
 }
+.maps-tab{
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    margin: 0;
+    padding: 0;
+}
 .tabs li{
     list-style: none;
     background-color: #2e3644;
     padding: .5em;
+}
+.maps-tab li{
+    list-style: none;
+    padding: .5em;
+    background-color: #2e3644;
 }
 .tabs li:nth-child(2n){
     border-right: 2px solid #666666;
@@ -418,12 +431,23 @@ a{
 .tab-link.current{
    background-color: #666666;
 }
+.map-link.current{
+    background-color: #666666; 
+}
 .tabs li a{
     text-transform: uppercase;
     font-weight: 900;   
     padding: .5em 1em .5em 1em;
 }
+.maps-tab li a{
+    text-transform: uppercase;
+    font-weight: 900;   
+    padding: .5em 1em .5em 1em;
+}
 .tabs li:hover{
+    background-color: #666666;
+}
+.maps-tab li:hover{
     background-color: #666666;
 }
 .tab-content.current{
@@ -545,7 +569,7 @@ input:focus, button:focus, button:active, input:active{
     color: rgba(255, 0, 0, 0.705);
     padding-right: .5em;
 }
-.add-tournament, .delete-tournament, .hide-administration-panel{
+.add-record, .delete-record, .hide-administration-panel{
     background: rgb(39,44,55);
     border: none;
     border-top-left-radius: 5px;
@@ -593,6 +617,7 @@ label.checkbox-del-tour{
     margin: .5em 0;
     flex-wrap: wrap;
     justify-content: space-between;
+    align-items: center;
 }
 .admin-form li>input, .admin-form li>div.numeric-field{
     max-width: calc(100%/1.9);
@@ -884,6 +909,7 @@ a.invite:hover, a.team-title:hover{
     border-right: 1px solid #666666;
     border-bottom: 1px solid #666666;
     padding: .5em 0;  
+    align-items: center;    
 }
 .tournament-date-block img{
     height: 17px;
@@ -891,7 +917,7 @@ a.invite:hover, a.team-title:hover{
     object-fit: contain;
     vertical-align: top;
 }
-.teams-block-wrapper img{
+.first-teams-block-wrapper img, .second-teams-block-wrapper img{
     max-width: 40px;
     max-height: 40px;  
     vertical-align: middle;  
@@ -994,6 +1020,12 @@ span.team-title{
 .second-team-players-block{
     text-align: start;
 }
+.teams-block-wrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
 .player-block img{
     width: 17px;
     height: 17px;
@@ -1025,7 +1057,14 @@ span.team-title{
 	text-align: center;
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
+    justify-content: center;
+    align-items: center;
+}
+.score{
+    cursor: pointer;
+}
+.score:hover{
+    background-color: blue;
 }
 .players-wrapper a{
     color: #bab5ab;
@@ -1043,17 +1082,33 @@ span.team-title{
 .last-matches-wrapper{
     display: flex;
     flex-direction: row;
+    margin: 1em 0;
+    justify-content: space-between; 
 }
 .match-block{
     display: flex;
     flex-direction: row;
     justify-content: space-around;  
+    background-color: rgb(39,44,55);
+    border-bottom: 1px solid #666666;
+    border-right: 1px solid #666666;
+    border-left: 1px solid #666666;
+    padding: .5em;
+    align-items: center;
 }
-.teams-block-wrapper{
+.first-teams-block-wrapper{
 	display: flex;
-	flex-direction: row;
-	justify-content: space-around;
-	width: 48%;
+	justify-content: space-between;
+    width: 48%;
+    align-items: center;
+    flex-direction: row-reverse;
+}
+.second-teams-block-wrapper{
+	display: flex;
+	justify-content: space-between;
+    width: 48%;
+    align-items: center;
+    flex-direction: row;
 }
 .date-tournament-block{
 	display: flex;
@@ -1064,4 +1119,38 @@ span.team-title{
 .first-team-last-matches-block, .second-team-last-matches-block{
     width: 48%;
 }
+.img-container{
+    min-width: 80%;
+    max-width: 80%;
+    min-height: 442px;
+    border: 1px solid #666666;
+}
+.img-container img{
+    width: 100%;
+}
+.match-info-panel{
+    width: 20%;
+    background-color: rgb(39,44,55);
+    border-right: 1px solid #666666;
+    border-top: 1px solid #666666;
+    border-bottom: 1px solid #666666;
+}
+div.tab-content.current{
+    display: flex;
+    flex-direction: row;
+}
+.maps-block-wrapper{
+    margin-top: 1em;
+}
+.error-message{
+    color: #bab5ab;
+    font-size: 1.5em;
+    padding-top: .5em;
+}
 /*   end styles for matches page   */
+
+.chart_wrap {
+    max-width: 300px;
+    position: relative;
+    margin: auto;
+}

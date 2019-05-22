@@ -1,5 +1,6 @@
 var fullpath, idTournament="";
 $(function () {
+    //alert(location.href);
     $('ul.tabs li a').click(function(e){
         e.preventDefault();
         var tab_id = $(this).parent().attr('data-tab');    
@@ -8,7 +9,39 @@ $(function () {
         $(this).parent().addClass('current');
         $("#"+tab_id).addClass('current');
     });
+
+    $('ul.maps-tab li a').click(function(e){
+        e.preventDefault(); 
+        var tab_id = $(this).parent().attr('data-tab');    
+        $('ul.maps-tab li').removeClass('current');
+        $('.tab-content').removeClass('current');
+        $(this).parent().addClass('current');
+        $("#"+tab_id).addClass('current');
+    });
     
+    $("ul.maps-tab li a").click(function (e) { 
+        e.preventDefault();
+        if(!$(this).parent().parent().parent().children("div.tab-content.current").children("div.img-container").children("img").attr("src"))
+        {
+            $(this).parent().parent().parent().children("div.tab-content.current").children("div.img-container").children("img").attr("src","./images/mapscore/1.png");
+            $(this).parent().parent().parent().children("div.tab-content.current").children("div.img-container").children("img").css({"width":"20%",
+                                                                                                                                        "height":"20%",
+                                                                                                                                        "object-fit":"contain"});
+            $(this).parent().parent().parent().children("div.tab-content.current").children("div.img-container").css({"display":"flex",
+                                                                                                                    "flex-direction":"column", 
+                                                                                                                    "justify-content":"center",
+                                                                                                                    "align-items":"center"});
+            $(this).parent().parent().parent().children("div.tab-content.current").children("div.img-container").append("<span class='error-message'>Упс, что-то пошло не так.</span>")
+        }
+    });
+
+    $("#create-match").click(function (e) { 
+        e.preventDefault();
+        console.log($("#tournament").val());
+        console.log($("#date").val());
+        console.log($("#time").val());
+    });
+
     $(".match-href").hover(function () {
             $(".fas.fa-video").css("color", "rgb(93, 255, 168)");  
             $(".match-href").css("cursor", "pointer");       
@@ -16,6 +49,12 @@ $(function () {
             $(".fas.fa-video").css("color", "white"); 
         }
     );
+
+    $("div.score").click(function (e) { 
+        e.preventDefault();
+        $(this).text($(this).attr("data-score"));
+        //$(this).css({})
+    });
 
     $(".vs").hover(function () {
             $(".vs").css("color", "rgb(193, 241, 135)");    
@@ -157,7 +196,7 @@ $(function () {
         }
     });
 
-    $(".add-tournament").click(function (e) { 
+    $(".add-record").click(function (e) { 
         e.preventDefault();
         if(!$(".administration-panel-wrapper").is(":visible")){
             $(".administration-panel-wrapper").css({"display":"flex"});
@@ -167,7 +206,7 @@ $(function () {
         }
     });
 
-    $(".delete-tournament").click(function (e) { 
+    $(".delete-record").click(function (e) { 
         e.preventDefault();
         if(!$(".checkbox-del-tour").is(":visible")){
             $(".checkbox-del-tour").show();
@@ -248,6 +287,34 @@ $(function () {
         location.href=$(this).attr("data-href");
     });
 
+    /*  настройка google charts */
+    google.charts.load("current", {packages:["corechart"]});
+
+    google.charts.setOnLoadCallback(function() {
+        var data = [['Actives', ''], ['var 1', 0.1], ['var 2', 0.1]];
+        drawChartRound( data, 'donutchart' );
+    });
+
+    function drawChartRound( arr_data, id ) {
+        var data = google.visualization.arrayToDataTable(arr_data);
+
+        var options = {
+            title: '',
+            pieHole: 0.6,
+            slices: {
+                0: { color: 'red' },
+                1: { color: 'green' }
+            },
+            legend         : '1-var 1, 2-var 2',
+            backgroundColor: 'transparent',
+            chartArea      : {left: 10, top: 10, width: '95%', height: '95%'}
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById(id));
+        chart.draw(data, options);
+    }
+
+    /* настройка плагина owl-carousel */
     if($("div").is(".owl-carousel"))
     {
         $(".owl-carousel").owlCarousel( //установка параметров слайдера 

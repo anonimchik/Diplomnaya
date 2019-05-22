@@ -69,10 +69,80 @@
         ?>
         <div class="tournament-bg"></div>
     </div>
+    <div class="administration-panel-block">
+        <button type="button" name="add-match" class="add-record"><i class="fas fa-plus-circle">Добавить турнир</i></button>
+        <button type="bytton" name="delete-match" class="delete-record"><i class="fas fa-minus-circle">Удалить турнир</i></button>
+        <button class="hide-administration-panel"><i class="far fa-eye">Показать панель администратора</i></button>
+        <div class="administration-panel-wrapper">
+            <form action="" class="administration-panel" method="post">
+                <h3 class="administration-panel-title">Создание матча</h3>
+                <ul class="admin-form">
+                    <li>
+                        <label for="tournament" class="name-tournament">Наименование турнира</label>
+                        <select id="tournament">
+                            <option selected>Выберите турнир</option>
+                            <?php
+                                $query="SELECT idTournament, event FROM tournaments ORDER BY event";
+                                $db->getOptionsForSelect($query, "idTournament", "event");
+                            ?>
+                        </select>
+                    </li>
+                    <li>
+                        <label for="first-team">Первая команда</label>
+                        <select id="first-team">
+                            <option selected>Выберите команду</option>
+                            <?php
+                                $query="SELECT idTeam, name FROM teams ORDER BY name";
+                                $db->getOptionsForSelect($query, "idTeam", "name");
+                            ?>
+                        </select>
+                    </li>
+                    <li>
+                        <label for="second-team">Вторая команда</label>
+                        <select id="second-team">
+                            <option selected>Выберите команду</option>
+                            <?php
+                                $query="SELECT idTeam, name FROM teams ORDER BY name";
+                                $db->getOptionsForSelect($query, "idTeam", "name");
+                            ?>
+                        </select>
+                    </li>
+                    <li>
+                        <label for="datetime">Время встречи</label>
+                        <div>
+                            <input id="date" type="date">
+                            <input id="time" type="time">
+                        </div>
+                    </li>
+                    <li>
+                        <button type="reset">Очистить поля</button>
+                        <button type="submit" id="create-match">Добавить турнир</button>
+                    </li>
+                </ul>
+            </form>
+        </div>
+    </div>
     <div class="main-content">
+        <!--<div class="maps-block-wrapepr">
+            <ul class="maps-tab">
+                <li class="map-link current" data-tab="tab-1"><a href="">Прошедшие</a></li>
+                <li class="map-link" data-tab="tab-2"><a href="">Текущие</a></li>
+                <li class="map-link" data-tab="tab-3"><a href="">Будущие</a></li>
+            </ul>
+            <div id="tab-1" class="tab-content current">1</div>
+            <div id="tab-2" class="tab-content">2</div>
+            <div id="tab-3" class="tab-content">3</div>
+        </div>-->
         <?php
             $db->getMatchPage($_GET['idmatch']);
         ?>
     </div>
+    <!---<div class="chart_wrap">
+        <div id="donutchart" style="width: 100%; height: 250px;"></div>
+    </div>-->
+    <div class="footer">
+       &copy; 2019 gginfo - все для любителей киберспорта.
+    </div>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </body>
 </html>
