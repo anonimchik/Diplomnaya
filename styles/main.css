@@ -218,6 +218,29 @@ a{
     width: 65%;
     margin: 0 auto;
 }
+.teams-team-logo{
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+}
+.list-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: .54em;
+    background-color: rgb(39,44,55);
+    border: 1px solid #666666;
+}
+.team-teams-block{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+    background-color: rgb(39,44,55);
+    padding: .5em 1em;
+    border: 1px solid #666;
+}
 .first-team, .second-team{
     text-transform: uppercase;
 }
@@ -244,9 +267,9 @@ a{
 .transfer{
     margin-right: auto;
 }
-.matches-header, .tournament-header, .preview-window-title, .administration-panel-title, .teams-title, 
+.matches-header, .tournament-header, .administration-panel-title, .teams-title, 
 .line-up-title, .description-title, .prize-places-header, .matches-block-header, .achievements-header,
-.first-team-last-matches-header, .second-team-last-matches-header{
+.first-team-last-matches-header, .second-team-last-matches-header, .player-description-header{
     font-size: 18px;
     text-transform: uppercase;
     font-weight: 800;
@@ -353,6 +376,7 @@ a{
     display: flex;
     flex-direction: row;
     align-items: center;
+    flex-basis: 50%;
 }
 .date-prize{
     display: flex;
@@ -561,6 +585,42 @@ input:focus, button:focus, button:active, input:active{
 }
 
 /* administration panel styles*/
+.mini-admin-panel{
+    position: fixed;
+    left: auto;
+    background-color: #353535;
+    top: 50%;
+    width: 11%;
+    font-size: 1.5em;
+    padding: .5em;
+    z-index: 1;
+    display: none;
+}
+.arrow{
+    position: fixed;
+    left: auto;
+    top: 50%;
+    width: 2%;
+    height: 98px;
+    background-color: #353535;
+    font-size: 1.5em;
+    z-index: 1;
+}
+#add-record{
+    background: radial-gradient(at center 0px, rgb(93, 255, 168) -90%, rgb(39, 126, 131) 80%, rgb(39, 127, 131) -182%);
+    border: 1px solid #353535;
+    padding: .5em;
+    color: white; 
+    font-size: .6em;
+    margin-bottom: .5em;
+}
+#delete-record{
+    background: radial-gradient(at center 0px, rgb(255, 50, 120) -80%, rgb(170, 10, 25) 90%, rgb(170, 10, 50) -182%);
+    border: 1px solid #353535;
+    padding: .5em;
+    color: white;
+    font-size: .6em;
+}
 .fa-plus-circle::before{
     color: rgb(93, 255, 168);
     padding-right: .5em;  
@@ -683,9 +743,7 @@ div.numeric-field>i.fa-plus-circle::before, div.numeric-field>i.fa-minus-circle:
     vertical-align: sub;
     cursor: pointer;
 }
-.preview-window-wrapper{
-    width: 49%;
-}
+
 button[type="reset"], button[type="submit"], button#preview{
     color: white;
     font-weight: 700;
@@ -847,6 +905,19 @@ h3.teams-title i.fa-users::before{
     height: 70%;
     z-index: 1;
 }
+.player-block-wrapper{
+    display: flex;
+    flex-direction: row; 
+}
+.player-index-block{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: .5em 1em;
+    background-color: rgb(39,44,55);
+    border: 1px solid #666;
+}
 .players-wrapper-block{ 
     display: flex;
     flex-direction: column; 
@@ -896,9 +967,35 @@ a.invite:hover, a.team-title:hover{
 }
 .fa-gamepad::before, .fa-info::before, .fa-users::before, .fa-trophy::before, .fa-home::before, .fa-newspaper::before, 
 .fa-gamepad::before, .fa-clock::before, .fa-exchange-alt::before, .fa-trophy::before, .fa-star::before, .fa-eye::before,
-.fa-user::before{
+.fa-user::before, .fa-plus::before{
     padding-right: .5em;
     color: rgb(93, 255, 168);
+}
+.fa-minus::before{
+    padding-right: .5em;
+    color: red;
+}
+div.arrow>i.fa-angle-double-right{
+    color: rgb(93, 255, 168);
+    position: absolute;
+    left: 31%;
+    top: 30%;
+    border: 1px solid #353535;
+    padding: 0.3em;
+    border-radius: 24px;
+    background-color: #353535;
+    cursor: pointer;
+}
+.fa-angle-double-left{
+    color: rgb(93, 255, 168);
+    position: absolute;
+    left: 89%;   
+    top: 29%;   
+    border: 1px solid #353535;   
+    padding: 0.3em;   
+    border-radius: 24px;  
+    background-color: #353535;  
+    cursor: pointer;
 }
 .match-block-wrapper{
     display: flex;
@@ -980,6 +1077,11 @@ span.team-title{
 .player-photo{
     width: 100%;
 }
+.players-photo{
+    width: 300px;
+    height: 300px;
+    object-fit: contain;
+}
 .line-up-block{
     width: 175px;
     border: 1px solid #666666;
@@ -989,6 +1091,12 @@ span.team-title{
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
+    justify-content: center;
+    border-bottom: 1px solid #666666;
+    border-left: 1px solid #666666;
+    border-right: 1px solid #666666;
+    margin-bottom: 1em;
+    background-color: #2e3644;
 }
 .matches-achievements-wrapper{
     display: flex;
@@ -1149,6 +1257,54 @@ div.tab-content.current{
 }
 /*   end styles for matches page   */
 
+/*   styles for player page*/
+
+.player-block{
+    background-color: rgb(39,44,55);
+    cursor: pointer;
+}
+.player-match-block-wrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.player-match-block-wrapper .player-info-block{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.player-info-wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid #666;
+    background: #2e3644 url("../images/img/stripe.png");
+    margin: 0 1em;
+}
+.player-info-wrapper>span{
+    padding: .5em 0;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+.player-info-block{
+    width: 100%;
+}
+.player-info-block div{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 90%;
+    padding-top: .5em;
+    align-items: normal;
+}
+.player-info-block div:nth-child(-n+6){
+    border-bottom: 1px solid #666666;
+}
+.player-description-wrapper{
+    width: 75%;
+    margin: 0 1em;
+}
+/*   end styles for player page*/
 .chart_wrap {
     max-width: 300px;
     position: relative;

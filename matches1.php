@@ -69,10 +69,15 @@
         ?>
         <div class="tournament-bg"></div>
     </div>
+    <div class="mini-admin-panel">
+        <button id="add-record"><i class="fas fa-plus"></i>Создать турнир</button>
+        <button id="delete-record"><i class="fas fa-minus"></i>Удалить турнир</button>
+        <i class="fas fa-angle-double-left"></i>
+    </div>
+    <div class="arrow">
+        <i class="fas fa-angle-double-right"></i>
+    </div>
     <div class="administration-panel-block">
-        <button type="button" name="add-match" class="add-record"><i class="fas fa-plus-circle">Добавить турнир</i></button>
-        <button type="bytton" name="delete-match" class="delete-record"><i class="fas fa-minus-circle">Удалить турнир</i></button>
-        <button class="hide-administration-panel"><i class="far fa-eye">Показать панель администратора</i></button>
         <div class="administration-panel-wrapper">
             <form action="" class="administration-panel" method="post">
                 <h3 class="administration-panel-title">Создание матча</h3>
@@ -137,6 +142,7 @@
             $db->getMatchPage($_GET['idmatch']);
         ?>
     </div>
+</div>
     <!---<div class="chart_wrap">
         <div id="donutchart" style="width: 100%; height: 250px;"></div>
     </div>-->

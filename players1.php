@@ -65,14 +65,24 @@
     </div>
     <div class="tournament-bg-wrapper">
         <?php
-            
+           $db->getPlayerName($_GET['idplayer']); 
         ?>
         <div class="tournament-bg"></div>
     </div>
+    <div class="mini-admin-panel">
+        <button id="add-record"><i class="fas fa-plus"></i>Создать турнир</button>
+        <button id="delete-record"><i class="fas fa-minus"></i>Удалить турнир</button>
+        <i class="fas fa-angle-double-left"></i>
+    </div>
+    <div class="arrow">
+        <i class="fas fa-angle-double-right"></i>
+    </div>
     <div class="main-content">
-        <?php
-           $db->getPlayerName($_GET['idplayer']);
-        ?>
+        <div class="player-block-wrapper">
+            <?php
+                $db->getPlayerPage($_GET['idplayer']);
+            ?>
+        </div>
     </div>
     <div class="footer">
        &copy; 2019 gginfo - все для любителей киберспорта.

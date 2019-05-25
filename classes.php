@@ -159,6 +159,48 @@ class Database
 
     /*     работа с сайтом */
 
+    function getMatchesForMainPage()
+    {
+        $this->query="SELECT matches.idMatch, name, date_format(date, '%d.%c.%Y %H:%i'), countryFlag, country, event, miniTournamentLogo, firstFinalScore
+                    from matches
+                    inner join teams on matches.idFirstTeam=teams.idTeam
+                    inner join tournaments on matches.idTournament=tournaments.idTournament
+                    left join matchdescription on matches.idMatch=matchdescription.idMatch
+                    where status=-1
+                    order by date desc";
+        $result=mysql_query($this->query);
+        $this->query="SELECT matches.idMatch, name, date, countryFlag, country, event, miniTournamentLogo, secondFinalScore
+                    from matches
+                    inner join teams on matches.idSecondTeam=teams.idTeam
+                    inner join tournaments on matches.idTournament=tournaments.idTournament
+                    left join matchdescription on matches.idMatch=matchdescription.idMatch
+                    where status=-1
+                    order by date desc";
+        $subResult=mysql_query($this->query);
+        if(!mysql_error($this->link))
+        {
+            while($row=mysql_fetch_array($result) and $subRow=mysql_fetch_array($subResult))
+            {
+                echo
+                '
+                    <div class="match-block-wrapper" data-href="matches1.php?idmatch='.$row['idMatch'].'">
+                        <div class="teams-block-wrapper">
+                            <span class="first-team">'.$row['name'].'</span>
+                            <img src="'.$row['countryFlag'].'" title="'.$row['country'].'">
+                            <span class="match-score">'.$row['firstFinalScore'].':'.$subRow['secondFinalScore'].'</span>
+                            <span class="second-team">'.$subRow['name'].'</span>
+                            <img src="'.$subRow['countryFlag'].'" title="'.$subRow['country'].'">
+                        </div>
+                        <div class="tournament-date-block">
+                            <span class="datetime">'.$row[2].'</span>
+                            <img  src="'.$row['miniTournamentLogo'].'" title="'.$subRow['event'].'">
+                        </div>
+                    </div>
+                ';
+            }
+        }        
+    }
+
     function show_tournaments()
     {
         global $monthName;
@@ -167,12 +209,12 @@ class Database
         {
             while($row = mysql_fetch_array($result)) 
             {
-                echo ' 
-                <div class="tournament-block-wrapper" data-href=tournament1.php?idtour='.$row[0].'>
+                echo '
+                <div class="tournament-block-wrapper" data-href=tournaments1.php?idtour='.$row[0].'>
                     <label class="checkbox-del-tour"><i class="fas fa-check"></i><input type="checkbox" id="del-tour"></label>
                     <div class="tournament-block">
                         <div class="tournament-title-img">
-                            <img src="'.$row["tournamentLogo"].'" title="'.$row["event"].'" class="tournament-img">
+                            <img src="./'.$row["tournamentLogo"].'" title="'.$row["event"].'" class="tournament-img">
                             <span class="tournament-name">'.$row["event"].'</span>
                         </div>
                         <div class="date-prize">
@@ -224,7 +266,7 @@ class Database
                     <div class="tournament-indexx-wrapper">
                         <h3 class="tournament-header"><i class="fas fa-trophy"></i>Турниры</h3>';
 
-            $this->query="select idTournament, event, tournamentLogo, dateBegin, dateEnd, prize, region 
+            $this->query="select idTournament, event, tournamentLogo, DATE_FORMAT(dateBegin, '%e'), DATE_FORMAT(dateBegin, '%c'), DATE_FORMAT(dateBegin, '%Y'), dateEnd, prize, region 
                         from tournaments 
                         left JOIN regions on tournaments.idRegion=regions.idRegion
                         where dateEnd<=now()
@@ -234,7 +276,7 @@ class Database
             {
                 while($row = mysql_fetch_array($result)) 
                 {
-                    echo ' 
+                    echo '
                     <div class="tournament-block-wrapper" data-href=tournaments1.php?idtour='.$row[0].'>
                         <label class="checkbox-del-tour"><i class="fas fa-check"></i><input type="checkbox" id="del-tour"></label>
                         <div class="tournament-block">
@@ -386,7 +428,7 @@ class Database
                         <div class="players-wrapper-block">';
                         
 
-                        $this->query="SELECT distinct players.idRole, players.countryFlag, players.nickname, players.country
+                        $this->query="SELECT distinct idPlayer, players.idRole, players.countryFlag, players.nickname, players.country
                                     FROM tournamentmembers 
                                     left JOIN teams ON tournamentmembers.idTeam=teams.idTeam
                                     left join players on tournamentmembers.idTeam=players.idTeam
@@ -404,7 +446,7 @@ class Database
                                             </div>
                                             <div class="flag-nick">
                                                 <img src="'.$subRow['countryFlag'].'" title="'.$subRow['country'].'" class="player-country">
-                                                <a class="player">'.$subRow['nickname'].'</a>
+                                                <a href="players1.php" class="player">'.$subRow['nickname'].'</a>
                                             </div>
                                         </div>
                                     ';
@@ -761,7 +803,9 @@ class Database
                 <div class="teams-wrapper">
                     <div class="list-header">
                         <span>Место</span>
-                        <span>Команда</span>
+                        <span style="flex-basis: 13%">Страна</span>
+                        <span style="flex-basis: 15%">Команда</span>
+                        <span style="flex-basis: 13%">Логотип</span>
                         <span>Заработано</span>
                     </div>
             ';
@@ -777,11 +821,11 @@ class Database
                     echo 
                     '
                         <div class="teams-block-wrapper">
-                            <div class="teams-block" data-href="teams1.php?idteam='.$row['idTeam'].'">
+                            <div class="team-teams-block" data-href="teams1.php?idteam='.$row['idTeam'].'">
                                 <span>'.$i.'</span>
                                 <img src="'.$row['countryFlag'].'" title="'.$row['country'].'">
                                 <span>'.$row['name'].'</span>
-                                <img src="'.$row['logo'].'" title="'.$row['name'].'">
+                                <img class="teams-team-logo" src="'.$row['logo'].'" title="'.$row['name'].'">
                                 <span>$ '.$row['prize'].'</span>
                             </div>
                         </div>
@@ -803,10 +847,15 @@ class Database
             $this->getTeamInfo($idteam);
             echo
             '
-                <h3 class="line-up-title"><i class="fas fa-users">Состав</i></h3>
-                <div class="line-up-wrapper">  
+                <div class="line-up-block-wrapper">
+                    <h3 class="line-up-title"><i class="fas fa-users">Состав</i></h3>
+                    <div class="line-up-wrapper">  
             '; 
             $this->getLineup($idteam);
+            echo
+            '
+                </div>
+            ';
             echo
             '   </div>
                 <div class="matches-achievements-wrapper">
@@ -989,18 +1038,113 @@ class Database
         {
             echo 
             '
-                <span class="tournament-title">Команды</span>
+                <span class="tournament-title">Игроки</span>
             ';
         }
         else
         {
-            $this->query="select name from teams where idTeam=".$idplayer;
+            $this->query="select nickname from players where idPlayer=".$idplayer;
             $result=mysql_query($this->query);
             if(!mysql_error($this->link))
             {
                 while($row = mysql_fetch_array($result)) 
                 {
-                    echo '<span class="tournament-title">Игрок '.$row['name'].'</span>';
+                    echo '<span class="tournament-title">Игрок '.$row['nickname'].'</span>';
+                }
+            }
+            else
+            {
+                echo "Запрос не был выполнен. Код ошибки -".mysql_errno().". Cообщение ошибки - ".mysql_error().".";
+            }
+        }
+    }
+
+    function getPlayerPage($idplayer)
+    {
+        if(!isset($idplayer))//формирование страницы с игроками
+        {
+            $this->query="SELECT idPlayer, nickname, players.country, players.countryFlag, line, players.prize, teams.name, logo 
+                        FROM players
+                        LEFT JOIN teams ON teams.idTeam=players.idTeam 
+                        ORDER BY prize desc
+                        LIMIT 10";
+            $result=mysql_query($this->query);
+            if(!mysql_error($this->link))
+            {
+                while($row=mysql_fetch_array($result))
+                {
+                    echo 
+                    '
+                        <div class="player-index-block" data-href="players1.php?idplayer='.$row['idPlayer'].'">
+                            <img src="'.$row['countryFlag'].'" title="'.$row['country'].'">
+                            <span>'.$row['nickname'].'</span>
+                            <img class="teams-team-logo" src="'.$row['logo'].'" title="'.$row['name'].'">
+                            <span>'.$row['name'].'</span>
+                            <span>$ '.$row['prize'].'</span>
+                        </div>
+
+                    ';
+                }
+            }
+            else
+            {
+                echo "Запрос не был выполнен. Код ошибки -".mysql_errno().". Cообщение ошибки - ".mysql_error().".";
+            }
+        }
+        else//формирование страницы конкретного игрока
+        {
+            $this->query="SELECT YEAR(now()) - YEAR(birthday) - (DATE_FORMAT(now(), '%m%d') < DATE_FORMAT(birthday, '%m%d')), nickname, players.name, players.country, players.description,
+            players.countryFlag, photoRef, line, players.prize, role, teams.name, teams.idTeam
+                        FROM players
+                        LEFT JOIN teams ON teams.idTeam=players.idTeam
+                        LEFT JOIN roles ON roles.idRole=players.idRole
+                        WHERE idPlayer=".$idplayer."";
+            $result=mysql_query($this->query);
+            if(!mysql_error($this->link))
+            {
+                while($row=mysql_fetch_array($result))
+                {
+                    echo
+                    '
+                        <div class="player-info-wrapper">
+                            <img class="players-photo" src="'.$row['photoRef'].'">
+                            <span>'.$row['nickname'].'</span>
+                            <div class="player-info-block">
+                                <div>
+                                    <span>Имя</span>
+                                    <span>'.$row[2].'</span>
+                                </div>
+                                <div>
+                                    <span>Возраст</span>
+                                    <span>'.$row[0].' лет</span>
+                                </div>
+                                <div>
+                                    <span>Страна</span>
+                                    <span>'.$row['country'].' <img style="vertical-align: middle;" src="'.$row['countryFlag'].'" title="'.$row['country'].'"></span>
+                                </div>
+                                <div>
+                                    <span>Команда</span>
+                                    <a href="teams1.php?idteam='.$row['idTeam'].'">'.$row['name'].'</a>
+                                </div>
+                                <div>
+                                    <span>Роль</span>
+                                    <span>'.$row['role'].'</span>
+                                </div>
+                                <div>
+                                    <span>Линия</span>
+                                    <span>'.$row['line'].'</span>
+                                </div>
+                                <div>
+                                    <span>Заработано</span>
+                                    <span>$'.$row['prize'].'</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="player-description-wrapper">
+                            <h3 class="player-description-header"><i class="fas fa-info">Описание</i></h3>
+                            <div class="description-block">'.$row[4].'</div>
+                        </div>
+                    ';
                 }
             }
             else
@@ -1318,7 +1462,7 @@ class Database
                         {
                             echo 
                             '
-                                <div class="player-block">
+                                <div class="player-match-block-wrapper">
                                     <img src="'.$playerSubRow['countryFlag'].'" title="'.$playerSubRow['country'].'"><a href="players1.php?idplayer='.$playerSubRow['idPlayer'].'">'.$playerSubRow['nickname'].'</a>&nbsp;&nbsp; 
                                 </div>
                             ';
@@ -1433,8 +1577,6 @@ class Database
             '        
                 </div>
             ';
-
-
             $this->getPastMatches($idmatch, $idFirstTeam, $idSecondTeam);
         }
     }
@@ -1551,6 +1693,7 @@ class Database
         }
         echo
         '
+            </div>
             </div>
         ';
     }

@@ -70,6 +70,7 @@
     </div>
     
    <div class="main-content">
+       <!---
        <h3 class="news-header"><i class="fas fa-newspaper"></i>Последние новости</h3>
        <div class="owl-carousel">
             <div>
@@ -90,17 +91,16 @@
                     <img class="news-image" src="./images/img/cs_go.jpg" alt="">    
                 </a>
             </div>
-            <div>
-                <a class="news-block" href="">
-                    <div class="news-title"><span class="title-text">Тут какой-то заголовок к новости</span></div>
-                    <img class="news-image" src="./images/img/dota2.jpg" alt="">    
-                </a>
-            </div>
+        </div>--->
+        <div class="mini-admin-panel">
+            <button id="add-record"><i class="fas fa-plus"></i>Создать турнир</button>
+            <button id="delete-record"><i class="fas fa-minus"></i>Удалить турнир</button>
+            <i class="fas fa-angle-double-left"></i>
         </div>
-        <div class="administration-panel-block">
-            <button type="button" name="add-tournament" class="add-tournament"><i class="fas fa-plus-circle">Добавить турнир</i></button>
-            <button type="bytton" name="delete-tournament" class="delete-tournament"><i class="fas fa-minus-circle">Удалить турнир</i></button>
-            <button class="hide-administration-panel"><i class="far fa-eye">Показать панель администратора</i></button>
+        <div class="arrow">
+            <i class="fas fa-angle-double-right"></i>
+        </div>
+        <!---<div class="administration-panel-block">
             <div class="administration-panel-wrapper">
                 <form action="" class="administration-panel" method="post">
                     <h3 class="administration-panel-title">Создание турнира</h3>
@@ -139,47 +139,14 @@
                         </li>
                     </ul>
                 </form>
-                <div class="preview-window-wrapper">
-                    <h3 class="preview-window-title"><i class="fas fa-eye"></i>Предварительный просмотр</h3>
-                    <div class="tournament-block-wrapper">
-                        <div class="tournament-block">
-                            <div class="tournament-title-img">
-                                <img src="" class="tournament-img">
-                                <span class="tournament-name"></span>
-                            </div>
-                            <div class="date-prize">
-                                <span class="date"></span>
-                                <span class="prize"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
-        </div>
+        </div>-->
         <div class="matches-transfer-wrapper">
             <div class="matches-block">
                 <h3 class="matches-header"><i class="fas fa-gamepad"></i>Матчи</h3>
-                <div class="match-wrapper">
-                    <div class="match-href">
-                        <div class="translation-wrapper">
-                            <i class="fas fa-video"></i>
-                        </div>
-                        <div class="teams-wrapper">
-                            <span class="first-team">TBD</span>
-                            <span class="country-flag"></span>
-                            <i class="vs">vs</i>
-                            <span class="second-team">TBD</span>
-                            <span class="country-flag"></span>
-                        </div>
-                        <div class="tournament-match-wrapper">
-                            <span class="date">дд.мм.гггг</span>
-                            <span class="time">чч:мм</span>
-                            <a class="tournament-href" href="">
-                                <img src="./images/img/pic-20190311-1000x500-3096092874.jpeg" alt="" class="tournament-image">
-                            </a>
-                        </div>
-                    </div>
-                </div>                
+                <?php
+                    $db->getMatchesForMainPage();
+                ?>           
             </div>
             <div class="transfer-block">
                 <h3 class="transfer-header"><i class="fas fa-exchange-alt"></i>Трансферы</h3>
