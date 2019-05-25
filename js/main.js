@@ -257,8 +257,28 @@ $(function () {
                 $("html").animate({scrollTop:top}, 1000);
             }
         }
-        else{
-            console.log()
+        else{ 
+            alert(where);
+            if(where){ 
+                if(confirm("Вы точно хотите удалить эти(и) запись(и)?")){
+                    where=where.substring(0, where.lastIndexOf(" and "));  
+                    var sql="DELETE FROM tournaments "+where;
+                    $.ajax({
+                        type: "POST",
+                        url: "classes.php",
+                        data: {
+                            action: "deleteTournament", sql: sql
+                        },
+                        success: function (response) {
+                            $(".main-content").html(JSON.parse(response));
+                        }
+                        
+                    });
+                }
+            }
+            else{
+                alert("Вы ничего не выбрали");
+            }
         }
         i++;
     });
@@ -278,9 +298,6 @@ $(function () {
         }      
     });
 
-    where=where.substring(0, where.lastIndexOf(" and "));  
-    console.log(where);
-
     $("img.team-logo").hover(function () {
             $(this).parent().children("div.players-wrapper-block").css({"opacity":"1"});
             $(this).css({"opacity":".2"});     
@@ -290,10 +307,10 @@ $(function () {
         }
     );
 
-        $(".player-index-block").click(function (e) { 
-            e.preventDefault();
-            location.href=$(this).attr("data-href");
-        });
+    $(".player-index-block").click(function (e) { 
+        e.preventDefault();
+        location.href=$(this).attr("data-href");
+    });
 
     $(".teams-block").click(function (e) { 
         e.preventDefault();

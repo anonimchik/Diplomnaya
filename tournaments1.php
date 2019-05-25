@@ -121,6 +121,7 @@
     <div class="main-content">
         <?php
             $db->getTournamentPage($_GET['idtour']);
+            $db->deleteTournament();
         ?>
     </div>
     <div class="footer">

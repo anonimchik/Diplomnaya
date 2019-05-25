@@ -52,6 +52,7 @@
     }
     function enterToSystem()
     {
+        echo"asd";
         $login=$_POST['lgn'];
         $password=$_POST['psd'];
         $object=new newClass;

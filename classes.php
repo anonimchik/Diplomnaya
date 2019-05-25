@@ -1,4 +1,14 @@
 <?php
+$db=new Database;
+switch ($_POST['action']) {
+    case 'deleteTournament':
+        $db->deleteTournament();
+        break;
+    
+    default:
+        # code...
+        break;
+}
 $monthName=array(1=>"Января",
                 2=>"Февраля",
                 3=>"Марта",
@@ -158,7 +168,7 @@ class Database
     }
 
     /*     работа с сайтом */
-
+    
     function getMatchesForMainPage()
     {
         $this->query="SELECT matches.idMatch, name, date_format(date, '%d.%c.%Y %H:%i'), countryFlag, country, event, miniTournamentLogo, firstFinalScore
@@ -312,8 +322,8 @@ class Database
             {
                 while($row = mysql_fetch_array($result)) 
                 {
-                    echo ' 
-                    <div class="tournament-block-wrapper" data-href=tournament1.php?idtour='.$row[0].'>
+                    echo '
+                    <div class="tournament-block-wrapper" data-href=tournaments1.php?idtour='.$row[0].'>
                         <label class="checkbox-del-tour"><i class="fas fa-check"></i><input type="checkbox" id="del-tour"></label>
                         <div class="tournament-block">
                             <div class="tournament-title-img">
@@ -348,7 +358,7 @@ class Database
                 while($row = mysql_fetch_array($result)) 
                 {
                     echo ' 
-                    <div class="tournament-block-wrapper" data-href=tournament1.php?idtour='.$row[0].'>
+                    <div class="tournament-block-wrapper" data-href=tournaments1.php?idtour='.$row[0].'>
                         <label class="checkbox-del-tour"><i class="fas fa-check"></i><input type="checkbox" id="del-tour"></label>
                         <div class="tournament-block">
                             <div class="tournament-title-img">
@@ -1716,6 +1726,143 @@ class Database
         {
             echo "Запрос не был выполнен. Код ошибки -".mysql_errno().". Cообщение ошибки - ".mysql_error().".";
         }
+    }
+
+    function deleteTournament()
+    {
+        $html="";
+        global $monthName;
+        $this->setDbSettings("localhost","root","","course_database");
+        $this->open_connection();
+        /*$this->query=$_POST['sql'];
+        mysql_query($this->query);
+        if(!mysql_error($this->link)){*/
+        /*}
+        else{
+            echo "Запрос не выполнен. ".mysql_error();
+        }*/
+
+        if(!isset($idtour))
+        {
+            $ht=array(1=>"asd",
+                    2=>"1231");
+            $html.='
+                <ul class="tabs">
+                    <li class="tab-link current" data-tab="tab-1"><a href="">Прошедшие</a></li>
+                    <li class="tab-link" data-tab="tab-2"><a href="">Текущие</a></li>
+                    <li class="tab-link" data-tab="tab-3"><a href="">Будущие</a></li>
+                </ul>
+                <div id="tab-1" class="tab-content current">
+                    <div class="tournament-indexx-wrapper">
+                        <h3 class="tournament-header"><i class="fas fa-trophy"></i>Турниры</h3>';
+
+            $this->query="select idTournament, event, tournamentLogo, DATE_FORMAT(dateBegin, '%e'), DATE_FORMAT(dateBegin, '%c'), DATE_FORMAT(dateBegin, '%Y'), dateEnd, prize, region 
+                        from tournaments 
+                        left JOIN regions on tournaments.idRegion=regions.idRegion
+                        where dateEnd<=now()
+                        limit 10";
+            $result=mysql_query($this->query);
+            if(!mysql_error($this->link))
+            {
+                while($row = mysql_fetch_array($result)) 
+                {
+                    $html.='
+                    <div class="tournament-block-wrapper" data-href=tournaments1.php?idtour='.$row[0].'>
+                        <label class="checkbox-del-tour"><i class="fas fa-check"></i><input type="checkbox" id="del-tour"></label>
+                        <div class="tournament-block">
+                            <div class="tournament-title-img">
+                                <img src="'.$row["tournamentLogo"].'" title="'.$row["event"].'" class="tournament-img">
+                                <span class="tournament-name">'.$row["event"].'</span>
+                            </div>
+                            <div class="date-prize">
+                                <span class="date">'.$row[3]." ".$monthName[$row[4]]." $row[5]".'</span>
+                                <span class="prize">$'.$row["prize"].'</span>
+                            </div>
+                        </div>
+                    </div>';
+                }
+            }
+            else
+            {
+                echo "Запрос не был выполнен. Код ошибки -".mysql_errno().". Cообщение ошибки - ".mysql_error().".";
+            }
+            $html.='
+                    </div>
+                </div>';
+
+            $html.=' 
+                <div id="tab-2" class="tab-content">
+                    <div class="tournament-indexx-wrapper">
+                        <h3 class="tournament-header"><i class="fas fa-trophy"></i>Турниры</h3>';
+
+            $this->query="select idTournament, event, tournamentLogo, DATE_FORMAT(dateBegin, '%e'), DATE_FORMAT(dateBegin, '%c'), DATE_FORMAT(dateBegin, '%Y'), prize 
+            from tournaments where dateBegin<=now() limit 10";
+            $result=mysql_query($this->query);
+            if(!mysql_error($this->link))
+            {
+                while($row = mysql_fetch_array($result)) 
+                {
+                    $html.='
+                    <div class="tournament-block-wrapper" data-href=tournaments1.php?idtour='.$row[0].'>
+                        <label class="checkbox-del-tour"><i class="fas fa-check"></i><input type="checkbox" id="del-tour"></label>
+                        <div class="tournament-block">
+                            <div class="tournament-title-img">
+                                <img src="'.$row["tournamentLogo"].'" title="'.$row["event"].'" class="tournament-img">
+                                <span class="tournament-name">'.$row["event"].'</span>
+                            </div>
+                            <div class="date-prize">
+                                <span class="date">'.$row[3]." ".$monthName[$row[4]]." $row[5]".'</span>
+                                <span class="prize">$'.$row["prize"].'</span>
+                            </div>
+                        </div>
+                    </div>';
+                }
+            }
+            else
+            {
+                echo "Запрос не был выполнен. Код ошибки -".mysql_errno().". Cообщение ошибки - ".mysql_error().".";
+            }
+            $html.='
+                    </div>
+                </div>';
+
+            $html.='
+                <div id="tab-3" class="tab-content">
+                    <div class="tournament-indexx-wrapper">
+                        <h3 class="tournament-header"><i class="fas fa-trophy"></i>Турниры</h3>';
+
+            $this->query="select idTournament, event, tournamentLogo, DATE_FORMAT(dateBegin, '%e'), DATE_FORMAT(dateBegin, '%c'), DATE_FORMAT(dateBegin, '%Y'), prize 
+            from tournaments where dateBegin>now() limit 10";
+            if(!mysql_error($this->link))
+            {
+                while($row = mysql_fetch_array($result)) 
+                {
+                    $html.=' 
+                    <div class="tournament-block-wrapper" data-href=tournaments1.php?idtour='.$row[0].'>
+                        <label class="checkbox-del-tour"><i class="fas fa-check"></i><input type="checkbox" id="del-tour"></label>
+                        <div class="tournament-block">
+                            <div class="tournament-title-img">
+                                <img src="'.$row["tournamentLogo"].'" title="'.$row["event"].'" class="tournament-img">
+                                <span class="tournament-name">'.$row["event"].'</span>
+                            </div>
+                            <div class="date-prize">
+                                <span class="date">'.$row[3]." ".$monthName[$row[4]]." $row[5]".'</span>
+                                <span class="prize">$'.$row["prize"].'</span>
+                            </div>
+                        </div>
+                    </div>';
+                }
+            }
+            else
+            {
+                echo "Запрос не был выполнен. Код ошибки -".mysql_errno().". Cообщение ошибки - ".mysql_error().".";
+            }
+            $html.='
+                    </div>
+                </div>';
+        }
+
+        echo json_encode($html);
     }
 
 }
