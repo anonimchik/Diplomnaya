@@ -4,9 +4,16 @@ switch ($_POST['action']) {
     case 'deleteTournament':
         $db->deleteTournament();
         break;
-    
+    case 'createTournament':
+        $db->createTournament();
+        break;
+    case 'add tournament member':
+        $db->addTournamentMember();   
+        break;
+    case 'update tournament data':
+        $db->updateTornamentData();
+        break;
     default:
-        # code...
         break;
 }
 $monthName=array(1=>"Января",
@@ -195,11 +202,15 @@ class Database
                 '
                     <div class="match-block-wrapper" data-href="matches1.php?idmatch='.$row['idMatch'].'">
                         <div class="teams-block-wrapper">
-                            <span class="first-team">'.$row['name'].'</span>
-                            <img src="'.$row['countryFlag'].'" title="'.$row['country'].'">
+                            <div class="first-team">
+                                <span>'.$row['name'].'</span>
+                                <img src="'.$row['countryFlag'].'" title="'.$row['country'].'">
+                            </div>
                             <span class="match-score">'.$row['firstFinalScore'].':'.$subRow['secondFinalScore'].'</span>
-                            <span class="second-team">'.$subRow['name'].'</span>
-                            <img src="'.$subRow['countryFlag'].'" title="'.$subRow['country'].'">
+                            <div class="second-team">
+                                <img src="'.$subRow['countryFlag'].'" title="'.$subRow['country'].'">
+                                <span>'.$subRow['name'].'</span>
+                            </div>
                         </div>
                         <div class="tournament-date-block">
                             <span class="datetime">'.$row[2].'</span>
@@ -385,8 +396,21 @@ class Database
         {
             $this->getTournamentInfo($idtour);   
             $this->getTournamentMembers($idtour);
-            echo 
+            echo /* создание блока добавления участника турнира */
             '
+                <div class="team-block"> 
+                    <i class="far fa-plus-square"></i>
+                    <select id="tournament-member">
+                        <option selected>Выберите команду</option>
+            ';
+                $query="SELECT idTeam, name FROM teams ORDER BY name";
+                $this->getOptionsForSelect($query, "idTeam", "name");
+            echo  
+            '
+                    </select>
+                    <button id="add-tournament-member"><i class="fas fa-plus"></i>Добавить участника</button>
+                </div>
+
                             </div>
                             </div>
                         </div>
@@ -409,6 +433,7 @@ class Database
             </div>
                 <div class="prize-places-block-wrapper">
                     <h3 class="prize-places-header">Призовые места</h3>
+                    <div class="prize-places-block">&nbsp;</div>
                 </div>
             </div>
             ';
@@ -432,12 +457,10 @@ class Database
                 $team=$row['name'];
                 echo 
                     ' 
-                    <div class="team-block">
-                        <a href="teams1.php?idteam='.$row['idTeam'].'" class="team-title">'.$team.'</a>
-                        <img src="'.$row['logo'].'" class="team-logo">
+                    <div class="team-block" data-href="teams1.php?idteam='.$row['idTeam'].'">
+                        <a href="" class="team-title">'.$team.'</a>
                         <div class="players-wrapper-block">';
                         
-
                         $this->query="SELECT distinct idPlayer, players.idRole, players.countryFlag, players.nickname, players.country
                                     FROM tournamentmembers 
                                     left JOIN teams ON tournamentmembers.idTeam=teams.idTeam
@@ -451,24 +474,23 @@ class Database
                                 echo 
                                     '
                                         <div class="players-block">
-                                            <div class="position-block"> 
-                                                <span class="position-number">'.$subRow['idRole'].'</span>
+                                            <div class="position-block">
+                                                <span class="position-number">'.$subRow['idRole'].'&nbsp;</span>
                                             </div>
-                                            <div class="flag-nick">
+                                            <div class="flag-nick" data-href="players1.php?idplayer='.$subRow['idPlayer'].'">
                                                 <img src="'.$subRow['countryFlag'].'" title="'.$subRow['country'].'" class="player-country">
-                                                <a href="players1.php" class="player">'.$subRow['nickname'].'</a>
+                                                <a href="" class="player">&nbsp;'.$subRow['nickname'].'&nbsp;</a>
                                             </div>
                                         </div>
                                     ';
                             }
                         }
                         
-
-
                 echo
                     ' 
-                        </div>       
-                        <a href="" class="invite">Europe</a>
+                        </div>     
+                        <img src="'.$row['logo'].'" class="team-logo">  
+                        <a class="invite">Europe</a>
                     </div>
                     ';
             }
@@ -502,27 +524,44 @@ class Database
         echo
         '
             <div id="tab-1" class="tab-content current">
+                <div class="tournament-indexx-wrapper">
                 <h3 class="matches-block-header"><i class="fas fa-gamepad">Матчи</i></h3>
         ';
         
         if(!mysql_error($this->link))
         {
-            while($row=mysql_fetch_array($result) and $subRow=mysql_fetch_array($subResult))
+            if(mysql_num_rows($result)!=0)
+            {
+                while($row=mysql_fetch_array($result) and $subRow=mysql_fetch_array($subResult))
+                {
+                    echo 
+                    '
+                        <div class="match-block-wrapper" data-href="matches1.php?idmatch='.$row['idMatch'].'">
+                            <div class="teams-block-wrapper">
+                                <div class="first-team">
+                                    <span>'.$row['name'].'</span>
+                                    <img src="'.$row['countryFlag'].'" title="'.$row['country'].'">
+                                </div>
+                                <span class="match-score">'.$row['fistFinalScore'].':'.$subRow['secondFinalScore'].'</span>
+                                <div class="second-team">
+                                    <img src="'.$subRow['countryFlag'].'" title="'.$subRow['country'].'">
+                                    <span>'.$subRow['name'].'</span>
+                                </div>
+                            </div>
+                            <div class="tournament-date-block">
+                                <span class="datetime">'.$row['date'].'</span>
+                                <img  src="'.$row['miniTournamentLogo'].'" title="'.$subRow['event'].'">
+                            </div>
+                        </div>
+                    ';
+                }
+            }
+            else
             {
                 echo 
                 '
-                    <div class="match-block-wrapper" data-href="matches1.php?idmatch='.$row['idMatch'].'">
-                        <div class="teams-block-wrapper">
-                            <span class="first-team">'.$row['name'].'</span>
-                            <img src="'.$row['countryFlag'].'" title="'.$row['country'].'">
-                            <span class="match-score">'.$row['fistFinalScore'].':'.$subRow['secondFinalScore'].'</span>
-                            <span class="second-team">'.$subRow['name'].'</span>
-                            <img src="'.$subRow['countryFlag'].'" title="'.$subRow['country'].'">
-                        </div>
-                        <div class="tournament-date-block">
-                            <span class="datetime">'.$row['date'].'</span>
-                            <img  src="'.$row['miniTournamentLogo'].'" title="'.$subRow['event'].'">
-                        </div>
+                    <div class="match-block-wrapper">
+                        &nbsp;
                     </div>
                 ';
             }
@@ -533,12 +572,14 @@ class Database
         }
         echo 
         '
+                </div>
             </div>
         ';
 
         echo 
         '
             <div id="tab-2" class="tab-content">
+                <div class="tournament-indexx-wrapper">
                 <h3 class="matches-block-header"><i class="fas fa-gamepad">Матчи</i></h3>
         ';
         $this->query="SELECT matches.idMatch, name, date, countryFlag, country, event, miniTournamentLogo, firstFinalScore
@@ -559,22 +600,38 @@ class Database
         $subResult=mysql_query($this->query);
         if(!mysql_error($this->link))
         {
-            while($row=mysql_fetch_array($result) and $subRow=mysql_fetch_array($subResult))
+            if(mysql_num_rows($result)!=0)
             {
-                echo 
+                while($row=mysql_fetch_array($result) and $subRow=mysql_fetch_array($subResult))
+                {
+                    echo 
+                    '
+                        <div class="match-block-wrapper" data-href="matches1.php?idmatch='.$row['idMatch'].'">
+                            <div class="teams-block-wrapper">
+                                <div class="first-team">
+                                    <span>'.$row['name'].'</span>
+                                    <img src="'.$row['countryFlag'].'" title="'.$row['country'].'">
+                                </div>
+                                <span class="match-score">'.$row['firstFinalScore'].':'.$subRow['secondFinalScore'].'</span>
+                                <div class="second-team">
+                                    <img src="'.$subRow['countryFlag'].'" title="'.$subRow['country'].'">
+                                    <span>'.$subRow['name'].'</span>
+                                </div>
+                            </div>
+                            <div class="tournament-date-block">
+                                <span class="datetime">'.$row['date'].'</span>
+                                <img  src="'.$row['miniTournamentLogo'].'" title="'.$subRow['event'].'">
+                            </div>
+                        </div>
+                    ';
+                }
+            }
+            else
+            {
+                echo
                 '
-                    <div class="match-block-wrapper" data-href="matches1.php?idmatch='.$row['idMatch'].'">
-                        <div class="teams-block-wrapper">
-                            <span class="first-team">'.$row['name'].'</span>
-                            <img src="'.$row['countryFlag'].'" title="'.$row['country'].'">
-                            <span class="match-score">'.$row['firstFinalScore'].':'.$subRow['secondFinalScore'].'</span>
-                            <span class="second-team">'.$subRow['name'].'</span>
-                            <img src="'.$subRow['countryFlag'].'" title="'.$subRow['country'].'">
-                        </div>
-                        <div class="tournament-date-block">
-                            <span class="datetime">'.$row['date'].'</span>
-                            <img  src="'.$row['miniTournamentLogo'].'" title="'.$subRow['event'].'">
-                        </div>
+                    <div class="match-block-wrapper">
+                        &nbsp;
                     </div>
                 ';
             }
@@ -585,12 +642,14 @@ class Database
         }
         echo 
         '
+               </div>
             </div>
         '; 
         
         echo 
         '
             <div id="tab-3" class="tab-content">
+                <div class="tournament-indexx-wrapper">
                 <h3 class="matches-block-header"><i class="fas fa-gamepad">Матчи</i></h3>
         ';
         $this->query="SELECT matches.idMatch, name, date, countryFlag, country, event, miniTournamentLogo, firstFinalScore
@@ -611,22 +670,38 @@ class Database
         $subResult=mysql_query($this->query);
         if(!mysql_error($this->link))
         {
-            while($row=mysql_fetch_array($result) and $subRow=mysql_fetch_array($subResult))
+            if(mysql_num_rows($result)!=0)
             {
-                echo 
+                while($row=mysql_fetch_array($result) and $subRow=mysql_fetch_array($subResult))
+                {
+                    echo 
+                    '
+                        <div class="match-block-wrapper" data-href="matches1.php?idmatch='.$row['idMatch'].'">
+                            <div class="teams-block-wrapper">
+                                <div class="first-team">
+                                    <span>'.$row['name'].'</span>
+                                    <img src="'.$row['countryFlag'].'" title="'.$row['country'].'">
+                                </div>
+                                <span class="match-score">'.$row['firstFinalScore'].':'.$subRow['secondFinalScore'].'</span>
+                                <div class="second-team">
+                                    <img src="'.$subRow['countryFlag'].'" title="'.$subRow['country'].'">
+                                    <span>'.$subRow['name'].'</span>
+                                </div>
+                            </div>
+                            <div class="tournament-date-block">
+                                <span class="datetime">'.$row['date'].'</span>
+                                <img  src="'.$row['miniTournamentLogo'].'" title="'.$subRow['event'].'">
+                            </div>
+                        </div>
+                    ';
+                }
+            }
+            else
+            {
+                echo
                 '
-                    <div class="match-block-wrapper" data-href="matches1.php?idmatch='.$row['idMatch'].'">
-                        <div class="teams-block-wrapper">
-                            <span class="first-team">'.$row['name'].'</span>
-                            <img src="'.$row['countryFlag'].'" title="'.$row['country'].'">
-                            <span class="match-score">'.$row['firstFinalScore'].':'.$subRow['secondFinalScore'].'</span>
-                            <span class="second-team">'.$subRow['name'].'</span>
-                            <img src="'.$subRow['countryFlag'].'" title="'.$subRow['country'].'">
-                        </div>
-                        <div class="tournament-date-block">
-                            <span class="datetime">'.$row['date'].'</span>
-                            <img  src="'.$row['miniTournamentLogo'].'" title="'.$subRow['event'].'">
-                        </div>
+                    <div class="match-block-wrapper">
+                        &nbsp;
                     </div>
                 ';
             }
@@ -637,7 +712,8 @@ class Database
         }
         echo 
         '
-            </div>
+                </div>
+            </div>  
         ';
 
     }
@@ -645,7 +721,7 @@ class Database
     function getTournamentInfo($idtour)
     {
         global $monthName;
-        $this->query="SELECT date_format(dateBegin, '%d'), date_format(dateBegin, '%c'), date_format(dateBegin, '%Y'), event, prize, seria, tournamentLogo
+        $this->query="SELECT date_format(dateBegin, '%d'), date_format(dateBegin, '%c'), date_format(dateBegin, '%Y'), date_format(dateBegin, '%m'), event, prize, seria, tournamentLogo
                     FROM tournaments
                     WHERE idTournament=".$idtour."";
         $result=mysql_query($this->query);
@@ -658,20 +734,40 @@ class Database
                     <div class="tournament-wrapper">
                         <div class="tournament-page-block">
                             <div class="tournament-info-block">
-                                <img src="'.$row['tournamentLogo'].'" title="'.$row['event'].'">
-                                <span class="tournament-info-title">'.$row['event'].'</span>
+                            <form>
+                                <span class="change-information"><i class="fas fa-pen-square"></i></span>
+                                <div class="hidden-action-panel">
+                                    <button id="safe-changes"><i class="fas fa-check"></i>Сохранить изменения</button>
+                                    <button id="no-safe-changes"><i class="fas fa-times"></i>Отмена</button>
+                                </div>
+                                <label class="tour-img">
+                                    <img src="'.$row['tournamentLogo'].'" title="'.$row['event'].'">
+                                </label>
+                                <input type="file" id="tournament-img" required accept="image/*">
+                                <div class="tournament-info-title">
+                                    <span id="primary-tournament-title">'.$row['event'].'</span>
+                                    <input id="tournament-title" type="text" value="'.$row['event'].'">
+                                </div>
                                 <div class="begDate-block">
-                                    <span>Дата начала</span>
-                                    <span>'.$row[0].' '.$monthName[$row[1]].' '.$row[2].'</span>
+                                    <label for="begDate">Дата начала</label>
+                                    <span class="begDate" id="primary-begDate">'.$row[0].' '.$monthName[$row[1]].' '.$row[2].'</span>
+                                    <input id="begDate" type="date" value="'.$row[2].'-'.$row[3].'-'.$row[0].'">
                                 </div>
                                 <div class="prize-block">
-                                    <span>Призовой фонд</span>
-                                    <span class="prize">$ '.$row['prize'].'</span>
+                                    <label for="prize-fond">Призовой фонд</label>
+                                    <span class="prize" id="primary-prize">$ '.$row['prize'].'</span>
+                                    <div class="numeric-field">
+                                        <i class="fas fa-minus-circle"></i>
+                                        <input type="number" required min="0" id="prize-fond" value="'.$row['prize'].'">
+                                        <i class="fas fa-plus-circle"></i>
+                                    </div>
                                 </div>
                                 <div class="seria-block">
-                                    <span>Серия</span>
-                                    <span class="seria">'.$row['seria'].'</span>
+                                    <label for="seria">Серия</label>
+                                    <span class="seria" id="primary-seria">'.$row['seria'].'</span>
+                                    <input type="text" id="seria" value="'.$row['seria'].'">
                                 </div>
+                            </form>
                             </div>
                             <div class="teams-wrapper-block">
                                 <h3 class="teams-title"><i class="fas fa-users">Команды</i></h3>
@@ -903,11 +999,15 @@ class Database
                     '
                         <div class="match-block-wrapper" data-href="matches1.php?idmatch='.$row['idMatch'].'">
                             <div class="teams-block-wrapper">
-                                <span class="first-team">'.$row['name'].'</span>
-                                <img src="'.$row['countryFlag'].'" title="'.$row['country'].'">
+                                <div class="first-team">
+                                    <span>'.$row['name'].'</span>
+                                    <img src="'.$row['countryFlag'].'" title="'.$row['country'].'">
+                                </div>
                                 <span class="match-score">'.$row['firstFinalScore'].':'.$subRow['secondFinalScore'].'</span>
-                                <span class="second-team">'.$subRow['name'].'</span>
-                                <img src="'.$subRow['countryFlag'].'" title="'.$subRow['country'].'">
+                                <div class="second-team">
+                                    <img src="'.$subRow['countryFlag'].'" title="'.$subRow['country'].'">
+                                    <span>'.$subRow['name'].'</span>       
+                                </div>
                             </div>
                             <div class="tournament-date-block">
                                 <span class="datetime">'.$row['date'].'</span>
@@ -957,11 +1057,15 @@ class Database
                     '
                         <div class="match-block-wrapper" data-href="matches1.php?idmatch='.$row['idMatch'].'">
                             <div class="teams-block-wrapper">
-                                <span class="first-team">'.$row['name'].'</span>
-                                <img src="'.$row['countryFlag'].'" title="'.$row['country'].'">
+                                <div class="first-team">
+                                    <span>'.$row['name'].'</span>
+                                    <img src="'.$row['countryFlag'].'" title="'.$row['country'].'">
+                                </div>
                                 <span class="match-score">'.$row['firstFinalScore'].':'.$subRow['secondFinalScore'].'</span>
-                                <span class="second-team">'.$subRow['name'].'</span>
-                                <img src="'.$subRow['countryFlag'].'" title="'.$subRow['country'].'">
+                                <div class="second-team">
+                                    <img src="'.$subRow['countryFlag'].'" title="'.$subRow['country'].'">
+                                    <span>'.$subRow['name'].'</span>  
+                                </div>
                             </div>
                             <div class="tournament-date-block">
                                 <span class="datetime">'.$row['date'].'</span>
@@ -1014,8 +1118,8 @@ class Database
                                 <span class="first-team">'.$row['name'].'</span>
                                 <img src="'.$row['countryFlag'].'" title="'.$row['country'].'">
                                 <span class="match-score">'.$row['firstFinalScore'].':'.$subRow['secondFinalScore'].'</span>
-                                <span class="second-team">'.$subRow['name'].'</span>
                                 <img src="'.$subRow['countryFlag'].'" title="'.$subRow['country'].'">
+                                <span class="second-team">'.$subRow['name'].'</span>                               
                             </div>
                             <div class="tournament-date-block">
                                 <span class="datetime">'.$row['date'].'</span>
@@ -1073,6 +1177,17 @@ class Database
     {
         if(!isset($idplayer))//формирование страницы с игроками
         {
+            echo
+            '
+                <div class="list-header">
+                    <span style="flex-basis: 10%">Срана</span>
+                    <span style="flex-basis: 10%">Никнейм</span>
+                    <span>Логотип команды</span>
+                    <span>Название команды</span>
+                    <span>Сумма призовых</span>
+                </div>
+            ';
+            /* player-block-wrapper */
             $this->query="SELECT idPlayer, nickname, players.country, players.countryFlag, line, players.prize, teams.name, logo 
                         FROM players
                         LEFT JOIN teams ON teams.idTeam=players.idTeam 
@@ -1243,16 +1358,23 @@ class Database
                     echo 
                     '
                         <div class="match-block-wrapper" data-href="matches1.php?idmatch='.$row['idMatch'].'">
-                            <div class="teams-block-wrapper">
-                                <span class="first-team">'.$row['name'].'</span>
-                                <img src="'.$row['countryFlag'].'" title="'.$row['country'].'">
-                                <span class="match-score">'.$row['firstFinalScore'].':'.$subRow['secondFinalScore'].'</span>
-                                <span class="second-team">'.$subRow['name'].'</span>
-                                <img src="'.$subRow['countryFlag'].'" title="'.$subRow['country'].'">
-                            </div>
-                            <div class="tournament-date-block">
-                                <span class="datetime">'.$row['date'].'</span>
-                                <img  src="'.$row['miniTournamentLogo'].'" title="'.$subRow['event'].'">
+                            <label class="checkbox-del-match"><i class="fas fa-check"></i><input type="checkbox" class="del-match"></label>
+                            <div class="teams-tournament-block"> 
+                                <div class="teams-block-wrapper">
+                                    <div class="first-team">
+                                        <span>'.$row['name'].'</span>
+                                        <img src="'.$row['countryFlag'].'" title="'.$row['country'].'">
+                                    </div>
+                                    <span class="match-score">'.$row['firstFinalScore'].':'.$subRow['secondFinalScore'].'</span>
+                                    <div class="second-team">
+                                        <img src="'.$subRow['countryFlag'].'" title="'.$subRow['country'].'">
+                                        <span>'.$subRow['name'].'</span>
+                                    </div>
+                                </div>
+                                <div class="tournament-date-block">
+                                    <span class="datetime">'.$row['date'].'</span>
+                                    <img  src="'.$row['miniTournamentLogo'].'" title="'.$subRow['event'].'">
+                                </div>
                             </div>
                         </div>
                     ';
@@ -1298,11 +1420,15 @@ class Database
                     '
                         <div class="match-block-wrapper" data-href="matches1.php?idmatch='.$row['idMatch'].'">
                             <div class="teams-block-wrapper">
-                                <span class="first-team">'.$row['name'].'</span>
-                                <img src="'.$row['countryFlag'].'" title="'.$row['country'].'">
+                                <idv class="first-team">
+                                    <span>'.$row['name'].'</span>
+                                    <img src="'.$row['countryFlag'].'" title="'.$row['country'].'">
+                                </div>
                                 <span class="match-score">'.$row['firstFinalScore'].':'.$subRow['secondFinalScore'].'</span>
-                                <span class="second-team">'.$subRow['name'].'</span>
-                                <img src="'.$subRow['countryFlag'].'" title="'.$subRow['country'].'">
+                                <div class="second-team">
+                                    <img src="'.$subRow['countryFlag'].'" title="'.$subRow['country'].'">
+                                    <span>'.$subRow['name'].'</span>
+                                </div>
                             </div>
                             <div class="tournament-date-block">
                                 <span class="datetime">'.$row['date'].'</span>
@@ -1352,11 +1478,15 @@ class Database
                     '
                         <div class="match-block-wrapper" data-href="matches1.php?idmatch='.$row['idMatch'].'">
                             <div class="teams-block-wrapper">
-                                <span class="first-team">'.$row['name'].'</span>
-                                <img src="'.$row['countryFlag'].'" title="'.$row['country'].'">
+                                <div class="first-team">
+                                    <span>'.$row['name'].'</span>
+                                    <img src="'.$row['countryFlag'].'" title="'.$row['country'].'">
+                                </div>
                                 <span class="match-score">'.$row['firstFinalScore'].':'.$subRow['secondFinalScore'].'</span>
-                                <span class="second-team">'.$subRow['name'].'</span>
-                                <img src="'.$subRow['countryFlag'].'" title="'.$subRow['country'].'">
+                                <div class="second-team">
+                                    <img src="'.$subRow['countryFlag'].'" title="'.$subRow['country'].'">
+                                    <span>'.$subRow['name'].'</span>
+                                </div>
                             </div>
                             <div class="tournament-date-block">
                                 <span class="datetime">'.$row['date'].'</span>
@@ -1730,139 +1860,59 @@ class Database
 
     function deleteTournament()
     {
-        $html="";
-        global $monthName;
         $this->setDbSettings("localhost","root","","course_database");
         $this->open_connection();
-        /*$this->query=$_POST['sql'];
+        $this->query=$_POST['sql'];
         mysql_query($this->query);
-        if(!mysql_error($this->link)){*/
-        /*}
+        if(!mysql_error($this->link)){
+            echo "Запись(и) удалена(ы) успешно";
+        }
         else{
             echo "Запрос не выполнен. ".mysql_error();
-        }*/
-
-        if(!isset($idtour))
-        {
-            $ht=array(1=>"asd",
-                    2=>"1231");
-            $html.='
-                <ul class="tabs">
-                    <li class="tab-link current" data-tab="tab-1"><a href="">Прошедшие</a></li>
-                    <li class="tab-link" data-tab="tab-2"><a href="">Текущие</a></li>
-                    <li class="tab-link" data-tab="tab-3"><a href="">Будущие</a></li>
-                </ul>
-                <div id="tab-1" class="tab-content current">
-                    <div class="tournament-indexx-wrapper">
-                        <h3 class="tournament-header"><i class="fas fa-trophy"></i>Турниры</h3>';
-
-            $this->query="select idTournament, event, tournamentLogo, DATE_FORMAT(dateBegin, '%e'), DATE_FORMAT(dateBegin, '%c'), DATE_FORMAT(dateBegin, '%Y'), dateEnd, prize, region 
-                        from tournaments 
-                        left JOIN regions on tournaments.idRegion=regions.idRegion
-                        where dateEnd<=now()
-                        limit 10";
-            $result=mysql_query($this->query);
-            if(!mysql_error($this->link))
-            {
-                while($row = mysql_fetch_array($result)) 
-                {
-                    $html.='
-                    <div class="tournament-block-wrapper" data-href=tournaments1.php?idtour='.$row[0].'>
-                        <label class="checkbox-del-tour"><i class="fas fa-check"></i><input type="checkbox" id="del-tour"></label>
-                        <div class="tournament-block">
-                            <div class="tournament-title-img">
-                                <img src="'.$row["tournamentLogo"].'" title="'.$row["event"].'" class="tournament-img">
-                                <span class="tournament-name">'.$row["event"].'</span>
-                            </div>
-                            <div class="date-prize">
-                                <span class="date">'.$row[3]." ".$monthName[$row[4]]." $row[5]".'</span>
-                                <span class="prize">$'.$row["prize"].'</span>
-                            </div>
-                        </div>
-                    </div>';
-                }
-            }
-            else
-            {
-                echo "Запрос не был выполнен. Код ошибки -".mysql_errno().". Cообщение ошибки - ".mysql_error().".";
-            }
-            $html.='
-                    </div>
-                </div>';
-
-            $html.=' 
-                <div id="tab-2" class="tab-content">
-                    <div class="tournament-indexx-wrapper">
-                        <h3 class="tournament-header"><i class="fas fa-trophy"></i>Турниры</h3>';
-
-            $this->query="select idTournament, event, tournamentLogo, DATE_FORMAT(dateBegin, '%e'), DATE_FORMAT(dateBegin, '%c'), DATE_FORMAT(dateBegin, '%Y'), prize 
-            from tournaments where dateBegin<=now() limit 10";
-            $result=mysql_query($this->query);
-            if(!mysql_error($this->link))
-            {
-                while($row = mysql_fetch_array($result)) 
-                {
-                    $html.='
-                    <div class="tournament-block-wrapper" data-href=tournaments1.php?idtour='.$row[0].'>
-                        <label class="checkbox-del-tour"><i class="fas fa-check"></i><input type="checkbox" id="del-tour"></label>
-                        <div class="tournament-block">
-                            <div class="tournament-title-img">
-                                <img src="'.$row["tournamentLogo"].'" title="'.$row["event"].'" class="tournament-img">
-                                <span class="tournament-name">'.$row["event"].'</span>
-                            </div>
-                            <div class="date-prize">
-                                <span class="date">'.$row[3]." ".$monthName[$row[4]]." $row[5]".'</span>
-                                <span class="prize">$'.$row["prize"].'</span>
-                            </div>
-                        </div>
-                    </div>';
-                }
-            }
-            else
-            {
-                echo "Запрос не был выполнен. Код ошибки -".mysql_errno().". Cообщение ошибки - ".mysql_error().".";
-            }
-            $html.='
-                    </div>
-                </div>';
-
-            $html.='
-                <div id="tab-3" class="tab-content">
-                    <div class="tournament-indexx-wrapper">
-                        <h3 class="tournament-header"><i class="fas fa-trophy"></i>Турниры</h3>';
-
-            $this->query="select idTournament, event, tournamentLogo, DATE_FORMAT(dateBegin, '%e'), DATE_FORMAT(dateBegin, '%c'), DATE_FORMAT(dateBegin, '%Y'), prize 
-            from tournaments where dateBegin>now() limit 10";
-            if(!mysql_error($this->link))
-            {
-                while($row = mysql_fetch_array($result)) 
-                {
-                    $html.=' 
-                    <div class="tournament-block-wrapper" data-href=tournaments1.php?idtour='.$row[0].'>
-                        <label class="checkbox-del-tour"><i class="fas fa-check"></i><input type="checkbox" id="del-tour"></label>
-                        <div class="tournament-block">
-                            <div class="tournament-title-img">
-                                <img src="'.$row["tournamentLogo"].'" title="'.$row["event"].'" class="tournament-img">
-                                <span class="tournament-name">'.$row["event"].'</span>
-                            </div>
-                            <div class="date-prize">
-                                <span class="date">'.$row[3]." ".$monthName[$row[4]]." $row[5]".'</span>
-                                <span class="prize">$'.$row["prize"].'</span>
-                            </div>
-                        </div>
-                    </div>';
-                }
-            }
-            else
-            {
-                echo "Запрос не был выполнен. Код ошибки -".mysql_errno().". Cообщение ошибки - ".mysql_error().".";
-            }
-            $html.='
-                    </div>
-                </div>';
         }
 
-        echo json_encode($html);
+    }
+
+    function createTournament()
+    {
+        $this->setDbSettings("localhost","root","","course_database");
+        $this->open_connection();
+        $this->query=$_POST['sql'];
+        mysql_query($this->query);
+        if(!mysql_error($this->link)){
+            echo "Турнир успешно добавлен";
+        }
+        else{
+            echo "Запрос не выполнен. ".mysql_error();
+        }
+    }
+
+    function addTournamentMember()
+    {
+        $this->setDbSettings("localhost","root","","course_database");
+        $this->open_connection();
+        $this->query=$_POST['sql'];
+        mysql_query($this->query);
+        if(!mysql_error($this->link)){
+            echo "Команда-участник успешно добавлена";
+        }
+        else{
+            echo "Запрос не выполнен. ".mysql_error();
+        }
+    }
+
+    function updateTornamentData()
+    {
+        $this->setDbSettings("localhost","root","","course_database");
+        $this->open_connection();
+        $this->query=$_POST['sql'];
+        mysql_query($this->query);
+        if(!mysql_error($this->link)){
+            echo "Данные успешно изменены";
+        }
+        else{
+            echo "Запрос не выполнен. ".mysql_error();
+        }
     }
 
 }

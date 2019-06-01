@@ -23,24 +23,25 @@
         <div class="logo"></div>
         <div class="login-info">
             <a href="" class="registration"><i class="fas fa-edit"><span class="registration-text">Регистрация</span></i></a>
+            <span class="or">или</span>
             <a href="" class="enter"><i class="fas fa-lock"><span class="enter-text">Вход</span></i></a>
         </div>
         <div class="enter-invisible">
-            <div class="triangle-enter"></div>
-            <h3 class="enter-header">Вход <i class="fas fa-times"></i></h3>
-            <div class="enter-main">
-                <div class="login-password">
-                    <input type="text" name="login" placeholder="Логин" size="40">
-                    <input type="password" name="password" placeholder="Пароль" size="40">
+                <div class="triangle-enter"></div>
+                <h3 class="enter-header">Вход <i class="fas fa-times"></i></h3>
+                <div class="enter-main">
+                    <div class="login-password">
+                        <input type="text" name="login" placeholder="Логин">
+                        <input type="password" name="password" placeholder="Пароль">
+                    </div>
+                    <div class="remember-forgot">
+                        <label><input type="checkbox" name="remember"><span>Запомнить меня</span></label>
+                        <a href="" class="forgot">Забыли пароль?</a>
+                    </div>
+                    <input type="button" value="Войти">
                 </div>
-                <div class="remember-forgot">
-                    <label><input type="checkbox" name="remember"><span>Запомнить меня</span></label>
-                    <a href="" class="forgot">Забыли пароль?</a>
-                </div>
-                <input type="button" value="Войти">
             </div>
-        </div>
-        <div class="registration-invisible">
+            <div class="registration-invisible">
             <div class="triangle-registration"></div>
             <h3 class="registration-header">Регистрация <i class="fas fa-times"></i></h3>
             <div class="registration-main">
@@ -68,6 +69,14 @@
             $db->getTeamName($_GET['idteam']);
         ?>
         <div class="tournament-bg"></div>
+    </div>
+    <div class="mini-admin-panel">
+        <button id="add-record"><i class="fas fa-plus"></i>Создать турнир</button>
+        <button id="delete-record"><i class="fas fa-minus"></i>Удалить турнир</button>
+        <i class="fas fa-angle-double-left"></i>
+    </div>
+    <div class="arrow">
+        <i class="fas fa-angle-double-right"></i>
     </div>
     <div class="main-content">
         <?php

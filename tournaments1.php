@@ -19,28 +19,29 @@
         $db->setDbSettings("localhost", "root", "", "course_database");
         $db->open_connection();
     ?>
-    <div class="header">
+   <div class="header">
         <div class="logo"></div>
         <div class="login-info">
             <a href="" class="registration"><i class="fas fa-edit"><span class="registration-text">Регистрация</span></i></a>
+            <span class="or">или</span>
             <a href="" class="enter"><i class="fas fa-lock"><span class="enter-text">Вход</span></i></a>
         </div>
         <div class="enter-invisible">
-            <div class="triangle-enter"></div>
-            <h3 class="enter-header">Вход <i class="fas fa-times"></i></h3>
-            <div class="enter-main">
-                <div class="login-password">
-                    <input type="text" name="login" placeholder="Логин" size="40">
-                    <input type="password" name="password" placeholder="Пароль" size="40">
+                <div class="triangle-enter"></div>
+                <h3 class="enter-header">Вход <i class="fas fa-times"></i></h3>
+                <div class="enter-main">
+                    <div class="login-password">
+                        <input type="text" name="login" placeholder="Логин">
+                        <input type="password" name="password" placeholder="Пароль">
+                    </div>
+                    <div class="remember-forgot">
+                        <label><input type="checkbox" name="remember"><span>Запомнить меня</span></label>
+                        <a href="" class="forgot">Забыли пароль?</a>
+                    </div>
+                    <input type="button" value="Войти">
                 </div>
-                <div class="remember-forgot">
-                    <label><input type="checkbox" name="remember"><span>Запомнить меня</span></label>
-                    <a href="" class="forgot">Забыли пароль?</a>
-                </div>
-                <input type="button" value="Войти">
             </div>
-        </div>
-        <div class="registration-invisible">
+            <div class="registration-invisible">
             <div class="triangle-registration"></div>
             <h3 class="registration-header">Регистрация <i class="fas fa-times"></i></h3>
             <div class="registration-main">
@@ -79,7 +80,7 @@
     </div>
     <div class="administration-panel-index-block">
         <div class="administration-panel-wrapper">
-            <form action="" class="administration-panel" method="post">
+            <form id="admin-form" class="administration-panel" method="post">
                 <h3 class="administration-panel-title">Создание турнира</h3>
                 <ul class="admin-form">
                     <li>
@@ -99,7 +100,7 @@
                     </li>
                     <li>
                         <label for="tournament-date-end">Дата завершения</label>
-                        <input type="date" id="tournament-date-end">
+                        <input type="date" required id="tournament-date-end">
                     </li>
                     <li>
                         <label for="tournament-prize">Сумма призовых ($)</label>
@@ -111,7 +112,6 @@
                     </li>
                     <li>
                         <button type="reset">Очистить поля</button>
-                        <button id="preview">Предварительный просмотр</button>
                         <button type="submit" id="create-tournament">Добавить турнир</button>
                     </li>
                 </ul>
@@ -121,7 +121,6 @@
     <div class="main-content">
         <?php
             $db->getTournamentPage($_GET['idtour']);
-            $db->deleteTournament();
         ?>
     </div>
     <div class="footer">

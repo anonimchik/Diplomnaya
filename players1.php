@@ -23,24 +23,25 @@
         <div class="logo"></div>
         <div class="login-info">
             <a href="" class="registration"><i class="fas fa-edit"><span class="registration-text">Регистрация</span></i></a>
+            <span class="or">или</span>
             <a href="" class="enter"><i class="fas fa-lock"><span class="enter-text">Вход</span></i></a>
         </div>
         <div class="enter-invisible">
-            <div class="triangle-enter"></div>
-            <h3 class="enter-header">Вход <i class="fas fa-times"></i></h3>
-            <div class="enter-main">
-                <div class="login-password">
-                    <input type="text" name="login" placeholder="Логин" size="40">
-                    <input type="password" name="password" placeholder="Пароль" size="40">
+                <div class="triangle-enter"></div>
+                <h3 class="enter-header">Вход <i class="fas fa-times"></i></h3>
+                <div class="enter-main">
+                    <div class="login-password">
+                        <input type="text" name="login" placeholder="Логин">
+                        <input type="password" name="password" placeholder="Пароль">
+                    </div>
+                    <div class="remember-forgot">
+                        <label><input type="checkbox" name="remember"><span>Запомнить меня</span></label>
+                        <a href="" class="forgot">Забыли пароль?</a>
+                    </div>
+                    <input type="button" value="Войти">
                 </div>
-                <div class="remember-forgot">
-                    <label><input type="checkbox" name="remember"><span>Запомнить меня</span></label>
-                    <a href="" class="forgot">Забыли пароль?</a>
-                </div>
-                <input type="button" value="Войти">
             </div>
-        </div>
-        <div class="registration-invisible">
+            <div class="registration-invisible">
             <div class="triangle-registration"></div>
             <h3 class="registration-header">Регистрация <i class="fas fa-times"></i></h3>
             <div class="registration-main">
@@ -58,8 +59,8 @@
                 <li><a href="index1.php"><i class="fas fa-home"></i>Главная</a></li>
                 <li><a href="matches1.php"><i class="fas fa-gamepad"></i>Матчи</a></li>
                 <li><a href="teams1.php"><i class="fas fa-users"></i>Команды</a></li>
-                <li><a href="#"><i class="fas fa-trophy"></i>Игроки</a></li>
-                <li><a href="tournaments1.php"><i class="fas fa-film"></i>Турниры</a></li>
+                <li><a href="players1.php"><i class="fas fa-user"></i>Игроки</a></li>
+                <li><a href="tournaments1.php"><i class="fas fa-trophy"></i></i>Турниры</a></li>
             </ul>
         </nav>
     </div>

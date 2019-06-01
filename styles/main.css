@@ -240,6 +240,7 @@ a{
     background-color: rgb(39,44,55);
     padding: .5em 1em;
     border: 1px solid #666;
+    cursor: pointer;
 }
 .first-team, .second-team{
     text-transform: uppercase;
@@ -351,7 +352,7 @@ a{
     font-weight: 800;
     width: 100%;
 }
-.checkbox-del-tour{
+.checkbox-del-tour, .checkbox-del-match{
     border-radius: 5px;
     margin: 0 .8em;
     width: 20px;
@@ -359,10 +360,10 @@ a{
     border: 2px solid #666666;
     cursor: pointer;
 }
-.checkbox-del-tour:hover{
+.checkbox-del-tour, .checkbox-del-match:hover{
     border: 2px solid rgb(186, 181, 171);
 }
-.checkbox-del-tour i{
+.checkbox-del-tour i, .checkbox-del-match i{
     color: rgb(93, 255, 168);
     font-size: 18px;
     display: none;
@@ -478,7 +479,7 @@ a{
     color: white;
     display: block;
 }
-.tab-content, #del-tour{
+.tab-content, #del-tour, .del-match{
     display: none;
 }
 
@@ -525,7 +526,7 @@ a{
     font-weight: bold;
     padding: .3em 0;
 }
-i.fa-times{
+.enter-header i.fa-times, .registration-header i.fa-times{
     position: absolute;
     right: 15px;
     cursor: pointer;
@@ -590,7 +591,7 @@ input:focus, button:focus, button:active, input:active{
     left: auto;
     background-color: #353535;
     top: 50%;
-    width: 11%;
+    width: 12%;
     font-size: 1.5em;
     padding: .5em;
     z-index: 1;
@@ -605,28 +606,57 @@ input:focus, button:focus, button:active, input:active{
     background-color: #353535;
     font-size: 1.5em;
     z-index: 1;
+    display: none;
 }
-#add-record{
+#add-record, #safe-changes{
     background: radial-gradient(at center 0px, rgb(93, 255, 168) -90%, rgb(39, 126, 131) 80%, rgb(39, 127, 131) -182%);
     border: 1px solid #353535;
     padding: .5em;
     color: white; 
     font-size: .6em;
     margin-bottom: .5em;
+    cursor: pointer;
 }
-#delete-record{
+#add-tournament-member{
+    background: radial-gradient(at center 0px, rgb(93, 255, 168) -90%, rgb(39, 126, 131) 80%, rgb(39, 127, 131) -182%);
+    border: 1px solid #2e3644;
+    position: relative;
+    color: white;
+    cursor: pointer;
+    padding: .2em 0;
+    margin-top: 1em;
+}
+#add-tournament-member, #tournament-member{
+    display: none;
+}
+#add-tournament-member > i.fas.fa-plus{
+    position: absolute;
+    left: 8%;
+    top: 30%;
+}
+#delete-record, #no-safe-changes{
     background: radial-gradient(at center 0px, rgb(255, 50, 120) -80%, rgb(170, 10, 25) 90%, rgb(170, 10, 50) -182%);
     border: 1px solid #353535;
     padding: .5em;
     color: white;
     font-size: .6em;
+    cursor: pointer;
 }
-.fa-plus-circle::before{
+.hidden-action-panel{
+    text-align: end;
+    font-size: 1.5em;
+    display: none;
+}
+.fa-plus-circle::before, .fa-check::before{
     color: rgb(93, 255, 168);
     padding-right: .5em;  
+    cursor: pointer;
 }
-.fa-minus-circle::before{
-    color: rgba(255, 0, 0, 0.705);
+.fa-minus-circle::before, .fa-times::before{
+    color: rgb(255, 80, 0);
+    cursor: pointer;
+}
+.fa-times::before{
     padding-right: .5em;
 }
 .add-record, .delete-record, .hide-administration-panel{
@@ -657,7 +687,7 @@ input:focus, button:focus, button:active, input:active{
     margin-bottom: 1em;
     display: none;
 }
-label.checkbox-del-tour{
+label.checkbox-del-tour, label.checkbox-del-match{
     display: none;
 }
 .administration-panel{
@@ -669,7 +699,10 @@ label.checkbox-del-tour{
     margin: 0;
     border: 1px solid #666666;
 }
-.admin-form li{
+#admin-form{
+    color: white;
+}
+.admin-form li:nth-child(-n+5){
     display: flex;
     flex-direction: row;
     font-weight: 800;
@@ -680,8 +713,23 @@ label.checkbox-del-tour{
     align-items: center;
 }
 .admin-form li>input, .admin-form li>div.numeric-field{
-    max-width: calc(100%/1.9);
-    flex-grow: 5;
+    flex-basis: 50%;
+}
+.admin-form li:nth-child(n+6){
+    display: flex;
+    flex-direction: row;
+    font-weight: 800;
+    font-size: 1.5em;
+    margin: .5em 0;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+div.numeric-field{
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: end;
 }
 .image-block-wrapper{
     width: 80px;
@@ -733,14 +781,20 @@ input[type=number]::-webkit-outer-spin-button {
     appearance: none;
     margin: 0;
 }
-input[type=number]{
-    -moz-appearance: textfield;
-    width: 75%;
-    height: 22px;
+.admin-form > li input{
+    font-size: 1em;
+    padding: 0 .5em;
 }
-div.numeric-field>i.fa-plus-circle::before, div.numeric-field>i.fa-minus-circle::before{
+li > div.numeric-field > #tournament-prize{
+    -moz-appearance: textfield;
+    max-width: 50%;
+}
+#prize-fond{
+    -moz-appearance: textfield; 
+}
+li > div.numeric-field > i.fa-plus-circle::before, li > div.numeric-field>i.fa-minus-circle::before{
     padding: 0 !important;
-    vertical-align: sub;
+    vertical-align: middle;
     cursor: pointer;
 }
 
@@ -753,6 +807,7 @@ button[type="reset"], button[type="submit"], button#preview{
     border-radius: 5px;
     cursor: pointer;
     font-size: .7em;
+    margin: 0 1em;
 }
 
 
@@ -817,7 +872,7 @@ button[type="reset"], button[type="submit"], button#preview{
 .tournament-page-block{
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
 }
 .tournament-info-block{
     display: flex;
@@ -827,18 +882,35 @@ button[type="reset"], button[type="submit"], button#preview{
     background-color: rgb(39,44,55);
     font-size: 16px;
     height: 100%;
+    position: relative;
+    width: 30%;
+}
+.fa-pen-square::before{
+    position: absolute;
+    right: 5px;
+    font-size: 2.5em;
+    top: 3px;
+    color: rgb(93, 255, 168);
+    cursor: pointer;
 }
 .tournament-info-block img{
-    width: 300px;
+    width: 100%;
     height: 200px;
     object-fit: contain;
+    margin-top: 1.5em;
 }
 .tournament-info-title{
     text-transform: uppercase;
     font-weight: 900;
-    font-size: 20px;
+    font-size: 1.5em;
     padding: 1em 0;
     text-align: center;
+}
+.tournament-info-title input[type="text"]{
+    font-size: 1em;
+}
+#tournament-title, #begDate, div.prize-block>div.numeric-field, #seria, #tournament-img{
+    display: none;
 }
 .begDate-block, .prize-block, .seria-block{
     display: flex;
@@ -861,7 +933,7 @@ button[type="reset"], button[type="submit"], button#preview{
     color: #2faee7;
 }
 .teams-wrapper-block{
-    width: calc(150px*6);
+    width: 66%;
 }
 h3.teams-title i.fa-users::before{
     padding-right: .5em;
@@ -872,21 +944,42 @@ h3.teams-title i.fa-users::before{
     background-color: rgb(39,44,55);
     border-right: 1px solid #666666;
     border-bottom: 1px solid #666666;
-    border-left: 1px solid #666666;
-    cursor: pointer;
+    border-left: 1px solid #666666;  
+}
+.teams-tournament-block{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    width: 80%;
+    margin: 0 auto;
+}
+.first-team{
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
 }
 .team-block{
     width: 120px;
     text-align: center;
     border: 1px solid #666666;
-    padding: .5em 0;
+    padding: .5em;
     position: relative;
-    margin: .5em;
-    text-overflow: ellipsis;    
-    white-space: nowrap;
+    margin: .5em; 
     overflow: hidden;
     background: #2e3644 url("../images/img/stripe.png");
     color: rgb(166, 198, 203);
+    display: flex;
+    height: 182px;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.team-block > i.far.fa-plus-square{
+    font-size: 5em;
+    margin: auto;
+    cursor: pointer;
+}
+.team-block > i.far.fa-plus-square:hover{
+    color: rgb(82, 187, 235);
 }
 .team-block-wrapper{
     width: 100%;
@@ -897,17 +990,28 @@ h3.teams-title i.fa-users::before{
     justify-content: center;
 }
 .team-logo{
-    width: 100%;
-    top: 30px;
+    width: 96%;
     position: absolute;
+    top: 0;
     left: 0;
+    right: 0;
+    bottom: 0;
     object-fit: contain;
-    height: 70%;
-    z-index: 1;
+    margin: auto;
+}
+.player{
+    cursor: pointer;
+    color: rgb(166, 198, 203);
+}
+.player:hover{
+    color: rgb(82, 187, 235);
+    text-decoration: underline;
 }
 .player-block-wrapper{
     display: flex;
-    flex-direction: row; 
+    flex-direction: column; 
+    width: 70%;
+    margin: 0 auto;
 }
 .player-index-block{
     display: flex;
@@ -916,38 +1020,40 @@ h3.teams-title i.fa-users::before{
     align-items: center;
     padding: .5em 1em;
     background-color: rgb(39,44,55);
-    border: 1px solid #666;
+    border: 1px solid #666666;
+    cursor: pointer;
 }
 .players-wrapper-block{ 
     display: flex;
     flex-direction: column; 
     padding: 1em .5em;   
-    margin-bottom: 1em;   
-    min-height: 70%;   
     align-items: flex-start;
+    position: relative;
     opacity: 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+.flag-nick{
+    display: flex;
+    flex-flow: row nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .players-block{
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+    z-index: 5;
 }
 .player-country{
     max-width: 15px;
+    max-height: 15px;
     object-fit: cover;
-}
-.position-block{
-    flex-grow: 1.5;
-}
-.invite{
-    position: absolute;
-    bottom: 5px;
-    margin: 0 auto;
-    width: 100%;
-    left: 0;
+    vertical-align: text-bottom;
 }
 a.invite, a.team-title{
     color: rgb(166, 198, 203);
+    cursor: pointer;
 }
 a.invite:hover, a.team-title:hover{
     text-decoration: underline;
@@ -956,24 +1062,28 @@ a.invite:hover, a.team-title:hover{
 .matches-prize-places-block-wrapper{
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
     padding-top: 1em;
+}
+.prize-places-block{
+    background-color: #2e3644;
+    border: 1px solid #666666;
 }
 .matches-block-wrapper{
     width: 70%;
 }
+#delete-record > i.fas.fa-minus{
+    color: rgb(255, 80, 0);
+    padding-right: .5em;
+}
 .prize-places-block-wrapper{
-    width: 25.4%;
+    width: 28.4%;
 }
 .fa-gamepad::before, .fa-info::before, .fa-users::before, .fa-trophy::before, .fa-home::before, .fa-newspaper::before, 
 .fa-gamepad::before, .fa-clock::before, .fa-exchange-alt::before, .fa-trophy::before, .fa-star::before, .fa-eye::before,
 .fa-user::before, .fa-plus::before{
     padding-right: .5em;
     color: rgb(93, 255, 168);
-}
-.fa-minus::before{
-    padding-right: .5em;
-    color: red;
 }
 div.arrow>i.fa-angle-double-right{
     color: rgb(93, 255, 168);
@@ -1262,11 +1372,19 @@ div.tab-content.current{
 .player-block{
     background-color: rgb(39,44,55);
     cursor: pointer;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
 }
 .player-match-block-wrapper{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+}
+.player-match-block-wrapper img{
+    width: 17px;
+    height: 17px;
+    object-fit: contain;
 }
 .player-match-block-wrapper .player-info-block{
     display: flex;
@@ -1280,6 +1398,7 @@ div.tab-content.current{
     border: 1px solid #666;
     background: #2e3644 url("../images/img/stripe.png");
     margin: 0 1em;
+    padding: .5em;
 }
 .player-info-wrapper>span{
     padding: .5em 0;
