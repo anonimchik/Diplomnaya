@@ -3,13 +3,14 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Tournament page</title>
+    <title>Команды</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="styles/main.css">
     <link rel="stylesheet" href="fontawesome-free-5.8.1-web/css/all.css">
     <link rel="stylesheet" href="OwlCarousel2-2.3.4/docs/assets/owlcarousel/assets/owl.carousel.min.css">
     <link rel="stylesheet" href="OwlCarousel2-2.3.4/docs/assets/owlcarousel/assets/owl.theme.default.min.css">
     <script language="javascript" rel="javascript" type="text/javascript" src="jquery-3.3.1.min.js"></script>
+    <script language="javascript" rel="javascript" type="text/javascript" src="jquery-cookie/jquery.cookie.js"></script>
     <script src="js/main.js"></script>
 </head>
 <body>
@@ -77,6 +78,34 @@
     </div>
     <div class="arrow">
         <i class="fas fa-angle-double-right"></i>
+    </div>
+    <div class="administration-panel-block">
+        <div class="administration-panel-wrapper">
+            <form action="" class="administration-panel" method="post">
+                <h3 class="administration-panel-title">Создание матча</h3>
+                <ul class="admin-form">
+                    <li>
+                        <label for="team-name">Название команды</label>
+                        <input type="text" id="team-name">
+                    </li>
+                    <li>
+                        <label for="appereanceDate">Дата основания</label>
+                        <input type="date" id="appereanceDate">
+                    </li>
+                    <li>
+                        <label for="team-logo" class="logo-tournament">Логотип команды</label>
+                        <label class="file-label" for="team-logo">
+                            <i class="fas fa-file-upload"><span>Добавить изображение</span></i>
+                        </label>
+                        <input type="file" id="team-logo" required accept="image/*">
+                    </li>
+                    <li>
+                        <button type="reset">Очистить поля</button>
+                        <button type="submit" id="create-team">Добавить матч</button>
+                    </li>
+                </ul>
+            </form>
+        </div>
     </div>
     <div class="main-content">
         <?php

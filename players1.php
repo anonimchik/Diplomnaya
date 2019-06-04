@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Tournament page</title>
+    <title>Игроки</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="styles/main.css">
     <link rel="stylesheet" href="fontawesome-free-5.8.1-web/css/all.css">
@@ -78,12 +78,62 @@
     <div class="arrow">
         <i class="fas fa-angle-double-right"></i>
     </div>
+    <div class="administration-panel-block">
+        <div class="administration-panel-wrapper">
+            <form action="" class="administration-panel" method="post">
+                <h3 class="administration-panel-title">Создание игрока</h3>
+                <ul class="admin-form">
+                    <li>
+                        <label for="player-name">Имя</label>
+                        <input type="text" id="player-name">
+                    </li>
+                    <li>
+                        <label for="player-nickname">Никнейм</label>
+                        <input type="text" id="player-nickname">
+                    </li>
+                    <li>
+                        <label for="player-birthday">Дата рождения</label>
+                        <input type="date" id="player-birthday">
+                    </li>
+                    <li>
+                        <label for="player-role">Роль</label>
+                        <select id="player-role">
+                            <option selected>Выберите роль</option>
+                            <?php
+                                $query="SELECT idRole, role FROM roles ORDER BY role";
+                                $db->getOptionsForSelect($query, "idRole", "role");
+                            ?>
+                        </select>
+                    </li>
+                    <li>
+                        <label for="player-photo" class="logo-tournament">Фотография</label>
+                        <label class="file-label" for="player-photo">
+                            <i class="fas fa-file-upload"><span>Добавить изображение</span></i>
+                        </label>
+                        <input type="file" id="player-photo" required accept="image/*">
+                    </li>
+                    <li>
+                        <label for="player-team">Команда</label>
+                        <select id="player-team">
+                            <option selected>Выберите команду</option>
+                            <?php
+                                $query="SELECT idTeam, name FROM teams ORDER BY name";
+                                $db->getOptionsForSelect($query, "idTeam", "name");
+                            ?>
+                        </select>
+                    </li>
+                    <li>
+                        <button type="reset">Очистить поля</button>
+                        <button type="submit" id="create-player">Добавить игрока</button>
+                    </li>
+                </ul>
+            </form>
+        </div>
+    </div>
     <div class="main-content">
-        <div class="player-block-wrapper">
             <?php
                 $db->getPlayerPage($_GET['idplayer']);
             ?>
-        </div>
     </div>
     <div class="footer">
        &copy; 2019 gginfo - все для любителей киберспорта.

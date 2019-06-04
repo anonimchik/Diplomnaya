@@ -3,13 +3,14 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Page Title</title>
+    <title>Матчи</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="styles/main.css">
     <link rel="stylesheet" href="fontawesome-free-5.8.1-web/css/all.css">
     <link rel="stylesheet" href="./OwlCarousel2-2.3.4/docs/assets/owlcarousel/assets/owl.carousel.min.css">
     <link rel="stylesheet" href="./OwlCarousel2-2.3.4/docs/assets/owlcarousel/assets/owl.theme.default.min.css">
     <script language="javascript" rel="javascript" type="text/javascript" src="jquery-3.3.1.min.js"></script>
+    <script language="javascript" rel="javascript" type="text/javascript" src="jquery-cookie/jquery.cookie.js"></script>
     <script src="./js/main.js"></script>
 </head>
 <body>
@@ -30,28 +31,35 @@
                 <div class="triangle-enter"></div>
                 <h3 class="enter-header">Вход <i class="fas fa-times"></i></h3>
                 <div class="enter-main">
-                    <div class="login-password">
-                        <input type="text" name="login" placeholder="Логин">
-                        <input type="password" name="password" placeholder="Пароль">
-                    </div>
-                    <div class="remember-forgot">
-                        <label><input type="checkbox" name="remember"><span>Запомнить меня</span></label>
-                        <a href="" class="forgot">Забыли пароль?</a>
-                    </div>
-                    <input type="button" value="Войти">
+                    <form id="entrance-form">
+                        <div class="login-password">
+                            <input type="text" name="login" placeholder="Логин" required>
+                            <input type="password" name="password" placeholder="Пароль" required>
+                        </div>
+                        <div class="remember-forgot">
+                            <label><input type="checkbox" name="remember"><span>Запомнить меня</span></label>
+                            <a href="" class="forgot">Забыли пароль?</a>
+                        </div>
+                        <input type="submit" value="Войти">
+                    </form>
                 </div>
             </div>
             <div class="registration-invisible">
-            <div class="triangle-registration"></div>
-            <h3 class="registration-header">Регистрация <i class="fas fa-times"></i></h3>
-            <div class="registration-main">
-                <div class="login-password">
-                    <input type="text" name="login" placeholder="Логин" size="40">
-                    <input type="password" name="password" placeholder="Пароль" size="40">
+                <div class="triangle-registration"></div>
+                <h3 class="registration-header">Регистрация <i class="fas fa-times"></i></h3>
+                <div class="registration-main">
+                    <form id="registration-form">
+                        <div class="login-password">
+                            <input type="text" name="login" placeholder="Логин" size="40" required> 
+                            <input type="password" name="password" placeholder="Пароль" size="40" required>
+                        </div>
+                        <input type="submit" value="Зарегистрироваться">
+                    </form>
                 </div>
-                <input type="button" value="Зарегистрироваться">
+            </div> 
+            <div class="invisible-user">
+            <i class="fas fa-user-circle"></i>
             </div>
-        </div>  
     </div>
     <div class="nav-wrapper">
         <nav class="menu">
@@ -122,7 +130,7 @@
                     </li>
                     <li>
                         <button type="reset">Очистить поля</button>
-                        <button type="submit" id="create-match">Добавить турнир</button>
+                        <button type="submit" id="create-match">Добавить матч</button>
                     </li>
                 </ul>
             </form>

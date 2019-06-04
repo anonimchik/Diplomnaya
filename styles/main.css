@@ -19,7 +19,7 @@ a{
     justify-content: space-around;
 }
 .logo{
-    width: 70%;
+    width: 50%;
 }
 .login-info{
     width: 360px;
@@ -40,6 +40,10 @@ a{
 .registration, .enter{
     border: 1px solid rgba(239, 237, 239, 0.301);
     padding: .59em 0;
+}
+#no-safe-changes i.fas.fa-times::before{
+    color: rgb(255, 80, 0);
+    cursor: pointer;
 }
 .enter-text{
     color: rgba(93, 255, 169, 0.616);
@@ -135,7 +139,7 @@ a{
     margin: 0 auto;
     color: white;
     background-color: rgba(39, 44, 55, 0.4);
-    padding: 1em 0;
+    padding: 1em .5em;
 }
 .news-wrapper{
     display: flex;
@@ -237,9 +241,7 @@ a{
     justify-content: space-between;
     width: 100%;
     align-items: center;
-    background-color: rgb(39,44,55);
     padding: .5em 1em;
-    border: 1px solid #666;
     cursor: pointer;
 }
 .first-team, .second-team{
@@ -278,6 +280,7 @@ a{
     padding: .8em;
     margin: 0;
     background: #2e3644 url("../images/img/stripe.png");
+    position: relative;
 }
 .matches-block, .tournament-index-wrapper{
     width: 65%;
@@ -352,7 +355,7 @@ a{
     font-weight: 800;
     width: 100%;
 }
-.checkbox-del-tour, .checkbox-del-match{
+.checkbox-del-tour, .checkbox-del-match, .checkbox-del-player, .checkbox-del-team{
     border-radius: 5px;
     margin: 0 .8em;
     width: 20px;
@@ -360,10 +363,10 @@ a{
     border: 2px solid #666666;
     cursor: pointer;
 }
-.checkbox-del-tour, .checkbox-del-match:hover{
+.checkbox-del-tour:hover, .checkbox-del-match:hover, .checkbox-del-player:hover, .checkbox-del-team:hover{
     border: 2px solid rgb(186, 181, 171);
 }
-.checkbox-del-tour i, .checkbox-del-match i{
+.checkbox-del-tour i, .checkbox-del-match i, .checkbox-del-player i, .checkbox-del-team i{
     color: rgb(93, 255, 168);
     font-size: 18px;
     display: none;
@@ -479,7 +482,7 @@ a{
     color: white;
     display: block;
 }
-.tab-content, #del-tour, .del-match{
+.tab-content, #del-tour, .del-match, .del-player, .del-team{
     display: none;
 }
 
@@ -562,7 +565,7 @@ input:focus, button:focus, button:active, input:active{
 .forgot{
     color: rgb(93, 255, 168); 
 }
-.enter-main input[type="button"], .registration-main input[type="button"]{
+#entrance-form input[type="submit"], #registration-form input[type="submit"]{
     width: 100%;
     color: white;
     font-weight: 700;
@@ -646,13 +649,18 @@ input:focus, button:focus, button:active, input:active{
     text-align: end;
     font-size: 1.5em;
     display: none;
+    width: 100%;
 }
-.fa-plus-circle::before, .fa-check::before{
+.fa-plus-circle::before{
     color: rgb(93, 255, 168);
     padding-right: .5em;  
     cursor: pointer;
 }
-.fa-minus-circle::before, .fa-times::before{
+.fa-check::before{
+    color: rgb(93, 255, 168);
+    cursor: pointer;
+}
+.fa-minus-circle::before{
     color: rgb(255, 80, 0);
     cursor: pointer;
 }
@@ -684,15 +692,20 @@ input:focus, button:focus, button:active, input:active{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    margin-bottom: 1em;
     display: none;
+    padding-bottom: 4em;
+    color: white;
 }
-label.checkbox-del-tour, label.checkbox-del-match{
+label.checkbox-del-tour, label.checkbox-del-match, label.checkbox-del-player, label.checkbox-del-team{
     display: none;
 }
 .administration-panel{
     width: 50%;
     background: rgb(39,44,55);
+    margin: 1em auto 0;
+}
+.administration-panel-block{
+    background-color: rgba(39, 44, 55, 0.4);
 }
 .admin-form{
     padding: 1em;
@@ -702,7 +715,7 @@ label.checkbox-del-tour, label.checkbox-del-match{
 #admin-form{
     color: white;
 }
-.admin-form li:nth-child(-n+5){
+.admin-form li{
     display: flex;
     flex-direction: row;
     font-weight: 800;
@@ -714,16 +727,6 @@ label.checkbox-del-tour, label.checkbox-del-match{
 }
 .admin-form li>input, .admin-form li>div.numeric-field{
     flex-basis: 50%;
-}
-.admin-form li:nth-child(n+6){
-    display: flex;
-    flex-direction: row;
-    font-weight: 800;
-    font-size: 1.5em;
-    margin: .5em 0;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
 }
 div.numeric-field{
     display: flex;
@@ -743,8 +746,11 @@ div.numeric-field{
     color: #666666;
     font-size: 1em;
 }
-#logo-tournament{
+#logo-tournament, #player-photo, #team-logo{
     display: none;
+}
+select{
+    font-size: 1em;
 }
 .file-label{
     width: 100px;
@@ -789,7 +795,7 @@ li > div.numeric-field > #tournament-prize{
     -moz-appearance: textfield;
     max-width: 50%;
 }
-#prize-fond{
+#prize-fond, #tournament-prize{
     -moz-appearance: textfield; 
 }
 li > div.numeric-field > i.fa-plus-circle::before, li > div.numeric-field>i.fa-minus-circle::before{
@@ -893,6 +899,16 @@ button[type="reset"], button[type="submit"], button#preview{
     color: rgb(93, 255, 168);
     cursor: pointer;
 }
+.player-description-header > i.fas.fa-pen-square{
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.admin-textarea{
+    flex-flow: column nowrap;
+    display: flex;
+    display: none;
+}
 .tournament-info-block img{
     width: 100%;
     height: 200px;
@@ -905,6 +921,16 @@ button[type="reset"], button[type="submit"], button#preview{
     font-size: 1.5em;
     padding: 1em 0;
     text-align: center;
+}
+.tournament-info-block input{
+    padding: 0 .5em
+}
+#change-player-form{
+    text-align: center;
+}
+#change-player-form > span{
+    margin: 1em 0;
+    font-size: 2em;
 }
 .tournament-info-title input[type="text"]{
     font-size: 1em;
@@ -952,8 +978,9 @@ h3.teams-title i.fa-users::before{
     justify-content: space-between;
     width: 80%;
     margin: 0 auto;
+    cursor: pointer;
 }
-.first-team{
+.first-team, .second-team{
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
@@ -1007,6 +1034,16 @@ h3.teams-title i.fa-users::before{
     color: rgb(82, 187, 235);
     text-decoration: underline;
 }
+.player-list{
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-between;
+    margin-left: 1em;
+    cursor: pointer;
+}
 .player-block-wrapper{
     display: flex;
     flex-direction: column; 
@@ -1021,7 +1058,6 @@ h3.teams-title i.fa-users::before{
     padding: .5em 1em;
     background-color: rgb(39,44,55);
     border: 1px solid #666666;
-    cursor: pointer;
 }
 .players-wrapper-block{ 
     display: flex;
@@ -1139,16 +1175,23 @@ h3.prize-places-header, h3.achievements-header{
 .team-info-wrapper{
     display: flex;
     flex-direction: column;
-    width: 20%;
     border: 1px solid #666666;
     padding: 1em;
     background-color: #2e3644;
+    position: relative;
+    text-align: center;
+}
+#team-file, .country-flag > label, span.numeric-field, #secondary-site, #secondary-appereanceDate, .team-info-wrapper > .hidden-action-panel{
+    display: none;
+}
+.team-info-wrapper > label{
+    margin: 0 auto;
 }
 .country{
     width: 17px;
     vertical-align: bottom;
 }
-.country-block, .team-prize-block{
+.country-block, .team-prize-block, .site-block, .appereance-date-block{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -1163,15 +1206,15 @@ h3.prize-places-header, h3.achievements-header{
 }
 span.team-title{
     text-align: center;
-    padding: 1em 0;
-    font-size: 1.2em;
+    padding: .5em 0;
+    font-size: 2em;
     font-weight: 900;
     text-transform: uppercase;
 }
 .team-info-description-wrapper{
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
     margin-bottom: 1em;
 }
 .description-wrapper{
@@ -1186,16 +1229,22 @@ span.team-title{
 }
 .player-photo{
     width: 100%;
+    max-height: 100%;
+    padding-bottom: .5em;
 }
 .players-photo{
     width: 300px;
     height: 300px;
     object-fit: contain;
+    padding-bottom: 1em;
 }
 .line-up-block{
     width: 175px;
     border: 1px solid #666666;
     margin: 1em;
+    position: relative;
+    background: #2e3644 url("../images/img/stripe.png");    
+    cursor: pointer;
 }
 .line-up-wrapper{
     display: flex;
@@ -1213,10 +1262,13 @@ span.team-title{
     flex-direction: row;
     justify-content: space-between;
 }
-.achievements-block{
+.achievements-block-wrapper{
     width: 34%;
 }
-
+.achievements-block{
+    border: 1px solid #666666;
+    background-color: #2e3644;
+}
 /*  end styles for teams page*/
 
 /*     styles for matches page     */
@@ -1227,8 +1279,9 @@ span.team-title{
     justify-content: space-between;
     padding: .1% 1%;
     background-color: rgb(39,44,55);    
+    position: relative;
 }
-.first-team-description, .players-wrapper{
+.first-team-description, .second-team-description, .players-wrapper{
     display: flex;
     flex-direction: row;
 }
@@ -1238,11 +1291,21 @@ span.team-title{
 .second-team-players-block{
     text-align: start;
 }
-.teams-block-wrapper{
+.match-block-wrapper .teams-block-wrapper{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    flex-basis: 60%;
+}
+.teams-wrapper .teams-block-wrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex-basis: 60%;
+    background-color: rgb(39,44,55);
+    border: 1px solid #666666;
 }
 .player-block img{
     width: 17px;
@@ -1255,10 +1318,11 @@ span.team-title{
     height: 150px;
     object-fit: contain;
 }
-.team{
+.primary-team{
     font-size: 2em;
     border-bottom: 1px solid #666666;
     margin-bottom: .2em;
+    cursor: pointer;
 }
 .team-players-block{
     display: flex;
@@ -1270,19 +1334,27 @@ span.team-title{
     flex-direction: column;
     justify-content: center;
 }
+.first-team > img{
+    padding-left: .5em;
+}
+.second-team > img{
+    padding-right: .5em;
+}
 .match-description{
 	width: 300px;
 	text-align: center;
 	display: flex;
 	flex-direction: column;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
+    padding: 1em 0;
 }
 .score{
     cursor: pointer;
 }
-.score:hover{
-    background-color: blue;
+.position{
+    position: absolute;
+    padding: 5px; 
 }
 .players-wrapper a{
     color: #bab5ab;
@@ -1359,6 +1431,19 @@ div.tab-content.current{
 }
 .maps-block-wrapper{
     margin-top: 1em;
+    position: relative;
+}
+.maps-block-wrapper .hidden-action-panel{
+    position: absolute;
+    top: -10px;
+    display: none;
+}
+.secondary-datetime, #secondary-format, .secondary-score, #secondary-round{
+    display: none;
+}
+.hidden-action-panel > button#safe-changes{
+    margin: 0;
+    border-radius: 0;
 }
 .error-message{
     color: #bab5ab;
@@ -1391,14 +1476,43 @@ div.tab-content.current{
     flex-direction: column;
     align-items: center;
 }
+.player-info-block{
+    padding-top: 1em;
+}
+.player-info-description{
+    display: flex;
+    flex-flow: column nowrap;
+    margin: 0 .5em;
+}
+.nickname-block, .role-block, .player-country-block{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    margin-bottom: .5em;
+    border-bottom: 1px solid #666666;
+}
 .player-info-wrapper{
     display: flex;
     flex-direction: column;
     align-items: center;
-    border: 1px solid #666;
+    border: 1px solid #666666;
     background: #2e3644 url("../images/img/stripe.png");
-    margin: 0 1em;
-    padding: .5em;
+    padding: 1em;
+    position: relative;
+    width: 28%;
+}
+#secondary-name, #secondary-nickname, #secondary-birthday, #secondary-team, #secondary-role, #secondary-line,
+span.numeric-field, #player-file, #country-file, #country-file, .player-info-block>div>label{
+    display: none;
+}
+i.fas.fa-file-medical{
+    color: #666666;
+    font-size: 1.5em;
+    cursor: pointer;
+}
+i.fas.fa-file-medical:hover{
+    color: rgb(186, 181, 171);
+    transition: 200ms color;
 }
 .player-info-wrapper>span{
     padding: .5em 0;
@@ -1415,13 +1529,19 @@ div.tab-content.current{
     width: 90%;
     padding-top: .5em;
     align-items: normal;
-}
-.player-info-block div:nth-child(-n+6){
     border-bottom: 1px solid #666666;
 }
+.player-index-block-wrapper{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    margin-bottom: 1em;
+}
+.player-info-block > div{
+    width: 100%;
+}
 .player-description-wrapper{
-    width: 75%;
-    margin: 0 1em;
+    width: 67%;
 }
 /*   end styles for player page*/
 .chart_wrap {
