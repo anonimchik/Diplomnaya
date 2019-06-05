@@ -6,38 +6,40 @@ $(function () {
     switch (page) {
         case "tournaments1.php":
             $(".mini-admin-panel").css({"width":"11%"});
-            $(".arrow").toggle();
             break;
 
         case "matches1.php":
             $(".mini-admin-panel").css({"width":"10%"});
             $("#add-record").html('<i class="fas fa-plus"></i>Создать матч');
             $("#delete-record").html('<i class="fas fa-minus"></i>Удалить матч');
-            $(".arrow").toggle();
             break;
 
         case "teams1.php":
             $("#add-record").html('<i class="fas fa-plus"></i>Создать команду');
             $("#delete-record").html('<i class="fas fa-minus"></i>Удалить команду');
-            $(".arrow").toggle();
             break;
 
         case "players1.php":
             $(".mini-admin-panel").css({"width":"11%"});
             $("#add-record").html('<i class="fas fa-plus"></i>Создать игрока');
             $("#delete-record").html('<i class="fas fa-minus"></i>Удалить игрока');
-            $(".arrow").toggle();
             break;
 
         default:
-
+            alert(page);
+            $(".arrow").hide();
             break;
     }   
 
+    if($.cookie('remember')=='1'){
+        $("#entrance-form .login-password input[name='login']").val($.cookie('login'));
+        $("#entrance-form .login-password input[name='password']").val($.cookie('password'));
+    }
+
     if($.cookie('user_id')!=null){
-        $(".login-password input[name='login']").val($.cookie('login'));
-        $(".login-password input[name='password']").val($.cookie('password'));
-        
+        $(".login-info").toggle();
+        $(".invisible-user").toggle();
+        $(".user-login").text($.cookie('login'));
     }
 
     $("span.change-information i.fas.fa-pen-square").click(function (e) { 
@@ -262,6 +264,19 @@ $(function () {
         $(".primary-textarea").toggle();
         $(".player-description-header i.fas.fa-pen-square").toggle();
         $(".description-wrapper .description-title i.fas.fa-pen-square").toggle();
+    });
+
+    $(".maps-block-wrapper .hidden-action-panel #safe-changes").click(function (e) { 
+        e.preventDefault();
+        var date=$("#secondary-date").val();
+        var time=$("#secondary-time").val();
+        var format=$("#secondary-format").val();
+        var firstScore=$("#first-team-score").val();
+        var secondScore=$("#second-team-score").val();
+        var round=$("#secondary-round").val();
+        var firstTeam=$("#first-team").val();
+        var secondTeam=$("#second-team").val();
+        var sql="insert into matches()"
     });
 
     $(".player-description-wrapper .description-block .admin-textarea .hidden-action-panel #safe-changes").click(function (e) { 
@@ -583,7 +598,7 @@ $(function () {
             e.preventDefault();
             var login=$(".login-password input[name='login']").val();
             var password=$(".login-password input[name='password']").val();
-            if($(".remember-forgot label input[name='remember']").prop('checked')){remember=1}
+            if($(".remember-forgot label input[name='remember']").prop('checked')){remember=1;}else{remember=0;}
             $.ajax({
                 type: "POST",
                 url: "classes.php",
@@ -592,16 +607,33 @@ $(function () {
                 },
                 success: function (response) {
                     json=JSON.parse(response);
-                    if(json.user!=null){
-                        $.cookie('user_id', json.user, {path : '/'});
-                        $.cookie('login', json.login, {path : '/'});
-                        $.cookie('password', json.password, {path : '/'});
-                    } 
+                    $.cookie('user_id', json.user, {path : '/'});
+                    $.cookie('login', json.login, {path : '/'});
+                    $.cookie('password', json.password, {path : '/'});
+                    $.cookie('remember', json.remember, {path : '/'});
                     alert(json.message);
+                    if($(".invisible-user").is(":visible")==false){
+                        $(".arrow").toggle();
+                    }
+                    else{
+                        $(".arrow").toggle();
+                    }
+                    console.log($.cookie('remember'));
                 }
             });
             $(".login-password input[name='login']").val($.cookie('login'));
             $(".login-password input[name='password']").val($.cookie('password'));
+            $(".invisible-user").toggle();
+            $(".login-info").toggle();
+            $(".enter-invisible").toggle();
+            $("span.user-login").text($.cookie('login'));
+        });
+
+        $(".invisible-user i.fas.fa-sign-out-alt").click(function (e) { 
+            e.preventDefault();
+            $.removeCookie('user_id');
+            $(".invisible-user").toggle();
+            $(".login-info").toggle();
         });
 
         $("#registration-form").submit(function (e) { 
@@ -625,9 +657,9 @@ $(function () {
         e.preventDefault();
         if($(".registration-invisible").is(":visible"))
         {
-            $(".registration-invisible").hide();
+            $(".registration-invisible").toggle();
         }
-        $(".enter-invisible").show();
+        $(".enter-invisible").toggle();
     });
 
     $("i.fa-times").click(function (e) { 
@@ -982,8 +1014,9 @@ $(function () {
     });
 
     $(".player-list").click(function (e) { 
-        e.preventDefault();
-        location.href=$(this).attr("data-href");
+        e.preventDefault(); 
+        console.log($(this).attr("data-href"));
+        //location.href=$(this).attr("data-href");
     });
 
     

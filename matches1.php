@@ -28,38 +28,40 @@
             <a href="" class="enter"><i class="fas fa-lock"><span class="enter-text">Вход</span></i></a>
         </div>
         <div class="enter-invisible">
-                <div class="triangle-enter"></div>
-                <h3 class="enter-header">Вход <i class="fas fa-times"></i></h3>
-                <div class="enter-main">
-                    <form id="entrance-form">
-                        <div class="login-password">
-                            <input type="text" name="login" placeholder="Логин" required>
-                            <input type="password" name="password" placeholder="Пароль" required>
-                        </div>
-                        <div class="remember-forgot">
-                            <label><input type="checkbox" name="remember"><span>Запомнить меня</span></label>
-                            <a href="" class="forgot">Забыли пароль?</a>
-                        </div>
-                        <input type="submit" value="Войти">
-                    </form>
-                </div>
+            <div class="triangle-enter"></div>
+            <h3 class="enter-header">Вход <i class="fas fa-times"></i></h3>
+            <div class="enter-main">
+                <form id="entrance-form">
+                    <div class="login-password">
+                        <input type="text" name="login" placeholder="Логин" required>
+                        <input type="password" name="password" placeholder="Пароль" required>
+                    </div>
+                    <div class="remember-forgot">
+                        <label><input type="checkbox" name="remember"><span>Запомнить меня</span></label>
+                        <a href="" class="forgot">Забыли пароль?</a>
+                    </div>
+                    <input type="submit" value="Войти">
+                </form>
             </div>
-            <div class="registration-invisible">
-                <div class="triangle-registration"></div>
-                <h3 class="registration-header">Регистрация <i class="fas fa-times"></i></h3>
-                <div class="registration-main">
-                    <form id="registration-form">
-                        <div class="login-password">
-                            <input type="text" name="login" placeholder="Логин" size="40" required> 
-                            <input type="password" name="password" placeholder="Пароль" size="40" required>
-                        </div>
-                        <input type="submit" value="Зарегистрироваться">
-                    </form>
-                </div>
-            </div> 
-            <div class="invisible-user">
+        </div>
+        <div class="registration-invisible">
+            <div class="triangle-registration"></div>
+            <h3 class="registration-header">Регистрация <i class="fas fa-times"></i></h3>
+            <div class="registration-main">
+                <form id="registration-form">
+                    <div class="login-password">
+                        <input type="text" name="login" placeholder="Логин" size="40" required> 
+                        <input type="password" name="password" placeholder="Пароль" size="40" required>
+                    </div>
+                    <input type="submit" value="Зарегистрироваться">
+                </form>
+            </div>
+        </div> 
+        <div class="invisible-user">
             <i class="fas fa-user-circle"></i>
-            </div>
+            <span class="user-login">asdasd</span>
+            <i class="fas fa-sign-out-alt"></i>
+        </div>
     </div>
     <div class="nav-wrapper">
         <nav class="menu">

@@ -157,6 +157,7 @@ class ajax
     var $message;
     var $login; 
     var $password;
+    var $remember;
 }
 class Database
 {
@@ -265,26 +266,40 @@ class Database
         $subResult=mysql_query($this->query);
         if(!mysql_error($this->link))
         {
-            while($row=mysql_fetch_array($result) and $subRow=mysql_fetch_array($subResult))
+            if(mysql_num_rows($result)!=0)
             {
-                echo
-                '
-                    <div class="match-block-wrapper" data-href="matches1.php?idmatch='.$row['idMatch'].'">
-                        
-                        <div class="teams-block-wrapper">
-                            <div class="first-team">
-                                <span>'.$row['name'].'</span>
-                                <img src="'.$row['countryFlag'].'" title="'.$row['country'].'">
+                while($row=mysql_fetch_array($result) and $subRow=mysql_fetch_array($subResult))
+                {
+                    echo
+                    '
+                        <div class="match-block-wrapper" data-href="matches1.php?idmatch='.$row['idMatch'].'">
+                            
+                            <div class="teams-block-wrapper">
+                                <div class="first-team">
+                                    <span>'.$row['name'].'</span>
+                                    <img src="'.$row['countryFlag'].'" title="'.$row['country'].'">
+                                </div>
+                                <span class="match-score">'.$row['firstFinalScore'].':'.$subRow['secondFinalScore'].'</span>
+                                <div class="second-team">
+                                    <img src="'.$subRow['countryFlag'].'" title="'.$subRow['country'].'">
+                                    <span>'.$subRow['name'].'</span>
+                                </div>
                             </div>
-                            <span class="match-score">'.$row['firstFinalScore'].':'.$subRow['secondFinalScore'].'</span>
-                            <div class="second-team">
-                                <img src="'.$subRow['countryFlag'].'" title="'.$subRow['country'].'">
-                                <span>'.$subRow['name'].'</span>
+                            <div class="tournament-date-block">
+                                <span class="datetime">'.$row[2].'</span>
+                                <img  src="'.$row['miniTournamentLogo'].'" title="'.$subRow['event'].'">
                             </div>
                         </div>
-                        <div class="tournament-date-block">
-                            <span class="datetime">'.$row[2].'</span>
-                            <img  src="'.$row['miniTournamentLogo'].'" title="'.$subRow['event'].'">
+                    ';
+                }
+            }
+            else
+            {
+                echo 
+                '
+                    <div class="match-block-wrapper" data-href="matches1.php?idmatch='.$row['idMatch'].'">
+                        <div class="teams-block-wrapper">
+                            &nbsp;
                         </div>
                     </div>
                 ';
@@ -2618,12 +2633,11 @@ class Database
             while($row=mysql_fetch_array($result))
             {
                 $ajax->message[]="Добро пожаловать ".$row['login']." !";
-                if($_POST['remember']=="1")
-                {
-                    $ajax->user[]=$row['user_id'];
-                    $ajax->login[]=$_POST['login'];
-                    $ajax->password[]=$_POST['password'];
-                }
+                $ajax->user[]=$row['user_id'];
+                $ajax->login[]=$_POST['login'];
+                $ajax->password[]=$_POST['password'];
+                if($_POST['remember']=="1"){$ajax->remember[]=1;}
+                else{$ajax->remember[]=0;}
             }
         }   
         else

@@ -17,12 +17,23 @@ a{
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+    align-items: center;
+}
+.invisible-user{
+    color: white;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    display: none;
+}
+.user-login{
+    padding: 0 .3em;
 }
 .logo{
     width: 50%;
 }
 .login-info{
-    width: 360px;
+    width: 365px;
     height: 100%;
 }
 .or{
@@ -518,7 +529,7 @@ a{
     position: absolute;
     z-index: 5;
     right: 0;
-    top: 99px;
+    top: 102px;
 }
 .enter-header, .registration-header{
     background: url('../images/img/stripe.png') #2e3644;
@@ -1114,6 +1125,15 @@ a.invite:hover, a.team-title:hover{
 }
 .prize-places-block-wrapper{
     width: 28.4%;
+}
+.fas.fa-user-circle::before{
+    color: rgb(93, 255, 168);
+    font-size: 1.5em;
+}
+.fas.fa-sign-out-alt::before{
+    color: rgb(255, 80, 0);
+    font-size: 1.5em;
+    cursor: pointer;
 }
 .fa-gamepad::before, .fa-info::before, .fa-users::before, .fa-trophy::before, .fa-home::before, .fa-newspaper::before, 
 .fa-gamepad::before, .fa-clock::before, .fa-exchange-alt::before, .fa-trophy::before, .fa-star::before, .fa-eye::before,
