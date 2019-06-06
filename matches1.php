@@ -21,7 +21,9 @@
         $db->open_connection();
     ?>
     <div class="header">
-        <div class="logo"></div>
+        <div class="logo">
+            <img src="./images/img/logo.png">
+        </div>
         <div class="login-info">
             <a href="" class="registration"><i class="fas fa-edit"><span class="registration-text">Регистрация</span></i></a>
             <span class="or">или</span>
@@ -33,8 +35,8 @@
             <div class="enter-main">
                 <form id="entrance-form">
                     <div class="login-password">
-                        <input type="text" name="login" placeholder="Логин" required>
-                        <input type="password" name="password" placeholder="Пароль" required>
+                        <input type="text" name="login" placeholder="Логин" required pattern="[0-9a-zA-Zа-яА-ЯёЁ]*">
+                        <input type="password" name="password" placeholder="Пароль" required pattern="[0-9a-zA-Zа-яА-ЯёЁ]*">
                     </div>
                     <div class="remember-forgot">
                         <label><input type="checkbox" name="remember"><span>Запомнить меня</span></label>
@@ -90,12 +92,12 @@
     </div>
     <div class="administration-panel-block">
         <div class="administration-panel-wrapper">
-            <form action="" class="administration-panel" method="post">
+            <form id="match-form">
                 <h3 class="administration-panel-title">Создание матча</h3>
                 <ul class="admin-form">
                     <li>
                         <label for="tournament" class="name-tournament">Наименование турнира</label>
-                        <select id="tournament">
+                        <select id="tournament" required>
                             <option selected>Выберите турнир</option>
                             <?php
                                 $query="SELECT idTournament, event FROM tournaments ORDER BY event";
@@ -104,8 +106,8 @@
                         </select>
                     </li>
                     <li>
-                        <label for="first-team">Первая команда</label>
-                        <select id="first-team">
+                        <label for="create-first-team">Первая команда</label>
+                        <select id="create-first-team" required>
                             <option selected>Выберите команду</option>
                             <?php
                                 $query="SELECT idTeam, name FROM teams ORDER BY name";
@@ -114,20 +116,30 @@
                         </select>
                     </li>
                     <li>
-                        <label for="second-team">Вторая команда</label>
-                        <select id="second-team">
+                        <label for="create-second-team">Вторая команда</label>
+                        <select id="create-second-team" required>
                             <option selected>Выберите команду</option>
                             <?php
                                 $query="SELECT idTeam, name FROM teams ORDER BY name";
                                 $db->getOptionsForSelect($query, "idTeam", "name");
+                            ?>
+                        </select>
+                    </li>
+                    <li>
+                        <label for="format">Формат встречи</label>
+                        <select id="format" required>
+                            <option selected>Выберите формат встречи</option>
+                            <?php
+                                $query="select idMatchFormat, matchFormat from matchformats order by matchFormat";
+                                $db->getOptionsForSelect($query, "idMatchFormat", "matchFormat");
                             ?>
                         </select>
                     </li>
                     <li>
                         <label for="datetime">Время встречи</label>
                         <div>
-                            <input id="date" type="date">
-                            <input id="time" type="time">
+                            <input id="date" type="date" required>
+                            <input id="time" type="time" required>
                         </div>
                     </li>
                     <li>

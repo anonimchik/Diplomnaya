@@ -1,35 +1,8 @@
-var fullpath, where="where ", i=0, logoBeforeChange="", table="", scriptAction="";
+var fullpath, where="where ", i=0, logoBeforeChange="", table="", scriptAction="", page="";
 
 $(function () {
 
-    var page=location.href.replace(/http:\/\/localhost\//,'');
-    switch (page) {
-        case "tournaments1.php":
-            $(".mini-admin-panel").css({"width":"11%"});
-            break;
-
-        case "matches1.php":
-            $(".mini-admin-panel").css({"width":"10%"});
-            $("#add-record").html('<i class="fas fa-plus"></i>Создать матч');
-            $("#delete-record").html('<i class="fas fa-minus"></i>Удалить матч');
-            break;
-
-        case "teams1.php":
-            $("#add-record").html('<i class="fas fa-plus"></i>Создать команду');
-            $("#delete-record").html('<i class="fas fa-minus"></i>Удалить команду');
-            break;
-
-        case "players1.php":
-            $(".mini-admin-panel").css({"width":"11%"});
-            $("#add-record").html('<i class="fas fa-plus"></i>Создать игрока');
-            $("#delete-record").html('<i class="fas fa-minus"></i>Удалить игрока');
-            break;
-
-        default:
-            alert(page);
-            $(".arrow").hide();
-            break;
-    }   
+    page=location.href.replace(/http:\/\/localhost\//,'');
 
     if($.cookie('remember')=='1'){
         $("#entrance-form .login-password input[name='login']").val($.cookie('login'));
@@ -38,9 +11,76 @@ $(function () {
 
     if($.cookie('user_id')!=null){
         $(".login-info").toggle();
-        $(".invisible-user").toggle();
+        $(".invisible-user").css({"display":"flex"});
         $(".user-login").text($.cookie('login'));
     }
+    else{
+        $(".invisible-user").css({"display":"none"});
+    }
+
+    switch (page) {
+        case "tournaments1.php":
+            $(".mini-admin-panel").css({"width":"11%"});
+            console.log($(".invisible-user").is(":visible"));
+            if($.cookie('user_id')!=null){
+                $(".arrow").show();
+            }
+            else{
+                $(".arrow").hide();
+            }
+            break;
+
+        case "matches1.php":
+            $(".mini-admin-panel").css({"width":"10%"});
+            $("#add-record").html('<i class="fas fa-plus"></i>Создать матч');
+            $("#delete-record").html('<i class="fas fa-minus"></i>Удалить матч');
+            if($(".invisible-user").is(":visible")){
+                $(".arrow").toggle();
+            }
+            else{
+                $(".arrow").toggle();
+            }
+        break;
+
+        case "teams1.php":
+            $("#add-record").html('<i class="fas fa-plus"></i>Создать команду');
+            $("#delete-record").html('<i class="fas fa-minus"></i>Удалить команду');
+            if($(".invisible-user").is(":visible")){
+                $(".arrow").toggle();
+            }
+            else{
+                $(".arrow").toggle();
+            }
+            break;
+
+        case "players1.php":
+            $(".mini-admin-panel").css({"width":"11%"});
+            $("#add-record").html('<i class="fas fa-plus"></i>Создать игрока');
+            $("#delete-record").html('<i class="fas fa-minus"></i>Удалить игрока');
+            console.log($(".invisible-user").is(":visible"));
+            if($(".invisible-user").is(":visible")){
+                $(".arrow").toggle();
+            }
+            else{
+                $(".arrow").hide();
+            }
+            break;
+
+        default:
+            if($(".invisible-user").is(":visible") && $.cookie('user_id')!=null){
+                $(".match-description-wrapper i.fas.fa-pen-square").toggle();
+                $(".description-title i.fas.fa-pen-square").toggle();
+                $(".team-info-wrapper i.fas.fa-pen-square").toggle();
+                $("#change-player-form i.fas.fa-pen-square").toggle();
+                $(".player-description-header i.fas.fa-pen-square").toggle();
+                $("#change-tournament-form .change-information i.fas.fa-pen-square").toggle();
+                $(".add-team-block").toggle();
+            }
+            else{
+                $(".arrow").hide();
+            }
+        break;
+    }   
 
     $("span.change-information i.fas.fa-pen-square").click(function (e) { 
         e.preventDefault();
@@ -270,13 +310,26 @@ $(function () {
         e.preventDefault();
         var date=$("#secondary-date").val();
         var time=$("#secondary-time").val();
+        var datetime=date+" "+time+":00"; 
         var format=$("#secondary-format").val();
         var firstScore=$("#first-team-score").val();
         var secondScore=$("#second-team-score").val();
         var round=$("#secondary-round").val();
         var firstTeam=$("#first-team").val();
         var secondTeam=$("#second-team").val();
-        var sql="insert into matches()"
+        var sql1="update matches set idFirstTeam="+firstTeam+", idSecondTeam="+secondTeam+", date='"+datetime+"' where idMatch="+location.href.replace(/http:\/\/localhost\/matches1.php\?idmatch=/,'')+" ";
+        var sql2="update matchdescription set idFormat='"+format+"', firstFinalScore="+firstScore+", secondFinalScore="+secondScore+", round='"+round+"' where idMatch="+location.href.replace(/http:\/\/localhost\/matches1.php\?idmatch=/,'')+"";
+        console.log(sql1,sql2);
+        $.ajax({
+            type: "POST",
+            url: "classes.php",
+            data: {
+                action : "update match", sql1 : sql1, sql2 : sql2
+            },
+            success: function (response) {
+                alert(response);
+            }
+        });
     });
 
     $(".player-description-wrapper .description-block .admin-textarea .hidden-action-panel #safe-changes").click(function (e) { 
@@ -393,23 +446,24 @@ $(function () {
         }
     });
 
-    $("#create-match").click(function (e) { 
+    $("#match-form").submit(function (e) { 
         e.preventDefault();
         var tour=$("#tournament").val();
-        var firstTeam=$("#first-team").val();
-        var secondTeam=$("#second-team").val();
+        var firstTeam=$("#create-first-team").val();
+        var secondTeam=$("#create-second-team").val();
         var date=$("#date").val();
         var time=$("#time").val();
-        var datetime=date+" "+time;
+        var datetime=date+" "+time+":00";
         var now=new Date();
-        if(datetime>now){status=-1}else{status=1}
-        var sql="insert into matches(idTournament, idFirstTeam, idSecondTeam, date, status) values("+tour+", "+firstTeam+", "+secondTeam+", '"+datetime+"', "+status+")";
-        alert(sql);
+        var format=$("#format").val();
+        if(datetime>now){status=-1;}else{status=1;}
+        var sql="call checkMatchField("+tour+", "+firstTeam+", "+secondTeam+", '"+datetime+"', "+status+","+format+")";
+        console.log(sql);
         $.ajax({
             type: "POST",
             url: "classes.php",
             data: {
-                action : "insert match", sql : sql
+                action : "insert match", sql : sql, firstTeam : firstTeam, secondTeam : secondTeam
             },
             success: function (response) {
                 alert(response);
@@ -488,45 +542,53 @@ $(function () {
     );
 
     $(".first-team-players-block #first-team").change(function (e) { 
-       e.preventDefault();
-       $.ajax({
-           type: "POST",
-           url: "classes.php",
-           data: {
-               action : "show selected team", idTeam : $(this).val()
-           },
-           success: function (response) {
-                html=JSON.parse(response);
-                $(".first-team-players-block .players-wrapper").html(html.player);
-                $(".first-team-description .img-wrapper").html(html.country);
-           }
-       });
+        e.preventDefault();
+        $.ajax({
+            type: "POST",
+            url: "classes.php",
+            data: {
+                action : "show selected team", idTeam : $(this).val()
+            },
+            success: function (response) {
+                    html=JSON.parse(response);
+                    $(".first-team-players-block .players-wrapper").html(html.player);
+                    $(".first-team-description .img-wrapper").html(html.country);
+            }
+        });
    });
 
    $(".match-description-wrapper i.fas.fa-pen-square").click(function (e) { 
-       e.preventDefault();
-       $(this).toggle();
-       $(".maps-block-wrapper .hidden-action-panel").toggle();
-       $(".primary-team").toggle();
-       $(".secondary-datetime").toggle();
-       $("#secondary-format").toggle();
-       $(".secondary-score").toggle();
-       $("#secondary-round").toggle();
-       $(".primary-field").toggle();
+        e.preventDefault();
+        $(this).toggle();
+        $(".maps-block-wrapper .hidden-action-panel").toggle();
+        $(".primary-team").toggle();
+        $(".secondary-datetime").toggle();
+        $("#secondary-format").toggle();
+        $(".secondary-score").toggle();
+        $(".tournament-round").toggle();
+        $(".primary-field").toggle();
+        $(".primary-score-field").toggle();
+        $(".first-team-players-block #first-team").toggle();
+        $(".second-team-players-block #second-team").toggle();
+
    });
 
    $(".maps-block-wrapper .hidden-action-panel #no-safe-changes").click(function (e) { 
-       e.preventDefault();
-       $(".match-description-wrapper i.fas.fa-pen-square").toggle();
-       $(".maps-block-wrapper .hidden-action-panel").toggle();
-       $(".primary-team").toggle();
-       $(".secondary-datetime").toggle();
-       $("#secondary-format").toggle();
-       $(".secondary-score").toggle();
-       $("#secondary-round").toggle();
+        e.preventDefault();
+        $(".match-description-wrapper i.fas.fa-pen-square").toggle();
+        $(".maps-block-wrapper .hidden-action-panel").toggle();
+        $(".primary-field").toggle();
+        $(".secondary-datetime").toggle();
+        $("#secondary-format").toggle();
+        $(".tournament-round").toggle();
+        $(".primary-score-field").toggle();
+        $(".secondary-score").toggle();
+        $(".first-team-players-block #first-team").toggle();
+        $(".second-team-players-block #second-team").toggle();
+        $(".primary-team").toggle();
    });
 
-    $("div.score").click(function (e) { 
+    $("div.primary-score-field").click(function (e) { 
         e.preventDefault();
         $(this).text($(this).attr("data-score"));
         //$(this).css({})
@@ -594,7 +656,7 @@ $(function () {
     );
 
         $("#entrance-form").submit(function (e) { 
-            var remember="";
+            var remember="", enter=0; 
             e.preventDefault();
             var login=$(".login-password input[name='login']").val();
             var password=$(".login-password input[name='password']").val();
@@ -611,22 +673,31 @@ $(function () {
                     $.cookie('login', json.login, {path : '/'});
                     $.cookie('password', json.password, {path : '/'});
                     $.cookie('remember', json.remember, {path : '/'});
+                    if(json.user!=null){enter=1;}
+                    if(enter==1)
+                    {
+                        $(".login-password input[name='login']").val($.cookie('login'));
+                        $(".login-password input[name='password']").val($.cookie('password'));
+                        $(".invisible-user").css({"display":"flex"});
+                        $(".login-info").toggle();
+                        $(".enter-invisible").toggle();
+                        $("span.user-login").text($.cookie('login'));
+                        $("div.match-description-wrapper i.fas.fa-pen-square").toggle();
+                        $(".match-description-wrapper i.fas.fa-pen-square").toggle();
+                        $(".description-title i.fas.fa-pen-square").toggle();
+                        $(".team-info-wrapper i.fas.fa-pen-square").toggle();
+                        $("#change-player-form i.fas.fa-pen-square").toggle();
+                        $(".player-description-header i.fas.fa-pen-square").toggle();
+                        $("#change-tournament-form .change-information i.fas.fa-pen-square").toggle();
+                        $(".add-team-block").toggle();
+                    }
                     alert(json.message);
-                    if($(".invisible-user").is(":visible")==false){
-                        $(".arrow").toggle();
-                    }
-                    else{
-                        $(".arrow").toggle();
-                    }
-                    console.log($.cookie('remember'));
                 }
             });
-            $(".login-password input[name='login']").val($.cookie('login'));
-            $(".login-password input[name='password']").val($.cookie('password'));
-            $(".invisible-user").toggle();
-            $(".login-info").toggle();
-            $(".enter-invisible").toggle();
-            $("span.user-login").text($.cookie('login'));
+            
+            if(page.indexOf('id')==-1){
+                $(".arrow").toggle();
+            }
         });
 
         $(".invisible-user i.fas.fa-sign-out-alt").click(function (e) { 
@@ -634,6 +705,16 @@ $(function () {
             $.removeCookie('user_id');
             $(".invisible-user").toggle();
             $(".login-info").toggle();
+            $(".arrow").hide();
+            if(!$(".invisible-user").is(":visible")){
+                $(".match-description-wrapper i.fas.fa-pen-square").toggle();
+                $(".description-title i.fas.fa-pen-square").toggle();
+                $(".team-info-wrapper i.fas.fa-pen-square").toggle();
+                $("#change-player-form i.fas.fa-pen-square").toggle();
+                $(".player-description-header i.fas.fa-pen-square").toggle();
+                $("#change-tournament-form .change-information i.fas.fa-pen-square").toggle();
+                $(".add-team-block").toggle();
+            }
         });
 
         $("#registration-form").submit(function (e) { 
@@ -1016,7 +1097,7 @@ $(function () {
     $(".player-list").click(function (e) { 
         e.preventDefault(); 
         console.log($(this).attr("data-href"));
-        //location.href=$(this).attr("data-href");
+        location.href=$(this).attr("data-href");
     });
 
     

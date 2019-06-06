@@ -72,6 +72,10 @@ switch ($_POST['action']) {
         $db->findUser();
     break;
 
+    case 'update match':
+        $db->updateMatch(); 
+    break;
+
     default:
 
     break;
@@ -483,7 +487,7 @@ class Database
             $this->getTournamentMembers($idtour);
             echo /* создание блока добавления участника турнира */
             '
-                <div class="team-block"> 
+                <div class="add-team-block"> 
                     <i class="far fa-plus-square"></i>
                     <select id="tournament-member">
                         <option selected>Выберите команду</option>
@@ -627,7 +631,7 @@ class Database
                                     <span>'.$row['name'].'</span>
                                     <img src="'.$row['countryFlag'].'" title="'.$row['country'].'">
                                 </div>
-                                <span class="match-score">'.$row['fistFinalScore'].':'.$subRow['secondFinalScore'].'</span>
+                                <span class="match-score">'.$row['firstFinalScore'].':'.$subRow['secondFinalScore'].'</span>
                                 <div class="second-team">
                                     <img src="'.$subRow['countryFlag'].'" title="'.$subRow['country'].'">
                                     <span>'.$subRow['name'].'</span>
@@ -1991,7 +1995,7 @@ class Database
         }
         else //формирование старницы с конкретным матчем
         {
-            $this->query="SELECT date, round, event, firstFinalScore, secondFinalScore, teams.name, logo, idTeam, matchFormat
+            $this->query="SELECT date, round, event, firstFinalScore, secondFinalScore, teams.name, logo, idTeam, matchFormat, idMatchFormat, date_format(date, '%Y-%m-%d') as 'date0', date_format(date, '%H:%i') as 'time'
                         from matches
                         LEFT JOIN matchdescription ON matchdescription.idMatch=matches.idMatch
                         LEFT JOIN matchformats ON matchformats.idMatchFormat=matchdescription.idFormat
@@ -2021,7 +2025,7 @@ class Database
                                         </select>
                                         <div class="players-wrapper">
                     ';
-                    $this->query="SELECT idPlayer, nickname, countryFlag, country
+                    $this->query="SELECT distinct idPlayer, nickname, countryFlag, country
                                 FROM players
                                 LEFT JOIN matches ON matches.idFirstTeam=players.idTeam
                                 WHERE matches.idFirstTeam=".$row['idTeam']."";
@@ -2054,25 +2058,27 @@ class Database
                             <div class="match-description">
                                 <div class="primary-field">'.$row['date'].'</div>
                                 <div class="secondary-datetime">
-                                    <input type="date" id="secondary-date"> 
-                                    <input type="time" id="secondary-time">
+                                    <input type="date" id="secondary-date" value="'.$row['date0'].'"> 
+                                    <input type="time" id="secondary-time" value="'.$row['time'].'">
                                 </div>
                                 <div class="primary-field">'.$row['matchFormat'].'</div>
                                 <select id="secondary-format">
-                                    <option selected>'.$row['matchFormat'].'</option>
+                                    <option selected value="'.$row['idMatchFormat'].'">'.$row['matchFormat'].'</option>
                     ';
                                     $query="select idMatchFormat, matchFormat from matchformats order by matchFormat";
                                     $this->getOptionsForSelect($query, "idMatchFormat", "matchFormat");
                     echo
                     '
                                 </select>
-                                <div data-score="'.$row['firstFinalScore'].':'.$row['secondFinalScore'].'" class="primary-field">Показать счет</div>
+                                <div data-score="'.$row['firstFinalScore'].':'.$row['secondFinalScore'].'" class="primary-score-field">Показать счет</div>
                                 <div class="secondary-score">
-                                    <input type="text" id="first-team-score">
-                                    <input type="text" id="second-team-score">
+                                    <input type="text" id="first-team-score" value="'.$row['firstFinalScore'].'" placeholder="счет 1-ой команды">
+                                    <input type="text" id="second-team-score" value="'.$row['secondFinalScore'].'" placeholder="счет 2-ой команды">
                                 </div>
                                 <div class="primary-field">'.$row['event'].', '.$row['round'].'</div>
-                                <input id="secondary-round" type="text" value="'.$row['event'].', '.$row['round'].'">
+                                <div class="tournament-round">
+                                    <input id="secondary-round" type="text" value="'.$row['round'].'" placeholder="Раунд">
+                                </div>
                             </div>
                     ';
                     $i++;
@@ -2457,10 +2463,19 @@ class Database
     {
         $this->setDbSettings("localhost","root","","course_database");
         $this->open_connection();
-        $this->query=$_POST['sql'];
+        $this->query="call checkTeams(".$_POST['firstTeam'].",".$_POST['secondTeam'].")";
         mysql_query($this->query);
         if(!mysql_error($this->link)){
-            echo "Матч успешно добавлен";
+            $this->query=$_POST['sql'];
+            mysql_query($this->query);
+            if(!mysql_error($this->link))
+            {
+                echo "Матч успешно добавлен";
+            }
+            else
+            {
+                echo "Запрос не выполнен. ".mysql_error();
+            }
         }
         else{
             echo "Запрос не выполнен. ".mysql_error();
@@ -2679,6 +2694,32 @@ class Database
             echo "Запрос не выполнен. ".mysql_error();
         }   
         echo json_encode($ajax); 
+    }
+
+    function updateMatch()
+    {
+        $error=0;
+        $this->setDbSettings("localhost","root","","course_database");
+        $this->open_connection();
+        $this->query=$_POST['sql1'];
+        mysql_query($this->query);
+        if(!mysql_error($this->link)){
+            $error=0;
+        }
+        else{
+            echo "Запрос не выполнен. ".mysql_error();
+        }    
+        $this->query=$_POST['sql2'];
+        mysql_query($this->query);
+        if(!mysql_error($this->link)){
+            $error=0;
+        }
+        else{
+            echo "Запрос не выполнен. ".mysql_error();
+        }  
+        if($error==0){
+            echo "Данные успешно изменены";
+        }  
     }
 }
 ?>

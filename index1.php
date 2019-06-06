@@ -21,7 +21,9 @@
         $db->open_connection();
     ?>
   <div class="header">
-        <div class="logo"></div>
+        <div class="logo">
+            <img src="./images/img/logo.png">
+        </div>
         <div class="login-info">
             <a href="" class="registration"><i class="fas fa-edit"><span class="registration-text">Регистрация</span></i></a>
             <span class="or">или</span>
@@ -75,6 +77,7 @@
         </nav>
     </div>
     <div class="video-block">
+        <img src="./images/img/bg.png">
         <div class="top-layer"></div> 
         <video id="video" src="./EPICENTER XL- Интро [RU].mp4" type="video/mp4" width="100%" loop muted autoplay></video>
     </div>

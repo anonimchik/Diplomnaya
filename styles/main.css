@@ -21,10 +21,10 @@ a{
 }
 .invisible-user{
     color: white;
-    display: flex;
     flex-flow: row nowrap;
     align-items: center;
     display: none;
+    display: flex;
 }
 .user-login{
     padding: 0 .3em;
@@ -280,6 +280,9 @@ a{
 }
 .transfer{
     margin-right: auto;
+}
+#match-form{
+    margin: 4em auto 0;
 }
 .matches-header, .tournament-header, .administration-panel-title, .teams-title, 
 .line-up-title, .description-title, .prize-places-header, .matches-block-header, .achievements-header,
@@ -671,6 +674,20 @@ input:focus, button:focus, button:active, input:active{
     color: rgb(93, 255, 168);
     cursor: pointer;
 }
+.logo > img{
+    width: 50%;
+}
+.video-block > img{
+    position: absolute;
+    z-index: 2;
+    left: 50%;
+    top: 50%;
+    width: 800px;
+    height: 380px;
+    object-fit: contain;
+    margin-left: -400px;
+    margin-top: -190px;
+}
 .fa-minus-circle::before{
     color: rgb(255, 80, 0);
     cursor: pointer;
@@ -722,6 +739,7 @@ label.checkbox-del-tour, label.checkbox-del-match, label.checkbox-del-player, la
     padding: 1em;
     margin: 0;
     border: 1px solid #666666;
+    background-color: #2e3644;
 }
 #admin-form{
     color: white;
@@ -996,7 +1014,7 @@ h3.teams-title i.fa-users::before{
     flex-flow: row nowrap;
     align-items: center;
 }
-.team-block{
+.team-block, .add-team-block{
     width: 120px;
     text-align: center;
     border: 1px solid #666666;
@@ -1011,12 +1029,12 @@ h3.teams-title i.fa-users::before{
     flex-direction: column;
     justify-content: space-between;
 }
-.team-block > i.far.fa-plus-square{
+.add-team-block > i.far.fa-plus-square{
     font-size: 5em;
     margin: auto;
     cursor: pointer;
 }
-.team-block > i.far.fa-plus-square:hover{
+.add-team-block > i.far.fa-plus-square:hover{
     color: rgb(82, 187, 235);
 }
 .team-block-wrapper{
@@ -1036,6 +1054,7 @@ h3.teams-title i.fa-users::before{
     bottom: 0;
     object-fit: contain;
     margin: auto;
+    max-height: 80%;
 }
 .player{
     cursor: pointer;
@@ -1344,6 +1363,14 @@ span.team-title{
     margin-bottom: .2em;
     cursor: pointer;
 }
+.match-description-wrapper > i.fas.fa-pen-square, .description-title > i.fas.fa-pen-square, .team-info-wrapper > i.fas.fa-pen-square,
+#change-player-form > i.fas.fa-pen-square, .player-description-header > i.fas.fa-pen-square, #change-tournament-form > .change-information > i.fas.fa-pen-square,
+.add-team-block{
+    display: none;
+}
+ul.admin-form > li > select{
+    flex-basis: 50%;
+}   
 .team-players-block{
     display: flex;
     flex-direction: column;
@@ -1458,7 +1485,7 @@ div.tab-content.current{
     top: -10px;
     display: none;
 }
-.secondary-datetime, #secondary-format, .secondary-score, #secondary-round{
+.secondary-datetime, #secondary-format, .secondary-score, .tournament-round, #first-team, #second-team{
     display: none;
 }
 .hidden-action-panel > button#safe-changes{
@@ -1520,6 +1547,12 @@ div.tab-content.current{
     padding: 1em;
     position: relative;
     width: 28%;
+}
+.primary-score-field{
+    border: 1px solid #666666;
+    border-radius: 5px;
+    padding: .5em;
+    cursor: pointer;
 }
 #secondary-name, #secondary-nickname, #secondary-birthday, #secondary-team, #secondary-role, #secondary-line,
 span.numeric-field, #player-file, #country-file, #country-file, .player-info-block>div>label{

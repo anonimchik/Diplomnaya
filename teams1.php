@@ -21,7 +21,9 @@
         $db->open_connection();
     ?>
     <div class="header">
-        <div class="logo"></div>
+        <div class="logo">
+            <img src="./images/img/logo.png">
+        </div>
         <div class="login-info">
             <a href="" class="registration"><i class="fas fa-edit"><span class="registration-text">Регистрация</span></i></a>
             <span class="or">или</span>
