@@ -21,12 +21,14 @@ $(function () {
     switch (page) {
         case "tournaments1.php":
             $(".mini-admin-panel").css({"width":"11%"});
-            console.log($(".invisible-user").is(":visible"));
-            if($.cookie('user_id')!=null){
+            if($.cookie('user_id')!='null'){
                 $(".arrow").show();
+                $(".invisible-user").show();
             }
             else{
                 $(".arrow").hide();
+                $(".invisible-user").hide();
+                $(".login-info").show();
             }
             break;
 
@@ -34,22 +36,28 @@ $(function () {
             $(".mini-admin-panel").css({"width":"10%"});
             $("#add-record").html('<i class="fas fa-plus"></i>Создать матч');
             $("#delete-record").html('<i class="fas fa-minus"></i>Удалить матч');
-            if($(".invisible-user").is(":visible")){
-                $(".arrow").toggle();
+            if($.cookie('user_id')!='null'){
+                $(".arrow").show();
+                $(".invisible-user").show();
             }
             else{
-                $(".arrow").toggle();
+                $(".arrow").hide();
+                $(".invisible-user").hide();
+                $(".login-info").show();
             }
         break;
 
         case "teams1.php":
             $("#add-record").html('<i class="fas fa-plus"></i>Создать команду');
             $("#delete-record").html('<i class="fas fa-minus"></i>Удалить команду');
-            if($(".invisible-user").is(":visible")){
-                $(".arrow").toggle();
+            if($.cookie('user_id')!='null'){
+                $(".arrow").show();
+                $(".invisible-user").show();
             }
             else{
-                $(".arrow").toggle();
+                $(".arrow").hide();
+                $(".invisible-user").hide();
+                $(".login-info").show();
             }
             break;
 
@@ -57,12 +65,14 @@ $(function () {
             $(".mini-admin-panel").css({"width":"11%"});
             $("#add-record").html('<i class="fas fa-plus"></i>Создать игрока');
             $("#delete-record").html('<i class="fas fa-minus"></i>Удалить игрока');
-            console.log($(".invisible-user").is(":visible"));
-            if($(".invisible-user").is(":visible")){
-                $(".arrow").toggle();
+            if($.cookie('user_id')!='null'){
+                $(".arrow").show();
+                $(".invisible-user").show();
             }
             else{
                 $(".arrow").hide();
+                $(".invisible-user").hide();
+                $(".login-info").show();
             }
             break;
 
@@ -674,6 +684,7 @@ $(function () {
                     $.cookie('password', json.password, {path : '/'});
                     $.cookie('remember', json.remember, {path : '/'});
                     if(json.user!=null){enter=1;}
+                    console.log(enter);
                     if(enter==1)
                     {
                         $(".login-password input[name='login']").val($.cookie('login'));
@@ -690,6 +701,13 @@ $(function () {
                         $(".player-description-header i.fas.fa-pen-square").toggle();
                         $("#change-tournament-form .change-information i.fas.fa-pen-square").toggle();
                         $(".add-team-block").toggle();
+                    }
+                    else{
+                        $(".arrow").hide();
+                    }
+                    if(page.indexOf('index')>-1)
+                    {
+                        $(".arrow").hide();
                     }
                     alert(json.message);
                 }
