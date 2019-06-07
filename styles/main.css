@@ -688,6 +688,9 @@ input:focus, button:focus, button:active, input:active{
     margin-left: -400px;
     margin-top: -190px;
 }
+.tournament-date-block > img{
+    padding-left: 1em;
+}
 .fa-minus-circle::before{
     color: rgb(255, 80, 0);
     cursor: pointer;
@@ -964,16 +967,16 @@ button[type="reset"], button[type="submit"], button#preview{
 .tournament-info-title input[type="text"]{
     font-size: 1em;
 }
-#tournament-title, #begDate, div.prize-block>div.numeric-field, #seria, #tournament-img{
+#tournament-title, #begDate, div.prize-block>div.numeric-field, #seria, #tournament-img, #status, #endDate{
     display: none;
 }
-.begDate-block, .prize-block, .seria-block{
+.begDate-block, .prize-block, .seria-block, .endDate-block, .status-block{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     padding: .4em 0;
 }
-.begDate-block, .prize-block, .seria-block{
+.begDate-block, .prize-block, .seria-block, .endDate-block, .status-block{
     border-bottom: 1px solid #666666;
 }
 .prize{
@@ -1316,7 +1319,7 @@ span.team-title{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding: .1% 1%;
+    padding: 1% 1%;
     background-color: rgb(39,44,55);    
     position: relative;
 }
@@ -1394,7 +1397,6 @@ ul.admin-form > li > select{
 	flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    padding: 1em 0;
 }
 .score{
     cursor: pointer;
@@ -1472,7 +1474,7 @@ ul.admin-form > li > select{
     border-top: 1px solid #666666;
     border-bottom: 1px solid #666666;
 }
-div.tab-content.current{
+div.tab-content.current > label{
     display: flex;
     flex-direction: row;
 }
@@ -1485,7 +1487,7 @@ div.tab-content.current{
     top: -10px;
     display: none;
 }
-.secondary-datetime, #secondary-format, .secondary-score, .tournament-round, #first-team, #second-team{
+.secondary-datetime, #secondary-format, .secondary-score, .tournament-round, #first-team, #second-team, #match-status, #map-file{
     display: none;
 }
 .hidden-action-panel > button#safe-changes{

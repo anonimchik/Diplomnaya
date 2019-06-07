@@ -257,7 +257,7 @@ class Database
                     inner join teams on matches.idFirstTeam=teams.idTeam
                     inner join tournaments on matches.idTournament=tournaments.idTournament
                     left join matchdescription on matches.idMatch=matchdescription.idMatch
-                    where status=-1
+                    where matches.status=-1
                     order by date desc";
         $result=mysql_query($this->query);
         $this->query="SELECT matches.idMatch, name, date, countryFlag, country, event, miniTournamentLogo, secondFinalScore
@@ -265,7 +265,7 @@ class Database
                     inner join teams on matches.idSecondTeam=teams.idTeam
                     inner join tournaments on matches.idTournament=tournaments.idTournament
                     left join matchdescription on matches.idMatch=matchdescription.idMatch
-                    where status=-1
+                    where matches.status=-1
                     order by date desc";
         $subResult=mysql_query($this->query);
         if(!mysql_error($this->link))
@@ -379,7 +379,7 @@ class Database
             $this->query="select idTournament, event, tournamentLogo, DATE_FORMAT(dateBegin, '%e'), DATE_FORMAT(dateBegin, '%c'), DATE_FORMAT(dateBegin, '%Y'), dateEnd, prize, region 
                         from tournaments 
                         left JOIN regions on tournaments.idRegion=regions.idRegion
-                        where dateEnd<=now()
+                        where dateEnd<=now() and tournaments.status=-1
                         limit 10";
             $result=mysql_query($this->query);
             if(!mysql_error($this->link))
@@ -416,7 +416,8 @@ class Database
                         <h3 class="tournament-header"><i class="fas fa-trophy"></i>Турниры</h3>';
 
             $this->query="select idTournament, event, tournamentLogo, DATE_FORMAT(dateBegin, '%e'), DATE_FORMAT(dateBegin, '%c'), DATE_FORMAT(dateBegin, '%Y'), prize 
-            from tournaments where dateBegin<=now() limit 10";
+            from tournaments where dateBegin<=now() and tournaments.status=0
+            limit 10";
             $result=mysql_query($this->query);
             if(!mysql_error($this->link))
             {
@@ -452,12 +453,14 @@ class Database
                         <h3 class="tournament-header"><i class="fas fa-trophy"></i>Турниры</h3>';
 
             $this->query="select idTournament, event, tournamentLogo, DATE_FORMAT(dateBegin, '%e'), DATE_FORMAT(dateBegin, '%c'), DATE_FORMAT(dateBegin, '%Y'), prize 
-            from tournaments where dateBegin>now() limit 10";
+            from tournaments where dateBegin>now() and tournaments.status=1
+            limit 10";
+            $result=mysql_query($this->query);
             if(!mysql_error($this->link))
             {
                 while($row = mysql_fetch_array($result)) 
                 {
-                    echo ' 
+                    echo '
                     <div class="tournament-block-wrapper" data-href=tournaments1.php?idtour='.$row[0].'>
                         <label class="checkbox-del-tour"><i class="fas fa-check"></i><input type="checkbox" id="del-tour"></label>
                         <div class="tournament-block">
@@ -599,7 +602,7 @@ class Database
                     inner join teams on matches.idFirstTeam=teams.idTeam
                     inner join tournaments on matches.idTournament=tournaments.idTournament
                     left join matchdescription on matches.idMatch=matchdescription.idMatch
-                    where matches.idTournament=".$idtour." and status=1
+                    where matches.idTournament=".$idtour." and matches.status=1
                     order by date desc";
         $result=mysql_query($this->query);
         $this->query="SELECT matches.idMatch, name, date, countryFlag, country, event, miniTournamentLogo, secondFinalScore
@@ -607,7 +610,7 @@ class Database
             inner join teams on matches.idSecondTeam=teams.idTeam
             inner join tournaments on matches.idTournament=tournaments.idTournament
             left join matchdescription on matches.idMatch=matchdescription.idMatch
-            where matches.idTournament=".$idtour." and status=1
+            where matches.idTournament=".$idtour." and matches.status=1
             order by date desc";
         $subResult=mysql_query($this->query);
         echo
@@ -676,7 +679,7 @@ class Database
                     inner join teams on matches.idFirstTeam=teams.idTeam
                     inner join tournaments on matches.idTournament=tournaments.idTournament
                     left join matchdescription on matches.idMatch=matchdescription.idMatch
-                    where matches.idTournament=".$idtour." and status=0
+                    where matches.idTournament=".$idtour." and matches.status=0
                     order by date desc";
         $result=mysql_query($this->query);
         $this->query="SELECT matches.idMatch, name, date, countryFlag, country, event, miniTournamentLogo, secondFinalScore
@@ -684,7 +687,7 @@ class Database
                     inner join teams on matches.idSecondTeam=teams.idTeam
                     inner join tournaments on matches.idTournament=tournaments.idTournament
                     left join matchdescription on matches.idMatch=matchdescription.idMatch
-                    where matches.idTournament=".$idtour." and status=0
+                    where matches.idTournament=".$idtour." and matches.status=0
                     order by date desc";
         $subResult=mysql_query($this->query);
         if(!mysql_error($this->link))
@@ -746,7 +749,7 @@ class Database
                     inner join teams on matches.idFirstTeam=teams.idTeam
                     inner join tournaments on matches.idTournament=tournaments.idTournament
                     left join matchdescription on matches.idMatch=matchdescription.idMatch
-                    where matches.idTournament=".$idtour." and status=-1
+                    where matches.idTournament=".$idtour." and mathces.status=-1
                     order by date desc";
         $result=mysql_query($this->query);
         $this->query="SELECT matches.idMatch, name, date, countryFlag, country, event, miniTournamentLogo, secondFinalScore
@@ -754,7 +757,7 @@ class Database
                     inner join teams on matches.idSecondTeam=teams.idTeam
                     inner join tournaments on matches.idTournament=tournaments.idTournament
                     left join matchdescription on matches.idMatch=matchdescription.idMatch
-                    where matches.idTournament=".$idtour." and status=-1
+                    where matches.idTournament=".$idtour." and matches.status=-1
                     order by date desc";
         $subResult=mysql_query($this->query);
         if(!mysql_error($this->link))
@@ -810,7 +813,9 @@ class Database
     function getTournamentInfo($idtour)
     {
         global $monthName;
-        $this->query="SELECT date_format(dateBegin, '%d'), date_format(dateBegin, '%c'), date_format(dateBegin, '%Y'), date_format(dateBegin, '%m'), event, prize, seria, tournamentLogo
+        $this->query="SELECT date_format(dateBegin, '%d'), date_format(dateBegin, '%c'), date_format(dateBegin, '%Y'), date_format(dateBegin, '%m'), 
+        date_format(dateEnd, '%d') as 'endDate', date_format(dateEnd, '%c') as 'endMonth', date_format(dateEnd, '%Y') as 'endYear', date_format(dateEnd, '%m') as 'endMonth0', 
+        event, prize, seria, tournamentLogo, status
                     FROM tournaments
                     WHERE idTournament=".$idtour."";
         $result=mysql_query($this->query);
@@ -818,6 +823,20 @@ class Database
         {
             while($row=mysql_fetch_array($result))
             {
+                switch($row['status']){
+                    case '-1':
+                        $status='Завершен';
+                    break;
+
+                    case '0':
+                        $status='Идет';
+                    break;
+
+                    case '1':
+                        $status='Ожидается';
+                    break;
+                }
+
                 echo 
                 '
                     <div class="tournament-wrapper">
@@ -842,6 +861,11 @@ class Database
                                     <span class="begDate" id="primary-begDate">'.$row[0].' '.$monthName[$row[1]].' '.$row[2].'</span>
                                     <input id="begDate" type="date" value="'.$row[2].'-'.$row[3].'-'.$row[0].'" required>
                                 </div>
+                                <div class="endDate-block">
+                                    <label for="endDate">Дата окончания</label>
+                                    <span class="endDate" id="primary-endDate">'.$row['endDate'].' '.$monthName[$row['endMonth']].' '.$row['endYear'].'</span>
+                                    <input id="endDate" type="date" value="'.$row['endYear'].'-'.$row['endMonth0'].'-'.$row['endDate'].'" required>
+                                </div>
                                 <div class="prize-block">
                                     <label for="prize-fond">Призовой фонд</label>
                                     <span class="prize" id="primary-prize">$ '.$row['prize'].'</span>
@@ -855,6 +879,16 @@ class Database
                                     <label for="seria">Серия</label>
                                     <span class="seria" id="primary-seria">'.$row['seria'].'</span>
                                     <input type="text" id="seria" value="'.$row['seria'].'" required>
+                                </div>
+                                <div class="status-block">
+                                    <label for="status">Статус</label>
+                                    <span class="status" id="primary-status">'.$status.'</span>
+                                    <select id="status" required>
+                                        <option value="'.$row['status'].'" selected>'.$status.'</option> 
+                                        <option value="-1">Завершен</option>
+                                        <option value="0">Идёт</option>
+                                        <option value="1">Ожидается</option>
+                                    </select>
                                 </div>
                             </form>
                             </div>
@@ -1542,21 +1576,23 @@ class Database
                 {
                     echo 
                     '
-                        <div class="match-block-wrapper" data-href="matches1.php?idmatch='.$row['idMatch'].'">
-                            <div class="teams-block-wrapper">
-                                <div class="first-team">
-                                    <span>'.$row['name'].'</span>
-                                    <img src="'.$row['countryFlag'].'" title="'.$row['country'].'">
+                        <div class="match-block-wrapper">
+                            <div class="teams-tournament-block" data-href="matches1.php?idmatch='.$row['idMatch'].'"> 
+                                <div class="teams-block-wrapper">
+                                    <div class="first-team">
+                                        <span>'.$row['name'].'</span>
+                                        <img src="'.$row['countryFlag'].'" title="'.$row['country'].'">
+                                    </div>
+                                    <span class="match-score">'.$row['firstFinalScore'].':'.$subRow['secondFinalScore'].'</span>
+                                    <div class="second-team">
+                                        <img src="'.$subRow['countryFlag'].'" title="'.$subRow['country'].'">
+                                        <span>'.$subRow['name'].'</span>
+                                    </div>
                                 </div>
-                                <span class="match-score">'.$row['firstFinalScore'].':'.$subRow['secondFinalScore'].'</span>
-                                <div class="second-team">
-                                    <img src="'.$subRow['countryFlag'].'" title="'.$subRow['country'].'">
-                                    <span>'.$subRow['name'].'</span>       
+                                <div class="tournament-date-block">
+                                    <span class="datetime">'.$row['date'].'</span>
+                                    <img  src="'.$row['miniTournamentLogo'].'" title="'.$subRow['event'].'">
                                 </div>
-                            </div>
-                            <div class="tournament-date-block">
-                                <span class="datetime">'.$row['date'].'</span>
-                                <img  src="'.$row['miniTournamentLogo'].'" title="'.$subRow['event'].'">
                             </div>
                         </div>
                     ';
@@ -1614,21 +1650,23 @@ class Database
                 {
                     echo 
                     '
-                        <div class="match-block-wrapper" data-href="matches1.php?idmatch='.$row['idMatch'].'">
-                            <div class="teams-block-wrapper">
-                                <div class="first-team">
-                                    <span>'.$row['name'].'</span>
-                                    <img src="'.$row['countryFlag'].'" title="'.$row['country'].'">
+                        <div class="match-block-wrapper">
+                            <div class="teams-tournament-block" data-href="matches1.php?idmatch='.$row['idMatch'].'"> 
+                                <div class="teams-block-wrapper">
+                                    <div class="first-team">
+                                        <span>'.$row['name'].'</span>
+                                        <img src="'.$row['countryFlag'].'" title="'.$row['country'].'">
+                                    </div>
+                                    <span class="match-score">'.$row['firstFinalScore'].':'.$subRow['secondFinalScore'].'</span>
+                                    <div class="second-team">
+                                        <img src="'.$subRow['countryFlag'].'" title="'.$subRow['country'].'">
+                                        <span>'.$subRow['name'].'</span>
+                                    </div>
                                 </div>
-                                <span class="match-score">'.$row['firstFinalScore'].':'.$subRow['secondFinalScore'].'</span>
-                                <div class="second-team">
-                                    <img src="'.$subRow['countryFlag'].'" title="'.$subRow['country'].'">
-                                    <span>'.$subRow['name'].'</span>  
+                                <div class="tournament-date-block">
+                                    <span class="datetime">'.$row['date'].'</span>
+                                    <img  src="'.$row['miniTournamentLogo'].'" title="'.$subRow['event'].'">
                                 </div>
-                            </div>
-                            <div class="tournament-date-block">
-                                <span class="datetime">'.$row['date'].'</span>
-                                <img  src="'.$row['miniTournamentLogo'].'" title="'.$subRow['event'].'">
                             </div>
                         </div>
                     ';
@@ -1686,17 +1724,23 @@ class Database
                 {
                     echo 
                     '
-                        <div class="match-block-wrapper" data-href="matches1.php?idmatch='.$row['idMatch'].'">
-                            <div class="teams-block-wrapper">
-                                <span class="first-team">'.$row['name'].'</span>
-                                <img src="'.$row['countryFlag'].'" title="'.$row['country'].'">
-                                <span class="match-score">'.$row['firstFinalScore'].':'.$subRow['secondFinalScore'].'</span>
-                                <img src="'.$subRow['countryFlag'].'" title="'.$subRow['country'].'">
-                                <span class="second-team">'.$subRow['name'].'</span>                               
-                            </div>
-                            <div class="tournament-date-block">
-                                <span class="datetime">'.$row['date'].'</span>
-                                <img  src="'.$row['miniTournamentLogo'].'" title="'.$subRow['event'].'">
+                        <div class="match-block-wrapper">
+                            <div class="teams-tournament-block" data-href="matches1.php?idmatch='.$row['idMatch'].'"> 
+                                <div class="teams-block-wrapper">
+                                    <div class="first-team">
+                                        <span>'.$row['name'].'</span>
+                                        <img src="'.$row['countryFlag'].'" title="'.$row['country'].'">
+                                    </div>
+                                    <span class="match-score">'.$row['firstFinalScore'].':'.$subRow['secondFinalScore'].'</span>
+                                    <div class="second-team">
+                                        <img src="'.$subRow['countryFlag'].'" title="'.$subRow['country'].'">
+                                        <span>'.$subRow['name'].'</span>
+                                    </div>
+                                </div>
+                                <div class="tournament-date-block">
+                                    <span class="datetime">'.$row['date'].'</span>
+                                    <img  src="'.$row['miniTournamentLogo'].'" title="'.$subRow['event'].'">
+                                </div>
                             </div>
                         </div>
                     ';
@@ -1995,7 +2039,8 @@ class Database
         }
         else //формирование старницы с конкретным матчем
         {
-            $this->query="SELECT date, round, event, firstFinalScore, secondFinalScore, teams.name, logo, idTeam, matchFormat, idMatchFormat, date_format(date, '%Y-%m-%d') as 'date0', date_format(date, '%H:%i') as 'time'
+            $this->query="SELECT date, round, event, firstFinalScore, secondFinalScore, teams.name, logo, idTeam, matchFormat, 
+            idMatchFormat, date_format(date, '%Y-%m-%d') as 'date0', date_format(date, '%H:%i') as 'time', matches.status
                         from matches
                         LEFT JOIN matchdescription ON matchdescription.idMatch=matches.idMatch
                         LEFT JOIN matchformats ON matchformats.idMatchFormat=matchdescription.idFormat
@@ -2007,6 +2052,19 @@ class Database
             {
                 while($row=mysql_fetch_array($result))
                 {
+                    switch($row['status']){
+                        case '-1':
+                            $status="Завершен";
+                        break;
+
+                        case '0';
+                            $status='Идет';
+                        break;
+
+                        case '1':
+                            $status='Ожидается';
+                        break;
+                    }
                     $idFirstTeam=$row['idTeam'];
                     echo
                     '
@@ -2078,6 +2136,15 @@ class Database
                                 <div class="primary-field">'.$row['event'].', '.$row['round'].'</div>
                                 <div class="tournament-round">
                                     <input id="secondary-round" type="text" value="'.$row['round'].'" placeholder="Раунд">
+                                </div>
+                                <div class="primary-field">'.$status.'</div>
+                                <div class="status">
+                                    <select id="match-status" required>
+                                        <option value="'.$row['status'].'" selected>'.$status.'</option>
+                                        <option value="-1" selected>Завершен</option>
+                                        <option value="0" selected>Идет</option>
+                                        <option value="1" selected>Ожидается</option>
+                                    </select>
                                 </div>
                             </div>
                     ';
@@ -2196,7 +2263,10 @@ class Database
                     echo 
                     '
                         <div id="tab-'.$i.'" class="tab-content current">
-                            <div class="img-container">
+                            <label for="map-file">
+                                <div class="img-container">
+                            </label>
+                            <input id="map-file" type="file">
                     ';
                     $this->query="SELECT ".$mapsArray[$i]."MapPhoto 
                     FROM matches
@@ -2220,7 +2290,10 @@ class Database
                     echo 
                     '
                         <div id="tab-'.$i.'" class="tab-content">
-                            <div class="img-container">
+                            <label for="map-file">
+                                <div class="img-container">
+                            </label>
+                            <input id="map-file" type="file">
                     ';
                     $this->query="SELECT ".$mapsArray[$i]."MapPhoto 
                     FROM matches

@@ -68,7 +68,7 @@
     <div class="nav-wrapper">
         <nav class="menu">
             <ul>
-                <li><a href="index1.php"><i class="fas fa-home"></i>Главная</a></li>
+                <li><a href="index.php"><i class="fas fa-home"></i>Главная</a></li>
                 <li><a href="matches1.php"><i class="fas fa-gamepad"></i>Матчи</a></li>
                 <li><a href="teams1.php"><i class="fas fa-users"></i>Команды</a></li>
                 <li><a href="players1.php"><i class="fas fa-user"></i>Игроки</a></li>
@@ -124,7 +124,7 @@
         ?>
     </div>
     <div class="footer">
-       &copy; 2019 gginfo - все для любителей киберспорта.
+       &copy; 2019 ggInfo - все для любителей киберспорта.
    </div>
 </body>
 </html>

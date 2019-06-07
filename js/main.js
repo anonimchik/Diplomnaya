@@ -21,7 +21,7 @@ $(function () {
     switch (page) {
         case "tournaments1.php":
             $(".mini-admin-panel").css({"width":"11%"});
-            if($.cookie('user_id')!='null'){
+            if($.cookie('user_id')!=null && $.cookie('user_id')!='null'){
                 $(".arrow").show();
                 $(".invisible-user").show();
             }
@@ -36,7 +36,7 @@ $(function () {
             $(".mini-admin-panel").css({"width":"10%"});
             $("#add-record").html('<i class="fas fa-plus"></i>Создать матч');
             $("#delete-record").html('<i class="fas fa-minus"></i>Удалить матч');
-            if($.cookie('user_id')!='null'){
+            if($.cookie('user_id')!=null && $.cookie('user_id')!='null'){
                 $(".arrow").show();
                 $(".invisible-user").show();
             }
@@ -50,7 +50,7 @@ $(function () {
         case "teams1.php":
             $("#add-record").html('<i class="fas fa-plus"></i>Создать команду');
             $("#delete-record").html('<i class="fas fa-minus"></i>Удалить команду');
-            if($.cookie('user_id')!='null'){
+            if($.cookie('user_id')!=null && $.cookie('user_id')!='null'){
                 $(".arrow").show();
                 $(".invisible-user").show();
             }
@@ -65,7 +65,7 @@ $(function () {
             $(".mini-admin-panel").css({"width":"11%"});
             $("#add-record").html('<i class="fas fa-plus"></i>Создать игрока');
             $("#delete-record").html('<i class="fas fa-minus"></i>Удалить игрока');
-            if($.cookie('user_id')!='null'){
+            if($.cookie('user_id')!=null && $.cookie('user_id')!='null'){
                 $(".arrow").show();
                 $(".invisible-user").show();
             }
@@ -77,7 +77,9 @@ $(function () {
             break;
 
         default:
-            if($(".invisible-user").is(":visible") && $.cookie('user_id')!=null){
+            console.log($.cookie());
+            console.log($.cookie('user_id')!='null', $.cookie('user_id')!=null);
+            if($.cookie('user_id')!='null' && $.cookie('user_id')!=null){
                 $(".match-description-wrapper i.fas.fa-pen-square").toggle();
                 $(".description-title i.fas.fa-pen-square").toggle();
                 $(".team-info-wrapper i.fas.fa-pen-square").toggle();
@@ -88,6 +90,8 @@ $(function () {
             }
             else{
                 $(".arrow").hide();
+                $(".invisible-user").hide();
+                $(".login-info").show();
             }
         break;
     }   
@@ -99,6 +103,12 @@ $(function () {
         $("#tournament-title").show();
         $("#begDate").show();
         $("#begDate").css({"display":"flex",
+                        "flex-flow":"row nowrap",
+                        "flex-basis":"50%"});
+        $("#endDate").css({"display":"flex",
+                        "flex-flow":"row nowrap",
+                        "flex-basis":"50%"});
+        $("#status").css({"display":"flex",
                         "flex-flow":"row nowrap",
                         "flex-basis":"50%"});
         $("div.prize-block>div.numeric-field").show();
@@ -114,6 +124,10 @@ $(function () {
         $("#primary-tournament-title").hide();
         $("#primary-prize").hide();
         $("#primary-begDate").hide();
+        $("#endDate").show();
+        $("#status").show();
+        $("#primary-endDate").toggle();
+        $("#primary-status").toggle();
         $(".tour-img img").css({"border":"2px dashed #666666",
                                 "border-radius":"10px"});
         var offset = $("form img").offset();
@@ -197,10 +211,12 @@ $(function () {
         var tournamentLogo=$("label.tour-img img").attr("src");
         var tournamentTitle=$("#tournament-title").val();
         var begDate=$("#begDate").val();
+        var endDate=$("#endDate").val();
+        var status=$("#status").val();
         var prize=$("#prize-fond").val();
         var seria=$("#seria").val();
         var idtour=location.href.replace(/http:\/\/localhost\/tournaments1.php\?idtour=/, '');
-        var sql="update tournaents set event='"+tournamentTitle+"', tournamentLogo='"+tournamentLogo+"', dateBegin='"+begDate+"', prize="+prize+", seria='"+seria+"' where idTournament="+idtour+"";
+        var sql="update tournaents set event='"+tournamentTitle+"', tournamentLogo='"+tournamentLogo+"', dateBegin='"+begDate+"', prize="+prize+", seria='"+seria+"', status="+status+", dateEnd='"+endDate+"' where idTournament="+idtour+"";
         $.ajax({
             type: "POST",
             url: "classes.php",
@@ -389,6 +405,8 @@ $(function () {
         $("#primary-tournament-title").show();
         $("#primary-prize").show();
         $("#primary-begDate").show();
+        $("#endDate").hide();
+        $("#status").hide();
         $(".hidden-action-panel").hide();
         $("span.change-information i.fas.fa-pen-square").show();
         $("label.tour-img").removeAttr("for");
@@ -442,18 +460,28 @@ $(function () {
     
     $("ul.maps-tab li a").click(function (e) { 
         e.preventDefault();
-        if(!$(this).parent().parent().parent().children("div.tab-content.current").children("div.img-container").children("img").attr("src"))
+        if(!$(this).parent().parent().parent().children("div.tab-content.current").children("label").children("div.img-container").children("img").attr("src"))
         {
-            $(this).parent().parent().parent().children("div.tab-content.current").children("div.img-container").children("img").attr("src","./images/mapscore/1.png");
-            $(this).parent().parent().parent().children("div.tab-content.current").children("div.img-container").children("img").css({"width":"20%",
+            $(this).parent().parent().parent().children("div.tab-content.current").children("label").children("div.img-container").children("img").attr("src","./images/mapscore/1.png");
+            $(this).parent().parent().parent().children("div.tab-content.current").children("label").children("div.img-container").children("img").css({"width":"20%",
                                                                                                                                         "height":"20%",
                                                                                                                                         "object-fit":"contain"});
-            $(this).parent().parent().parent().children("div.tab-content.current").children("div.img-container").css({"display":"flex",
+            $(this).parent().parent().parent().children("div.tab-content.current").children("label").children("div.img-container").css({"display":"flex",
                                                                                                                     "flex-direction":"column", 
                                                                                                                     "justify-content":"center",
                                                                                                                     "align-items":"center"});
-            $(this).parent().parent().parent().children("div.tab-content.current").children("div.img-container").append("<span class='error-message'>Упс, что-то пошло не так.</span>")
+            $(this).parent().parent().parent().children("div.tab-content.current").children("label").children("div.img-container").append("<span class='error-message'>Упс, что-то пошло не так.</span>")
+            
         }
+    });
+
+    $(".tab-content.current label .img-container #map-file").change(function (e) { 
+        e.preventDefault();
+        var filename=$(this)[0].files[0].name;
+        fullpath='./images/mapscore/'+filename;
+        console.log(fullpath)
+        console.log($(this).parent().html("asd"));
+        
     });
 
     $("#match-form").submit(function (e) { 
@@ -580,7 +608,7 @@ $(function () {
         $(".primary-score-field").toggle();
         $(".first-team-players-block #first-team").toggle();
         $(".second-team-players-block #second-team").toggle();
-
+        $("#match-status").toggle();
    });
 
    $(".maps-block-wrapper .hidden-action-panel #no-safe-changes").click(function (e) { 
@@ -596,6 +624,7 @@ $(function () {
         $(".first-team-players-block #first-team").toggle();
         $(".second-team-players-block #second-team").toggle();
         $(".primary-team").toggle();
+        $("#match-status").toggle();
    });
 
     $("div.primary-score-field").click(function (e) { 
@@ -1008,11 +1037,11 @@ $(function () {
     $("#admin-form").submit(function (e) { 
         e.preventDefault();
         var event=$("#name-tournament").val();
-        var logo="./images/tournamentLogos/"+$("#logo-tournament").val().replace(/C:\\fakepath\\/, "")+".png";
+        var logo="./images/tournamentLogos/"+$("#logo-tournament").val().replace(/C:\\fakepath\\/, "");
         var dateBegin=$("#tournament-date-begin").val();
         var dateEnd=$("#tournament-date-end").val();
         var prize=$("#tournament-prize").val();
-        var sql="insert into tournaments(event, tournamentLogo, prize, dateBegin, dateEnd) values('"+event+"', '"+logo+"', "+prize+", '"+dateBegin+"', '"+dateEnd+"')";
+        var sql="insert into tournaments(event, tournamentLogo, prize, dateBegin, dateEnd, status) values('"+event+"', '"+logo+"', "+prize+", '"+dateBegin+"', '"+dateEnd+"', 1)";
         console.log(sql);
         $.ajax({
             type: "POST",

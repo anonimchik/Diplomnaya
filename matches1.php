@@ -68,7 +68,7 @@
     <div class="nav-wrapper">
         <nav class="menu">
             <ul>
-                <li><a href="index1.php"><i class="fas fa-home"></i>Главная</a></li>
+                <li><a href="index.php"><i class="fas fa-home"></i>Главная</a></li>
                 <li><a href="matches1.php"><i class="fas fa-gamepad"></i>Матчи</a></li>
                 <li><a href="teams1.php"><i class="fas fa-users"></i>Команды</a></li>
                 <li><a href="players1.php"><i class="fas fa-user"></i>Игроки</a></li>
@@ -151,26 +151,13 @@
         </div>
     </div>
     <div class="main-content">
-        <!--<div class="maps-block-wrapepr">
-            <ul class="maps-tab">
-                <li class="map-link current" data-tab="tab-1"><a href="">Прошедшие</a></li>
-                <li class="map-link" data-tab="tab-2"><a href="">Текущие</a></li>
-                <li class="map-link" data-tab="tab-3"><a href="">Будущие</a></li>
-            </ul>
-            <div id="tab-1" class="tab-content current">1</div>
-            <div id="tab-2" class="tab-content">2</div>
-            <div id="tab-3" class="tab-content">3</div>
-        </div>-->
         <?php
             $db->getMatchPage($_GET['idmatch']);
         ?>
     </div>
 </div>
-    <!---<div class="chart_wrap">
-        <div id="donutchart" style="width: 100%; height: 250px;"></div>
-    </div>-->
     <div class="footer">
-       &copy; 2019 gginfo - все для любителей киберспорта.
+       &copy; 2019 ggInfo - все для любителей киберспорта.
     </div>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </body>

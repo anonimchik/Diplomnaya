@@ -83,28 +83,6 @@
     </div>
     
    <div class="main-content">
-       <!---
-       <h3 class="news-header"><i class="fas fa-newspaper"></i>Последние новости</h3>
-       <div class="owl-carousel">
-            <div>
-                <a class="news-block" href="">
-                    <div class="news-title"><span class="title-text">Тут какой-то заголовок к новости</span></div>
-                    <img class="news-image" src="./images/img/dota2.jpg" alt="">    
-                </a>
-            </div>
-            <div>
-                <a class="news-block" href="">
-                    <div class="news-title"></div>
-                    <img class="news-image" src="./images/img/cs_go.jpg" alt="">    
-                </a>
-            </div>
-            <div>
-                <a class="news-block" href="">
-                    <div class="news-title"></div>
-                    <img class="news-image" src="./images/img/cs_go.jpg" alt="">    
-                </a>
-            </div>
-        </div>--->
         <div class="mini-admin-panel">
             <button id="add-record"><i class="fas fa-plus"></i>Создать турнир</button>
             <button id="delete-record"><i class="fas fa-minus"></i>Удалить турнир</button>
@@ -113,47 +91,6 @@
         <div class="arrow">
             <i class="fas fa-angle-double-right"></i>
         </div>
-        <!---<div class="administration-panel-block">
-            <div class="administration-panel-wrapper">
-                <form action="" class="administration-panel" method="post">
-                    <h3 class="administration-panel-title">Создание турнира</h3>
-                    <ul class="admin-form">
-                        <li>
-                            <label for="name-tournament" class="name-tournament">Наименование турнира</label>
-                            <input type="text" id="name-tournament" required autocomplete="off">
-                        </li>
-                        <li>
-                            <label for="logo-tournament" class="logo-tournament">Логотип турнира</label>
-                            <label class="file-label" for="logo-tournament">
-                                <i class="fas fa-file-upload"><span>Добавить изображение</span></i>
-                            </label>
-                            <input type="file" id="logo-tournament" required accept="image/*">
-                        </li>
-                        <li>
-                            <label for="tournament-date-begin">Дата начала</label>
-                            <input type="date" required id="tournament-date-begin">
-                        </li>
-                        <li>
-                            <label for="tournament-date-end">Дата завершения</label>
-                            <input type="date" id="tournament-date-end">
-                        </li>
-                        <li>
-                            <label for="tournament-prize">Сумма призовых ($)</label>
-                            <div class="numeric-field">
-                                <i class="fas fa-minus-circle"></i>
-                                <input type="number" required min="0" id="tournament-prize">
-                                <i class="fas fa-plus-circle"></i>
-                            </div>
-                        </li>
-                        <li>
-                            <button type="reset">Очистить поля</button>
-                            <button id="preview">Предварительный просмотр</button>
-                            <button type="submit" id="create-tournament">Добавить турнир</button>
-                        </li>
-                    </ul>
-                </form>
-            </div>
-        </div>-->
         <div class="matches-transfer-wrapper">
             <div class="matches-block">
                 <h3 class="matches-header"><i class="fas fa-gamepad"></i>Матчи</h3>
