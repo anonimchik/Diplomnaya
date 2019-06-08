@@ -86,7 +86,7 @@ $(function () {
                 $("#change-player-form i.fas.fa-pen-square").toggle();
                 $(".player-description-header i.fas.fa-pen-square").toggle();
                 $("#change-tournament-form .change-information i.fas.fa-pen-square").toggle();
-                $(".add-team-block").toggle();
+                $(".add-team-block").css({"display":"flex"});
             }
             else{
                 $(".arrow").hide();
@@ -343,9 +343,21 @@ $(function () {
         var round=$("#secondary-round").val();
         var firstTeam=$("#first-team").val();
         var secondTeam=$("#second-team").val();
-        var sql1="update matches set idFirstTeam="+firstTeam+", idSecondTeam="+secondTeam+", date='"+datetime+"' where idMatch="+location.href.replace(/http:\/\/localhost\/matches1.php\?idmatch=/,'')+" ";
-        var sql2="update matchdescription set idFormat='"+format+"', firstFinalScore="+firstScore+", secondFinalScore="+secondScore+", round='"+round+"' where idMatch="+location.href.replace(/http:\/\/localhost\/matches1.php\?idmatch=/,'')+"";
-        console.log(sql1,sql2);
+        var status=$("#match-status").val();
+        firstMapPhoto=$("#tab-1 label .img-container img").attr("src");
+        secondMapPhoto=$("#tab-2 label .img-container img").attr("src");
+        thirdMapPhoto=$("#tab-3 label .img-container img").attr("src");
+        fourthMapPhoto=$("#tab-4 label .img-container img").attr("src");
+        fifthMapPhoto=$("#tab-5 label .img-container img").attr("src");
+        if(typeof(firstMapPhoto)=='undefined' || firstMapPhoto.indexOf("1.png")>-1){firstMapPhoto='';}
+        if(typeof(secondMapPhoto)=='undefined' || secondMapPhoto.indexOf("1.png")>-1){secondMapPhoto='';}
+        if(typeof(thirdMapPhoto)=='undefined' || thirdMapPhoto.indexOf("1.png")>-1){thirdMapPhoto='';}
+        if(typeof(fourthMapPhoto)=='undefined' || fourthMapPhoto.indexOf("1.png")>-1){fourthMapPhoto='';}
+        if(typeof(fifthMapPhoto)=='undefined' || fifthMapPhoto.indexOf("1.png")>-1){fifthMapPhoto='';}
+        var sql1="update matches set idFirstTeam="+firstTeam+", idSecondTeam="+secondTeam+", date='"+datetime+"', status="+status+" where idMatch="+location.href.replace(/http:\/\/localhost\/matches1.php\?idmatch=/,'')+" ";
+        var sql2="update matchdescription set idFormat='"+format+"', firstFinalScore="+firstScore+", secondFinalScore="+secondScore+", round='"+round+"', "+
+        " firstMapPhoto='"+firstMapPhoto+"', secondMapPhoto='"+secondMapPhoto+"', thirdMapPhoto='"+thirdMapPhoto+"', fourthMapPhoto='"+fourthMapPhoto+"', fifthMapPhoto='"+fifthMapPhoto+"' where idMatch="+location.href.replace(/http:\/\/localhost\/matches1.php\?idmatch=/,'')+"";
+        console.log(sql1,sql2, status, firstMapPhoto);
         $.ajax({
             type: "POST",
             url: "classes.php",
@@ -414,8 +426,11 @@ $(function () {
         $("label.tour-img img").attr("src", logoBeforeChange);
     });
 
-    $(".team-block i.far.fa-plus-square").click(function (e) { 
+    $(".add-team-block i.far.fa-plus-square").click(function (e) { 
         e.preventDefault();
+        $(this).css({"display":"flex",
+                    "flex-flow":"column nowrap",
+                    "justify-content":"center"});
         $("i.far.fa-plus-square").hide();
         $("#add-tournament-member").show();
         $("#tournament-member").show();
@@ -479,8 +494,7 @@ $(function () {
         e.preventDefault();
         var filename=$(this)[0].files[0].name;
         fullpath='./images/mapscore/'+filename;
-        console.log(fullpath)
-        console.log($(this).parent().html("asd"));
+        $(".tab-content.current label .img-container").html('<input id="map-file" type="file"><img src="'+fullpath+'">');
         
     });
 
@@ -723,13 +737,13 @@ $(function () {
                         $(".enter-invisible").toggle();
                         $("span.user-login").text($.cookie('login'));
                         $("div.match-description-wrapper i.fas.fa-pen-square").toggle();
-                        $(".match-description-wrapper i.fas.fa-pen-square").toggle();
+                        $(".match-description-wrapper i.fas.fa-pen-square").show();
                         $(".description-title i.fas.fa-pen-square").toggle();
                         $(".team-info-wrapper i.fas.fa-pen-square").toggle();
                         $("#change-player-form i.fas.fa-pen-square").toggle();
                         $(".player-description-header i.fas.fa-pen-square").toggle();
                         $("#change-tournament-form .change-information i.fas.fa-pen-square").toggle();
-                        $(".add-team-block").toggle();
+                        $(".add-team-block").css({"display":"flex"});
                     }
                     else{
                         $(".arrow").hide();

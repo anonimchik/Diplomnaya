@@ -1927,21 +1927,24 @@ class Database
                     {
                         echo 
                         '
-                            <div class="match-block-wrapper" data-href="matches1.php?idmatch='.$row['idMatch'].'">
-                                <div class="teams-block-wrapper">
-                                    <idv class="first-team">
-                                        <span>'.$row['name'].'</span>
-                                        <img src="'.$row['countryFlag'].'" title="'.$row['country'].'">
+                            <div class="match-block-wrapper">
+                                <label class="checkbox-del-match"><i class="fas fa-check"></i><input type="checkbox" class="del-match"></label>
+                                <div class="teams-tournament-block" data-href="matches1.php?idmatch='.$row['idMatch'].'"> 
+                                    <div class="teams-block-wrapper">
+                                        <div class="first-team">
+                                            <span>'.$row['name'].'</span>
+                                            <img src="'.$row['countryFlag'].'" title="'.$row['country'].'">
+                                        </div>
+                                        <span class="match-score">'.$row['firstFinalScore'].':'.$subRow['secondFinalScore'].'</span>
+                                        <div class="second-team">
+                                            <img src="'.$subRow['countryFlag'].'" title="'.$subRow['country'].'">
+                                            <span>'.$subRow['name'].'</span>
+                                        </div>
                                     </div>
-                                    <span class="match-score">'.$row['firstFinalScore'].':'.$subRow['secondFinalScore'].'</span>
-                                    <div class="second-team">
-                                        <img src="'.$subRow['countryFlag'].'" title="'.$subRow['country'].'">
-                                        <span>'.$subRow['name'].'</span>
+                                    <div class="tournament-date-block">
+                                        <span class="datetime">'.$row['date'].'</span>
+                                        <img  src="'.$row['miniTournamentLogo'].'" title="'.$subRow['event'].'">
                                     </div>
-                                </div>
-                                <div class="tournament-date-block">
-                                    <span class="datetime">'.$row['date'].'</span>
-                                    <img  src="'.$row['miniTournamentLogo'].'" title="'.$subRow['event'].'">
                                 </div>
                             </div>
                         ';
@@ -1997,21 +2000,24 @@ class Database
                     {
                         echo 
                         '
-                            <div class="match-block-wrapper" data-href="matches1.php?idmatch='.$row['idMatch'].'">
-                                <div class="teams-block-wrapper">
-                                    <div class="first-team">
-                                        <span>'.$row['name'].'</span>
-                                        <img src="'.$row['countryFlag'].'" title="'.$row['country'].'">
+                            <div class="match-block-wrapper">
+                                <label class="checkbox-del-match"><i class="fas fa-check"></i><input type="checkbox" class="del-match"></label>
+                                <div class="teams-tournament-block" data-href="matches1.php?idmatch='.$row['idMatch'].'"> 
+                                    <div class="teams-block-wrapper">
+                                        <div class="first-team">
+                                            <span>'.$row['name'].'</span>
+                                            <img src="'.$row['countryFlag'].'" title="'.$row['country'].'">
+                                        </div>
+                                        <span class="match-score">'.$row['firstFinalScore'].':'.$subRow['secondFinalScore'].'</span>
+                                        <div class="second-team">
+                                            <img src="'.$subRow['countryFlag'].'" title="'.$subRow['country'].'">
+                                            <span>'.$subRow['name'].'</span>
+                                        </div>
                                     </div>
-                                    <span class="match-score">'.$row['firstFinalScore'].':'.$subRow['secondFinalScore'].'</span>
-                                    <div class="second-team">
-                                        <img src="'.$subRow['countryFlag'].'" title="'.$subRow['country'].'">
-                                        <span>'.$subRow['name'].'</span>
+                                    <div class="tournament-date-block">
+                                        <span class="datetime">'.$row['date'].'</span>
+                                        <img  src="'.$row['miniTournamentLogo'].'" title="'.$subRow['event'].'">
                                     </div>
-                                </div>
-                                <div class="tournament-date-block">
-                                    <span class="datetime">'.$row['date'].'</span>
-                                    <img  src="'.$row['miniTournamentLogo'].'" title="'.$subRow['event'].'">
                                 </div>
                             </div>
                         ';
