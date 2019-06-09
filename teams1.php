@@ -52,8 +52,8 @@
             <div class="registration-main">
                 <form id="registration-form">
                     <div class="login-password">
-                        <input type="text" name="login" placeholder="Логин" size="40" required> 
-                        <input type="password" name="password" placeholder="Пароль" size="40" required>
+                        <input type="text" name="login" placeholder="Логин" size="40" required pattern="[a-zA-zа-яА-яёЁ0-9]+"> 
+                        <input type="password" name="password" placeholder="Пароль" size="40" required pattern="[a-zA-zа-яА-яёЁ0-9]+">
                     </div>
                     <input type="submit" value="Зарегистрироваться">
                 </form>
@@ -92,27 +92,27 @@
     </div>
     <div class="administration-panel-block">
         <div class="administration-panel-wrapper">
-            <form action="" class="administration-panel" method="post">
-                <h3 class="administration-panel-title">Создание матча</h3>
+            <form id="create-form-team" class="administration-panel" method="post">
+                <h3 class="administration-panel-title">Создание команды</h3>
                 <ul class="admin-form">
                     <li>
                         <label for="team-name">Название команды</label>
-                        <input type="text" id="team-name">
+                        <input type="text" id="team-name" required>
                     </li>
                     <li>
                         <label for="appereanceDate">Дата основания</label>
-                        <input type="date" id="appereanceDate">
+                        <input type="date" id="appereanceDate" required>
                     </li>
                     <li>
                         <label for="team-logo" class="logo-tournament">Логотип команды</label>
                         <label class="file-label" for="team-logo">
                             <i class="fas fa-file-upload"><span>Добавить изображение</span></i>
                         </label>
-                        <input type="file" id="team-logo" required accept="image/*">
+                        <input type="file" id="team-logo" accept="image/*">
                     </li>
                     <li>
                         <button type="reset">Очистить поля</button>
-                        <button type="submit" id="create-team">Добавить матч</button>
+                        <button type="submit">Добавить команду</button>
                     </li>
                 </ul>
             </form>

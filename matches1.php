@@ -52,8 +52,8 @@
             <div class="registration-main">
                 <form id="registration-form">
                     <div class="login-password">
-                        <input type="text" name="login" placeholder="Логин" size="40" required> 
-                        <input type="password" name="password" placeholder="Пароль" size="40" required>
+                        <input type="text" name="login" placeholder="Логин" size="40" required pattern="[a-zA-zа-яА-яёЁ0-9]+"> 
+                        <input type="password" name="password" placeholder="Пароль" size="40" required pattern="[a-zA-zа-яА-яёЁ0-9]+">
                     </div>
                     <input type="submit" value="Зарегистрироваться">
                 </form>

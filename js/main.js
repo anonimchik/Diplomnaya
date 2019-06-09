@@ -216,7 +216,7 @@ $(function () {
         var prize=$("#prize-fond").val();
         var seria=$("#seria").val();
         var idtour=location.href.replace(/http:\/\/localhost\/tournaments1.php\?idtour=/, '');
-        var sql="update tournaents set event='"+tournamentTitle+"', tournamentLogo='"+tournamentLogo+"', dateBegin='"+begDate+"', prize="+prize+", seria='"+seria+"', status="+status+", dateEnd='"+endDate+"' where idTournament="+idtour+"";
+        var sql="update tournaments set event='"+tournamentTitle+"', tournamentLogo='"+tournamentLogo+"', dateBegin='"+begDate+"', prize="+prize+", seria='"+seria+"', status="+status+", dateEnd='"+endDate+"' where idTournament="+idtour+"";
         $.ajax({
             type: "POST",
             url: "classes.php",
@@ -434,6 +434,7 @@ $(function () {
         $("i.far.fa-plus-square").hide();
         $("#add-tournament-member").show();
         $("#tournament-member").show();
+        $("#invite").show();
         $(this).parent().css({"justify-content":"center"});
     });
 
@@ -441,7 +442,8 @@ $(function () {
         e.preventDefault();
         var idtour=location.href.replace(/http:\/\/localhost\/tournaments1.php\?idtour=/,'');
         var idTeam=$("#tournament-member").val();
-        var sql="insert into tournamentmembers(idTournament, idTeam) values("+idtour+", "+idTeam+")";
+        var invite=$("#invite").val();
+        var sql="insert into tournamentmembers(idTournament, idTeam, invited) values("+idtour+", "+idTeam+", '"+invite+"')";
         $.ajax({
             type: "POST",
             url: "classes.php",
@@ -511,20 +513,24 @@ $(function () {
         if(datetime>now){status=-1;}else{status=1;}
         var sql="call checkMatchField("+tour+", "+firstTeam+", "+secondTeam+", '"+datetime+"', "+status+","+format+")";
         console.log(sql);
-        $.ajax({
-            type: "POST",
-            url: "classes.php",
-            data: {
-                action : "insert match", sql : sql, firstTeam : firstTeam, secondTeam : secondTeam
-            },
-            success: function (response) {
-                alert(response);
-                location.reload();
-            }
-        });
+        if(tour.indexOf("Выберите")>-1 || firstTeam.indexOf("Выберите")>-1 || secondTeam.indexOf("Выберите")>-1 || format.indexOf("Выберите")>-1)
+        {alert("Заполните все необходимые поля");}
+        else{
+            $.ajax({
+                type: "POST",
+                url: "classes.php",
+                data: {
+                    action : "insert match", sql : sql, firstTeam : firstTeam, secondTeam : secondTeam
+                },
+                success: function (response) {
+                    alert(response);
+                    location.reload();
+                }
+            });
+        }
     });
 
-    $("#create-player").click(function (e) { 
+    $("#create-player-form").submit(function (e) { 
         e.preventDefault();
         name=$("#player-name").val();
         nickname=$("#player-nickname").val();
@@ -533,25 +539,32 @@ $(function () {
         birthday=$("#player-birthday").val();
         role=$("#player-role").val();
         var sql="insert into players(name, idDiscipline, nickname, birthday, photoRef, idTeam, idRole) values('"+name+"', 1, '"+nickname+"', '"+birthday+"', '"+photo+"', "+team+", '"+role+"')";
-        $.ajax({
-            type: "POST",
-            url: "classes.php",
-            data: {
-                action : "insert player", sql : sql
-            },
-            success: function (response) {
-                alert(response);
-                location.reload();
-            }
-        });
+        console.log(sql);
+        if(team.indexOf("Выберите")>-1 || role.indexOf("Выберите")>-1){
+            alert("Заполните все необходимые поля");
+        }
+        else{
+            $.ajax({
+                type: "POST",
+                url: "classes.php",
+                data: {
+                    action : "insert player", sql : sql
+                },
+                success: function (response) {
+                    alert(response);
+                    location.reload();
+                }
+            });
+        }
     });
 
-    $("#create-team").click(function (e) { 
+    $("#create-form-team").submit(function (e) { 
         e.preventDefault();
         var name=$("#team-name").val();
         var appereanceDate=$("#appereanceDate").val();
         if($(".image-block").length){teamLogo=$(".image-block").attr("src");}else{teamLogo="";}
-        var sql="insert into teams(idDiscipline, name, logo, appereanceDate) values(1, '"+name+"', '"+teamLogo+"', '"+appereanceDate+"')";
+        var sql="insert into teams(idDiscipline, name, logo, appearenceDate) values(1, '"+name+"', '"+teamLogo+"', '"+appereanceDate+"')";
+        console.log(sql);
         $.ajax({
             type: "POST",
             url: "classes.php",
@@ -623,6 +636,7 @@ $(function () {
         $(".first-team-players-block #first-team").toggle();
         $(".second-team-players-block #second-team").toggle();
         $("#match-status").toggle();
+        $(".tab-content.current label").attr("for","map-file");
    });
 
    $(".maps-block-wrapper .hidden-action-panel #no-safe-changes").click(function (e) { 
@@ -639,6 +653,7 @@ $(function () {
         $(".second-team-players-block #second-team").toggle();
         $(".primary-team").toggle();
         $("#match-status").toggle();
+        $(".tab-content.current label").attr("for","");
    });
 
     $("div.primary-score-field").click(function (e) { 
@@ -708,92 +723,92 @@ $(function () {
         }
     );
 
-        $("#entrance-form").submit(function (e) { 
-            var remember="", enter=0; 
-            e.preventDefault();
-            var login=$(".login-password input[name='login']").val();
-            var password=$(".login-password input[name='password']").val();
-            if($(".remember-forgot label input[name='remember']").prop('checked')){remember=1;}else{remember=0;}
-            $.ajax({
-                type: "POST",
-                url: "classes.php",
-                data: {
-                   action : "enter", remember : remember, login : login, password : password
-                },
-                success: function (response) {
-                    json=JSON.parse(response);
-                    $.cookie('user_id', json.user, {path : '/'});
-                    $.cookie('login', json.login, {path : '/'});
-                    $.cookie('password', json.password, {path : '/'});
-                    $.cookie('remember', json.remember, {path : '/'});
-                    if(json.user!=null){enter=1;}
-                    console.log(enter);
-                    if(enter==1)
-                    {
-                        $(".login-password input[name='login']").val($.cookie('login'));
-                        $(".login-password input[name='password']").val($.cookie('password'));
-                        $(".invisible-user").css({"display":"flex"});
-                        $(".login-info").toggle();
-                        $(".enter-invisible").toggle();
-                        $("span.user-login").text($.cookie('login'));
-                        $("div.match-description-wrapper i.fas.fa-pen-square").toggle();
-                        $(".match-description-wrapper i.fas.fa-pen-square").show();
-                        $(".description-title i.fas.fa-pen-square").toggle();
-                        $(".team-info-wrapper i.fas.fa-pen-square").toggle();
-                        $("#change-player-form i.fas.fa-pen-square").toggle();
-                        $(".player-description-header i.fas.fa-pen-square").toggle();
-                        $("#change-tournament-form .change-information i.fas.fa-pen-square").toggle();
-                        $(".add-team-block").css({"display":"flex"});
-                    }
-                    else{
-                        $(".arrow").hide();
-                    }
-                    if(page.indexOf('index')>-1)
-                    {
-                        $(".arrow").hide();
-                    }
-                    alert(json.message);
+    $("#entrance-form").submit(function (e) { 
+        var remember="", enter=0; 
+        e.preventDefault();
+        var login=$(".login-password input[name='login']").val();
+        var password=$(".login-password input[name='password']").val();
+        if($(".remember-forgot label input[name='remember']").prop('checked')){remember=1;}else{remember=0;}
+        $.ajax({
+            type: "POST",
+            url: "classes.php",
+            data: {
+                action : "enter", remember : remember, login : login, password : password
+            },
+            success: function (response) {
+                json=JSON.parse(response);
+                $.cookie('user_id', json.user, {path : '/'});
+                $.cookie('login', json.login, {path : '/'});
+                $.cookie('password', json.password, {path : '/'});
+                $.cookie('remember', json.remember, {path : '/'});
+                if(json.user!=null){enter=1;}
+                console.log(enter);
+                if(enter==1)
+                {
+                    $(".login-password input[name='login']").val($.cookie('login'));
+                    $(".login-password input[name='password']").val($.cookie('password'));
+                    $(".invisible-user").css({"display":"flex"});
+                    $(".login-info").toggle();
+                    $(".enter-invisible").toggle();
+                    $("span.user-login").text($.cookie('login'));
+                    $("div.match-description-wrapper i.fas.fa-pen-square").toggle();
+                    $(".match-description-wrapper i.fas.fa-pen-square").show();
+                    $(".description-title i.fas.fa-pen-square").toggle();
+                    $(".team-info-wrapper i.fas.fa-pen-square").toggle();
+                    $("#change-player-form i.fas.fa-pen-square").toggle();
+                    $(".player-description-header i.fas.fa-pen-square").toggle();
+                    $("#change-tournament-form .change-information i.fas.fa-pen-square").toggle();
+                    $(".add-team-block").css({"display":"flex"});
                 }
-            });
-            
-            if(page.indexOf('id')==-1){
-                $(".arrow").toggle();
+                else{
+                    $(".arrow").hide();
+                }
+                if(page.indexOf('index')>-1)
+                {
+                    $(".arrow").hide();
+                }
+                alert(json.message);
             }
         });
+        
+        if(page.indexOf('id')==-1){
+            $(".arrow").toggle();
+        }
+    });
 
-        $(".invisible-user i.fas.fa-sign-out-alt").click(function (e) { 
-            e.preventDefault();
-            $.removeCookie('user_id');
-            $(".invisible-user").toggle();
-            $(".login-info").toggle();
-            $(".arrow").hide();
-            if(!$(".invisible-user").is(":visible")){
-                $(".match-description-wrapper i.fas.fa-pen-square").toggle();
-                $(".description-title i.fas.fa-pen-square").toggle();
-                $(".team-info-wrapper i.fas.fa-pen-square").toggle();
-                $("#change-player-form i.fas.fa-pen-square").toggle();
-                $(".player-description-header i.fas.fa-pen-square").toggle();
-                $("#change-tournament-form .change-information i.fas.fa-pen-square").toggle();
-                $(".add-team-block").toggle();
+    $(".invisible-user i.fas.fa-sign-out-alt").click(function (e) { 
+        e.preventDefault();
+        $.removeCookie('user_id');
+        $(".invisible-user").toggle();
+        $(".login-info").toggle();
+        $(".arrow").hide();
+        if(!$(".invisible-user").is(":visible")){
+            $(".match-description-wrapper i.fas.fa-pen-square").toggle();
+            $(".description-title i.fas.fa-pen-square").toggle();
+            $(".team-info-wrapper i.fas.fa-pen-square").toggle();
+            $("#change-player-form i.fas.fa-pen-square").toggle();
+            $(".player-description-header i.fas.fa-pen-square").toggle();
+            $("#change-tournament-form .change-information i.fas.fa-pen-square").toggle();
+            $(".add-team-block").toggle();
+        }
+    });
+
+    $("#registration-form").submit(function (e) { 
+        e.preventDefault();
+        var login=$("#registration-form .login-password input[name='login']").val();
+        var password=$("#registration-form .login-password input[name='password']").val();
+        var sql="insert into autorization(login, password) value('"+login+"', md5('"+password+"'))";
+        $.ajax({
+            type: "POST",
+            url: "classes.php",
+            data: {
+                action : "insert user", sql: sql
+            },
+            success: function (response) {
+                alert(response);
             }
         });
-
-        $("#registration-form").submit(function (e) { 
-            e.preventDefault();
-            var login=$("#registration-form .login-password input[name='login']").val();
-            var password=$("#registration-form .login-password input[name='password']").val();
-            var sql="insert into autorization(login, password) value('"+login+"', md5('"+password+"'))";
-            $.ajax({
-                type: "POST",
-                url: "classes.php",
-                data: {
-                    action : "insert user", sql: sql
-                },
-                success: function (response) {
-                    alert(response);
-                }
-            });
-        });
+    });
 
     $("a.enter").click(function (e) { 
         e.preventDefault();
@@ -958,7 +973,6 @@ $(function () {
         e.preventDefault();
         if(!$(".administration-panel-wrapper").is(":visible")){
             $(".administration-panel-wrapper").css({"display":"flex"});
-            $(".admin-form")[0].reset();
             var offset = $(".administration-panel").offset();
             var top = offset.top;
             $("html").animate({scrollTop:top}, 1000);

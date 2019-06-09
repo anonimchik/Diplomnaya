@@ -35,8 +35,8 @@
             <div class="enter-main">
                 <form id="entrance-form">
                     <div class="login-password">
-                        <input type="text" name="login" placeholder="Логин" required>
-                        <input type="password" name="password" placeholder="Пароль" required>
+                        <input type="text" name="login" placeholder="Логин" required pattern="[a-zA-zа-яА-яёЁ0-9]+">
+                        <input type="password" name="password" placeholder="Пароль" required pattern="[a-zA-zа-яА-яёЁ0-9]+">
                     </div>
                     <div class="remember-forgot">
                         <label><input type="checkbox" name="remember"><span>Запомнить меня</span></label>
@@ -92,16 +92,16 @@
     </div>
     <div class="administration-panel-block">
         <div class="administration-panel-wrapper">
-            <form action="" class="administration-panel" method="post">
+            <form id="create-player-form" class="administration-panel" method="post">
                 <h3 class="administration-panel-title">Создание игрока</h3>
                 <ul class="admin-form">
                     <li>
                         <label for="player-name">Имя</label>
-                        <input type="text" id="player-name">
+                        <input type="text" id="player-name" required>
                     </li>
                     <li>
                         <label for="player-nickname">Никнейм</label>
-                        <input type="text" id="player-nickname">
+                        <input type="text" id="player-nickname" required>
                     </li>
                     <li>
                         <label for="player-birthday">Дата рождения</label>
@@ -109,8 +109,7 @@
                     </li>
                     <li>
                         <label for="player-role">Роль</label>
-                        <select id="player-role">
-                            <option selected>Выберите роль</option>
+                        <select id="player-role" required>
                             <?php
                                 $query="SELECT idRole, role FROM roles ORDER BY role";
                                 $db->getOptionsForSelect($query, "idRole", "role");
@@ -122,12 +121,11 @@
                         <label class="file-label" for="player-photo">
                             <i class="fas fa-file-upload"><span>Добавить изображение</span></i>
                         </label>
-                        <input type="file" id="player-photo" required accept="image/*">
+                        <input type="file" id="player-photo" accept="image/*">
                     </li>
                     <li>
                         <label for="player-team">Команда</label>
-                        <select id="player-team">
-                            <option selected>Выберите команду</option>
+                        <select id="player-team" required>
                             <?php
                                 $query="SELECT idTeam, name FROM teams ORDER BY name";
                                 $db->getOptionsForSelect($query, "idTeam", "name");
@@ -136,7 +134,7 @@
                     </li>
                     <li>
                         <button type="reset">Очистить поля</button>
-                        <button type="submit" id="create-player">Добавить игрока</button>
+                        <button type="submit">Добавить игрока</button>
                     </li>
                 </ul>
             </form>

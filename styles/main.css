@@ -970,6 +970,12 @@ button[type="reset"], button[type="submit"], button#preview{
 #tournament-title, #begDate, div.prize-block>div.numeric-field, #seria, #tournament-img, #status, #endDate{
     display: none;
 }
+#first-team-score, #second-team-score{
+    max-width: 10%;
+}
+#tournament{
+    max-width: 50%;
+}
 .begDate-block, .prize-block, .seria-block, .endDate-block, .status-block{
     display: flex;
     flex-direction: row;
@@ -1487,8 +1493,11 @@ div.tab-content.current > label{
     top: -10px;
     display: none;
 }
-.secondary-datetime, #secondary-format, .secondary-score, .tournament-round, #first-team, #second-team, #match-status, #map-file{
+.secondary-datetime, #invite, #secondary-format, .secondary-score, .tournament-round, #first-team, #second-team, #match-status, #map-file{
     display: none;
+}
+#invite{
+    margin-top: .5em;
 }
 .hidden-action-panel > button#safe-changes{
     margin: 0;
@@ -1564,6 +1573,7 @@ i.fas.fa-file-medical{
     color: #666666;
     font-size: 1.5em;
     cursor: pointer;
+    display: none;
 }
 i.fas.fa-file-medical:hover{
     color: rgb(186, 181, 171);
