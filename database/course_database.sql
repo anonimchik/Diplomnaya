@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3006
--- Время создания: Июн 06 2019 г., 18:06
+-- Время создания: Июн 10 2019 г., 20:49
 -- Версия сервера: 5.6.38
 -- Версия PHP: 5.5.38
 
@@ -183,8 +183,8 @@ INSERT INTO `matchdescription` (`idMatch`, `idFormat`, `round`, `firstWinner`, `
 (13, 2, 'Group Stage, Group B', NULL, NULL, NULL, NULL, NULL, 1, 1, './images/mapscore/211130-1-8153.jpg', './images/mapscore/211130-2-1025.jpg', NULL, NULL, NULL),
 (14, 2, 'Group Stage, Group A', NULL, NULL, NULL, NULL, NULL, 2, 0, './images/mapscore/211133-1-7044.jpg', './images/mapscore/211133-2-7166.jpg', NULL, NULL, NULL),
 (15, 2, 'Group Stage, Group A', NULL, NULL, NULL, NULL, NULL, 0, 2, './images/mapscore/211131-1-4841.jpg', './images/mapscore/211131-2-2342.jpg', NULL, NULL, NULL),
-(16, 2, 'Group Stage, Group A', NULL, NULL, NULL, NULL, NULL, 1, 1, './images/mapscore/211132-1-8676.jpg', './images/mapscore/211132-2-294.jpg', NULL, NULL, NULL),
-(17, 2, 'Group Stage, Group B', NULL, NULL, NULL, NULL, NULL, 2, 0, './images/mapscore/211136-1-4825.jpg', './images/mapscore/211136-2-2664.jpg', NULL, NULL, NULL);
+(16, 2, 'Group Stage, Group A', NULL, NULL, NULL, NULL, NULL, 1, 1, './images/mapscore/211132-1-8676.jpg', './images/mapscore/211132-2-294.jpg', '', '', ''),
+(17, 2, 'Group Stage, Group B', NULL, NULL, NULL, NULL, NULL, 2, 0, './images/mapscore/211136-1-4825.jpg', './images/mapscore/211136-2-2664.jpg', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -216,7 +216,7 @@ INSERT INTO `matches` (`idMatch`, `idTournament`, `idFirstTeam`, `idSecondTeam`,
 (14, 5, 4, 13, '2019-05-30 14:00:00', 1),
 (15, 5, 6, 15, '2019-05-30 14:00:00', 1),
 (16, 5, 9, 33, '2019-05-30 14:01:00', 1),
-(17, 5, 1, 12, '2019-05-30 17:01:00', 1);
+(17, 5, 1, 12, '2019-06-30 00:00:00', 1);
 
 -- --------------------------------------------------------
 
@@ -412,7 +412,7 @@ INSERT INTO `players` (`idPlayer`, `idTeam`, `idDiscipline`, `country`, `country
 (711, 7, 1, 'Малайзия', './images/countryFlags/Малайзия.png', 'Yap Jian Wei', 'xNova', '', '0000-00-00', './images/playerPhotos/xNova.png', '4-5', 'Safe', 1179741),
 (712, 8, 1, 'Китай', './images/countryFlags/Китай.png', 'Gao Tianpeng', 'Dogf1ghts', '', '0000-00-00', './images/playerPhotos/Dogf1ghts.png', '4-5', 'Hard', 189450),
 (713, 8, 1, 'Малайзия', './images/countryFlags/Малайзия.png', 'Chan Chon Kien', 'Oli', '', '0000-00-00', './images/playerPhotos/Oli.png', '4-5', 'Safe', 28990),
-(714, 9, 1, 'Германия', './images/countryFlags/Германия.png', 'Kuro Salehi Takhasomi', 'KuroKy', '', '0000-00-00', './images/playerPhotos/KuroKy.png', '4-5', 'Hard', 3994205),
+(714, 9, 1, 'Германия', './images/countryFlags/Германия.png', 'Kuro Salehi Takhasomi', 'KuroKy', 'Профессиональный игрок в Dota 2. Чемпион Мира 2017 года (в составе Team Liquid). \n\nНачал свою карьеру ещё во времена Warcraft. В 2009 году его коллектив Kingsurf.int был признан лучшей командой года, а сам KuroKy — лучшим керри.  В Dota 2 KuroKy вошёл в составе команды GosuGamers. На The International 2011 она заняла последнее место, после чего приказала долго жить. \n\nЗа 2012 год успел поиграть в Virtus.pro, в качестве замены побывал на TI2 с mousesports в роли саппорта, а позже стал полноправным игроком mouz, но уже в роли керри.  В феврале 2013 года немецкий легионер подписал контракт с украинской организацией Natus Vincere. Вместе с командой он пережил новый взлёт. Его сигнатурного Rubick соперник нередко отправлял в респект-бан. На TI3 Na`Vi дошли до финала, где в драматичном матче всё же уступили Alliance. Пошли слухи о распаде команды, однако игроки продолжили выступать вместе. Постепенно уровень игры падал, всё чаще можно было услышать критику в сторону KuroKy. Некоторые аналитики считали, что Na`Vi нужно избавиться от европейского легионера по причине языкового барьера. После неудачного выступления на TI4 Куро покинул команду. \n\nСезон 2014-2015 года он провёл в звёздном миксе Team Secret. Там KuroKy снова попробовал себя в роли керри, но позже ему пришлось вернуться на позицию саппорта. Команда претендовала на лидерство в мировой Доте, однако на TI5 оступилась и заняла только 7-8 место. Выяснилось, что к началу турнира в команде был разлад между KuroKy и эмоциональным молодым керри Arteezy. После TI5 конфликт вылился наружу. Игроки сказали друг о друге много нелестных слов в социальных сетях и оба покинули команду. Ходили слухи, что KuroKy хочет собрать немецкий стак игроков, однако в его новом коллективе 5Jungz были игроки разных национальностей. Команда показывала неплохие результаты, и 9 октября 2015 года организация Team Liquid подписала с ней контракт.\n\nПод новым тегом коллектив одержал много побед, дважды доходил до Финала на турнирах Major, и, наконец, взял \"золото\" на главном турнире 2017 года - The International.', '1992-10-28', './images/playerPhotos/KuroKy.png', '4-5', 'Hard', 3994205),
 (715, 9, 1, 'Ливан', './images/countryFlags/Ливан.png', 'Maroun Merhej', 'GH', '', '0000-00-00', './images/playerPhotos/GH.png', '4-5', 'Hard', 3147980),
 (716, 10, 1, 'Дания', './images/countryFlags/Дания.png', 'Andreas Franck Nielsen', 'Cr1t', '', '0000-00-00', './images/playerPhotos/Cr1t.png', '4-5', 'Hard', 1619731),
 (717, 10, 1, 'Израиль', './images/countryFlags/Израиль.png', 'Tal Aizik', 'Fly', '', '0000-00-00', './images/playerPhotos/Fly.png', '4-5', 'Safe', 1995035),
@@ -485,7 +485,8 @@ INSERT INTO `players` (`idPlayer`, `idTeam`, `idDiscipline`, `country`, `country
 (786, 78, 1, 'Мьянма', './images/countryFlags/Мьянма.png', '&ndash;', 'KENJI', '', '0000-00-00', './images/playerPhotos/KENJI.png', '4-5', 'Safe', 550),
 (787, 78, 1, 'Мьянма', './images/countryFlags/Мьянма.png', '&ndash;', 'raprap', '', '0000-00-00', './images/playerPhotos/raprap.png', '4-5', 'Hard', 550),
 (788, 80, 1, 'Индонезия', './images/countryFlags/Индонезия.png', 'Fahmi Choirul', 'Huppey', '', '0000-00-00', './images/playerPhotos/Huppey.png', '4-5', 'Hard', 3603),
-(789, 80, 1, 'Индонезия', './images/countryFlags/Индонезия.png', '&ndash;', 'SPACEMAN', '', '0000-00-00', './images/playerPhotos/SPACEMAN.png', '4-5', 'Hard', 3575),
+(789, 80, 1, 'Индонезия', './images/countryFlags/Индонезия.png', '&ndash;', 'SPACEMAN', '', '0000-00-00', './images/playerPhotos/SPACEMAN.png', '4-5', 'Hard', 3575);
+INSERT INTO `players` (`idPlayer`, `idTeam`, `idDiscipline`, `country`, `countryFlag`, `name`, `nickname`, `description`, `birthday`, `photoRef`, `idRole`, `line`, `prize`) VALUES
 (790, 81, 1, 'Сингапур', './images/countryFlags/Сингапур.png', '&ndash;', 'Dian', '', '0000-00-00', './images/playerPhotos/Dian.png', '4-5', 'Safe', 200),
 (791, 81, 1, 'Сингапур', './images/countryFlags/Сингапур.png', '&ndash;', 'iagger', '', '0000-00-00', './images/playerPhotos/iagger.png', '4-5', 'Hard', 200),
 (792, 82, 1, 'Казахстан', './images/countryFlags/Казахстан.png', 'Ernar Urazbaev', 'Mantis', '', '0000-00-00', './images/playerPhotos/Mantis.png', '4-5', 'Safe', 2748),
@@ -494,12 +495,10 @@ INSERT INTO `players` (`idPlayer`, `idTeam`, `idDiscipline`, `country`, `country
 (795, 106, 1, 'Вьетнам', './images/countryFlags/Вьетнам.png', 'Dương Phan Nhật Toàn', 'TenGu', '', '0000-00-00', './images/playerPhotos/TenGu.png', '4-5', 'Safe', 660),
 (796, 107, 1, 'Малайзия', './images/countryFlags/Малайзия.png', 'Goh Choo Jian', 'MoZuN', '', '0000-00-00', './images/playerPhotos/MoZuN.png', '4-5', 'Safe', 6742),
 (797, 109, 1, 'Малайзия', './images/countryFlags/Малайзия.png', 'Pang Jian Zhe', 'BrayaNt', '', '0000-00-00', './images/playerPhotos/BrayaNt.png', '4-5', 'Safe', 6801),
-(798, 112, 1, 'Сингапур', './images/countryFlags/Сингапур.png', 'Wong Jeng Yih', 'NutZ', '', '0000-00-00', './images/playerPhotos/NutZ.png', '4-5', 'Safe', 224416),
 (799, 112, 1, 'Сингапур', './images/countryFlags/Сингапур.png', 'Clement Tan', 'InsidiousC', '', '0000-00-00', './images/playerPhotos/InsidiousC.png', '4-5', 'Hard', 500),
 (800, 114, 1, 'Тайланд', './images/countryFlags/Тайланд.png', '&ndash;', 'reNniw', '', '0000-00-00', './images/playerPhotos/reNniw.png', '4-5', 'Hard', 348),
 (801, 117, 1, 'Тайланд', './images/countryFlags/Тайланд.png', 'Kanokkorn Hirungue', 'Varen', '', '0000-00-00', './images/playerPhotos/Varen.png', '4-5', 'Hard', 1200),
-(802, 118, 1, 'Тайланд', './images/countryFlags/Тайланд.png', 'Rungpetch Yuenying', 'Rpyy', '', '0000-00-00', './images/playerPhotos/Rpyy.png', '4-5', 'Roaming', 113);
-INSERT INTO `players` (`idPlayer`, `idTeam`, `idDiscipline`, `country`, `countryFlag`, `name`, `nickname`, `description`, `birthday`, `photoRef`, `idRole`, `line`, `prize`) VALUES
+(802, 118, 1, 'Тайланд', './images/countryFlags/Тайланд.png', 'Rungpetch Yuenying', 'Rpyy', '', '0000-00-00', './images/playerPhotos/Rpyy.png', '4-5', 'Roaming', 113),
 (803, 118, 1, 'Тайланд', './images/countryFlags/Тайланд.png', 'Saharat Thawornsusin', 'divasa', '', '0000-00-00', './images/playerPhotos/divasa.png', '4-5', 'Hard', 61),
 (804, 119, 1, 'Филиппины', './images/countryFlags/Филиппины.png', '&ndash;', 'Goaty', '', '0000-00-00', './images/playerPhotos/Goaty.png', '4-5', 'Safe', 100),
 (805, 120, 1, 'Австралия', './images/countryFlags/Австралия.png', 'Phuc Nguyen', 'lordboonz', '', '0000-00-00', './images/playerPhotos/lordboonz.png', '4-5', 'Hard', 3115),
@@ -806,17 +805,17 @@ CREATE TABLE `tournamentmembers` (
 --
 
 INSERT INTO `tournamentmembers` (`idRecord`, `idTournament`, `idTeam`, `invited`) VALUES
-(1, 5, 4, NULL),
-(2, 5, 5, NULL),
-(3, 5, 6, NULL),
-(4, 5, 7, NULL),
-(5, 5, 8, NULL),
-(6, 5, 9, NULL),
-(7, 5, 10, NULL),
-(8, 5, 12, NULL),
-(9, 5, 13, NULL),
-(10, 5, 14, NULL),
-(11, 5, 15, NULL),
+(1, 5, 4, 'Direct Invite'),
+(2, 5, 5, 'Direct Invite'),
+(3, 5, 6, 'Direct Invite'),
+(4, 5, 7, 'Direct Invite'),
+(5, 5, 8, 'Dirrect Invite'),
+(6, 5, 9, 'Direct Invite'),
+(7, 5, 10, 'Direct Invite'),
+(8, 5, 12, 'Europe Qualifier'),
+(9, 5, 13, 'North America Qualifier'),
+(10, 5, 14, 'China Qualifier'),
+(11, 5, 15, 'Southeast Asia Qualifier'),
 (12, 9, 16, NULL),
 (13, 9, 17, NULL),
 (14, 9, 10, NULL),
@@ -836,10 +835,6 @@ INSERT INTO `tournamentmembers` (`idRecord`, `idTournament`, `idTeam`, `invited`
 (28, 13, 7, NULL),
 (29, 13, 34, NULL),
 (30, 13, 15, NULL),
-(31, 20, 18, NULL),
-(32, 20, 82, NULL),
-(33, 20, 83, NULL),
-(34, 20, 84, NULL),
 (35, 21, 85, NULL),
 (36, 21, 86, NULL),
 (37, 21, 87, NULL),
@@ -872,7 +867,8 @@ INSERT INTO `tournamentmembers` (`idRecord`, `idTournament`, `idTeam`, `invited`
 (64, 24, 116, NULL),
 (65, 24, 117, NULL),
 (66, 24, 118, NULL),
-(68, 5, 1, NULL);
+(68, 5, 1, 'Direct Invite'),
+(69, 19, 117, 'Direct Invite');
 
 -- --------------------------------------------------------
 
@@ -898,36 +894,36 @@ CREATE TABLE `tournaments` (
   `idTournament` int(11) NOT NULL COMMENT 'id турнира',
   `event` varchar(45) NOT NULL,
   `tournamentLogo` varchar(500) NOT NULL COMMENT 'логотип турнира',
-  `miniTournamentLogo` varchar(100) NOT NULL COMMENT 'мини логотип',
+  `miniTournamentLogo` varchar(200) NOT NULL COMMENT 'мини логотип',
   `seria` varchar(100) NOT NULL COMMENT 'серия',
   `description` varchar(1500) NOT NULL COMMENT 'описание ',
   `prize` int(11) NOT NULL COMMENT 'сумма призовых',
   `dateBegin` date NOT NULL COMMENT 'дата начала турнира',
   `dateEnd` date NOT NULL COMMENT 'дата окончания турнира',
   `location` varchar(100) NOT NULL COMMENT 'локация',
-  `idRegion` int(11) DEFAULT NULL COMMENT 'id региона'
+  `idRegion` int(11) DEFAULT NULL COMMENT 'id региона',
+  `status` int(11) NOT NULL COMMENT 'статус турнира'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `tournaments`
 --
 
-INSERT INTO `tournaments` (`idTournament`, `event`, `tournamentLogo`, `miniTournamentLogo`, `seria`, `description`, `prize`, `dateBegin`, `dateEnd`, `location`, `idRegion`) VALUES
-(1, 'The International 2019', 'images/tournamentLogos/The International 2019.png', './images/tournamentLogos/miniLogos/The International 2019.png', 'The International', 'The International 2019 пройдет в августе 2019 года в Шанхае, Китай. Призовой фонд предыдущего турнира составил $25,000,000. Квалификации на турнир пройдут во всех регионах в июне 2019 года', 1000000, '2019-08-16', '0000-00-00', '', NULL),
-(2, 'World Cyber Games 2019', 'images/tournamentLogos/World Cyber Games 2019.png', './images/tournamentLogos/miniLogos/World Cyber Games 2019.png', 'World Cyber Games', '', 0, '2019-07-18', '0000-00-00', '', NULL),
-(3, 'StarLadder ImbaTV Dota 2 Minor Season 2', 'images/tournamentLogos/StarLadder ImbaTV Dota 2 Mi', './images/tournamentLogos/miniLogos/StarLadder ImbaTV Dota 2 Minor Season 2.png', 'SL i-League StarSeries', '', 300000, '2019-06-10', '0000-00-00', '', NULL),
-(5, 'ESL One Birmingham 2019', 'images/tournamentLogos/ESL One Birmingham 2019.png', './images/tournamentLogos/miniLogos/ESL One Birmingham 2019.png', 'WePlay! Dota 2 Tug of War', '', 300000, '2019-05-28', '0000-00-00', '', NULL),
-(8, 'RESF Premium Cup 2', 'images/tournamentLogos/RESF Premium Cup 2.png', './images/tournamentLogos/miniLogos/RESF Premium Cup 2.png', 'joinDOTA', '', 1027, '2019-05-26', '0000-00-00', '', NULL),
-(9, 'Adrenaline Cyber League 2019', 'images/tournamentLogos/Adrenaline Cyber League 2019.png', './images/tournamentLogos/miniLogos/Adrenaline Cyber League 2019.png', ' 	Adrenaline Cyber League', '', 100000, '2019-05-25', '0000-00-00', '', NULL),
-(10, 'Qi Invitational Europes', 'images/tournamentLogos/Qi Invitational Europes.png', './images/tournamentLogos/miniLogos/Qi Invitational Europes.png', 'Feng Ye Professional', '', 10000, '2019-05-25', '0000-00-00', '', NULL),
-(12, 'StarLadder ImbaTV Dota 2 Minor - OQ', 'images/tournamentLogos/StarLadder ImbaTV Dota 2 Mi', './images/tournamentLogos/miniLogos/StarLadder ImbaTV Dota 2 Minor - OQ.png', 'Challenge Cup', '', 0, '2019-05-19', '0000-00-00', '', NULL),
-(13, 'EPICENTER Major', 'images/tournamentLogos/EPICENTER Major.png', './images/tournamentLogos/miniLogos/EPICENTER Major.png', 'Epicenter', '', 1000000, '2019-06-22', '0000-00-00', '', NULL),
-(19, 'ESL India Premiership 2019 Summer', 'images/tournamentLogos/ESL India Premiership 2019 ', './images/tournamentLogos/miniLogos/ESL India Premiership 2019 Summer.png', '', '', 14656, '2019-04-26', '0000-00-00', '', NULL),
-(20, 'Russian eSports Championship 2019', 'images/tournamentLogos/Russian eSports Championshi', './images/tournamentLogos/miniLogos/Russian eSports Championship 2019.png', '', '', 22500, '2019-04-20', '0000-00-00', '', NULL),
-(21, 'Bishkek Stars League #8', 'images/tournamentLogos/Bishkek Stars League #8.png', './images/tournamentLogos/miniLogos/Bishkek Stars League #8.png', '', '', 31813, '2019-04-20', '0000-00-00', '', NULL),
-(22, 'ESL Vietnam Championship Season 1', 'images/tournamentLogos/ESL Vietnam Championship Se', './images/tournamentLogos/miniLogos/ESL Vietnam Championship Season 1.png', '', '', 12000, '2019-04-12', '0000-00-00', '', NULL),
-(24, 'ESL Thailand Championship Season 1', 'images/tournamentLogos/ESL Thailand Championship S', './images/tournamentLogos/miniLogos/ESL Thailand Championship Season 1.png', '', '', 12000, '2019-04-09', '0000-00-00', '', NULL),
-(26, 'EPICENTER Major', 'images/tournamentLogos/EPICENTER Major.png', './images/tournamentLogos/miniLogos/EPICENTER Major.png', 'Epicenter', '', 4, '2019-05-15', '2019-05-16', 'online', 3);
+INSERT INTO `tournaments` (`idTournament`, `event`, `tournamentLogo`, `miniTournamentLogo`, `seria`, `description`, `prize`, `dateBegin`, `dateEnd`, `location`, `idRegion`, `status`) VALUES
+(1, 'The International 2019', 'images/tournamentLogos/The International 2019.png', './images/tournamentLogos/miniLogos/The International 2019.png', 'The International', 'The International 2019 пройдет в августе 2019 года в Шанхае, Китай. Призовой фонд предыдущего турнира составил $25,000,000. Квалификации на турнир пройдут во всех регионах в июне 2019 года', 1000000, '2019-08-16', '0000-00-00', '', NULL, 1),
+(2, 'World Cyber Games 2019', 'images/tournamentLogos/World Cyber Games 2019.png', './images/tournamentLogos/miniLogos/World Cyber Games 2019.png', 'World Cyber Games', '', 0, '2019-07-18', '0000-00-00', '', NULL, 1),
+(3, 'StarLadder ImbaTV Dota 2 Minor Season 2', 'images/tournamentLogos/StarLadder ImbaTV Dota 2 Minor Season 2.png', './images/tournamentLogos/miniLogos/StarLadder ImbaTV Dota 2 Minor Season 2.png', 'SL i-League StarSeries', '', 300000, '2019-06-10', '0000-00-00', '', NULL, 1),
+(5, 'ESL One Birmingham 2019', 'images/tournamentLogos/ESL One Birmingham 2019.png', './images/tournamentLogos/miniLogos/ESL One Birmingham 2019.png', 'WePlay! Dota 2 Tug of War', '', 300000, '2019-05-28', '2019-06-02', '', NULL, -1),
+(8, 'RESF Premium Cup 2', 'images/tournamentLogos/RESF Premium Cup 2.png', './images/tournamentLogos/miniLogos/RESF Premium Cup 2.png', 'joinDOTA', '', 1027, '2019-05-26', '0000-00-00', '', NULL, -1),
+(9, 'Adrenaline Cyber League 2019', 'images/tournamentLogos/Adrenaline Cyber League 2019.png', './images/tournamentLogos/miniLogos/Adrenaline Cyber League 2019.png', ' 	Adrenaline Cyber League', '', 100000, '2019-05-25', '2019-05-26', '', NULL, -1),
+(10, 'Qi Invitational Europes', 'images/tournamentLogos/Qi Invitational Europes.png', './images/tournamentLogos/miniLogos/Qi Invitational Europes.png', 'Feng Ye Professional', '', 10000, '2019-05-25', '2019-05-27', '', NULL, -1),
+(12, 'StarLadder ImbaTV Dota 2 Minor - OQ', 'images/tournamentLogos/StarLadder ImbaTV Dota 2 Minor Season 2.png', './images/tournamentLogos/miniLogos/StarLadder ImbaTV Dota 2 Minor - OQ.png', 'Challenge Cup', '', 0, '2019-05-19', '2019-05-21', '', NULL, 1),
+(13, 'EPICENTER Major', 'images/tournamentLogos/EPICENTER Major.png', './images/tournamentLogos/miniLogos/EPICENTER Major.png', 'Epicenter', '', 1000000, '2019-06-22', '0000-00-00', '', NULL, 1),
+(19, 'ESL India Premiership 2019 Summer', 'images/tournamentLogos/ESL India Premiership 2019 Summer.png', './images/tournamentLogos/miniLogos/ESL India Premiership 2019 Summer.png', '', '', 14656, '2019-04-26', '0000-00-00', '', NULL, 0),
+(21, 'Bishkek Stars League #8', 'images/tournamentLogos/Bishkek Stars League #8.png', './images/tournamentLogos/miniLogos/Bishkek Stars League #8.png', '', '', 31813, '2019-04-20', '2019-05-19', '', NULL, 0),
+(22, 'ESL Vietnam Championship Season 1', 'images/tournamentLogos/ESL Vietnam Championship Se', './images/tournamentLogos/miniLogos/ESL Vietnam Championship Season 1.png', '', '', 12000, '2019-04-12', '0000-00-00', '', NULL, 0),
+(24, 'ESL Thailand Championship Season 1', 'images/tournamentLogos/ESL Thailand Championship S', './images/tournamentLogos/miniLogos/ESL Thailand Championship Season 1.png', '', '', 12000, '2019-04-09', '0000-00-00', '', NULL, 0),
+(27, 'KFC Battle 2019', './images/tournamentLogos/KFC Battle 2019.png', '', '', '', 0, '2019-06-13', '2019-06-14', '', NULL, 1);
 
 --
 -- Индексы сохранённых таблиц
@@ -1158,13 +1154,13 @@ ALTER TABLE `teams`
 -- AUTO_INCREMENT для таблицы `tournamentmembers`
 --
 ALTER TABLE `tournamentmembers`
-  MODIFY `idRecord` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id записи', AUTO_INCREMENT=69;
+  MODIFY `idRecord` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id записи', AUTO_INCREMENT=70;
 
 --
 -- AUTO_INCREMENT для таблицы `tournaments`
 --
 ALTER TABLE `tournaments`
-  MODIFY `idTournament` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id турнира', AUTO_INCREMENT=27;
+  MODIFY `idTournament` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id турнира', AUTO_INCREMENT=28;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
