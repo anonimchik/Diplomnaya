@@ -1335,9 +1335,14 @@ span.team-title{
 }
 .first-team-players-block{
     text-align: end;
+    padding-right: .5em;
+}
+.dv{
+    padding: 0 .5em;
 }
 .second-team-players-block{
     text-align: start;
+    padding-left: .5em;
 }
 .match-block-wrapper .teams-block-wrapper{
     display: flex;

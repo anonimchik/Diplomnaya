@@ -511,6 +511,7 @@ $(function () {
         var datetime=date+" "+time+":00";
         var now=new Date();
         var format=$("#format").val();
+        var status=-1;
         if(datetime>now){status=-1;}else{status=1;}
         var sql="call checkMatchField("+tour+", "+firstTeam+", "+secondTeam+", '"+datetime+"', "+status+","+format+")";
         console.log(sql);
