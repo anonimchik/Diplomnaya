@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3006
--- Время создания: Июн 10 2019 г., 20:49
+-- Время создания: Июн 19 2019 г., 10:23
 -- Версия сервера: 5.6.38
 -- Версия PHP: 5.5.38
 
@@ -179,12 +179,13 @@ INSERT INTO `matchdescription` (`idMatch`, `idFormat`, `round`, `firstWinner`, `
 (8, 3, 'Playoff, Lower Bracket, Round 1', 21, 21, NULL, NULL, NULL, 0, 2, './images/mapscore/211424-1-4162.jpg', './images/mapscore/211424-2-6783.jpg', NULL, NULL, NULL),
 (10, 3, 'Group Stage, Group B', NULL, NULL, NULL, NULL, NULL, 2, 0, './images/mapscore/211127-1-6467.jpg', './images/mapscore/211127-2-656.jpg', NULL, NULL, NULL),
 (11, 2, 'Group Stage, Group B', NULL, NULL, NULL, NULL, NULL, 2, 0, './images/mapscore/211129-1-5155.jpg', './images/mapscore/211129-2-4919.jpg', NULL, NULL, NULL),
-(12, 2, 'Group Stage, Group B', NULL, NULL, NULL, NULL, NULL, 0, 2, './images/mapscore/211128-1-260.jpg', './images/mapscore/211128-2-9394.jpg', NULL, NULL, NULL),
+(12, 2, 'Group Stage, Group B', NULL, NULL, NULL, NULL, NULL, 0, 2, './images/mapscore/211128-1-260.jpg', './images/mapscore/211128-2-9394.jpg', '', '', ''),
 (13, 2, 'Group Stage, Group B', NULL, NULL, NULL, NULL, NULL, 1, 1, './images/mapscore/211130-1-8153.jpg', './images/mapscore/211130-2-1025.jpg', NULL, NULL, NULL),
-(14, 2, 'Group Stage, Group A', NULL, NULL, NULL, NULL, NULL, 2, 0, './images/mapscore/211133-1-7044.jpg', './images/mapscore/211133-2-7166.jpg', NULL, NULL, NULL),
+(14, 2, 'Group Stage, Group A', NULL, NULL, NULL, NULL, NULL, 2, 0, './images/mapscore/211133-1-7044.jpg', './images/mapscore/211133-2-7166.jpg', '', '', ''),
 (15, 2, 'Group Stage, Group A', NULL, NULL, NULL, NULL, NULL, 0, 2, './images/mapscore/211131-1-4841.jpg', './images/mapscore/211131-2-2342.jpg', NULL, NULL, NULL),
 (16, 2, 'Group Stage, Group A', NULL, NULL, NULL, NULL, NULL, 1, 1, './images/mapscore/211132-1-8676.jpg', './images/mapscore/211132-2-294.jpg', '', '', ''),
-(17, 2, 'Group Stage, Group B', NULL, NULL, NULL, NULL, NULL, 2, 0, './images/mapscore/211136-1-4825.jpg', './images/mapscore/211136-2-2664.jpg', '', '', '');
+(17, 2, 'Group Stage, Group B', NULL, NULL, NULL, NULL, NULL, 2, 0, './images/mapscore/211136-1-4825.jpg', './images/mapscore/211136-2-2664.jpg', '', '', ''),
+(18, 2, '', NULL, NULL, NULL, NULL, NULL, 0, 0, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -206,17 +207,18 @@ CREATE TABLE `matches` (
 --
 
 INSERT INTO `matches` (`idMatch`, `idTournament`, `idFirstTeam`, `idSecondTeam`, `date`, `status`) VALUES
-(3, 13, 6, 33, '2019-05-18 15:02:00', 1),
-(4, 9, 33, 12, '2019-05-21 00:00:00', 1),
-(8, 13, 20, 21, '2019-05-18 13:03:00', 1),
-(10, 5, 12, 7, '2019-05-29 19:28:00', 1),
+(3, 13, 6, 33, '2019-05-18 15:02:00', -1),
+(4, 9, 33, 12, '2019-05-21 00:00:00', -1),
+(8, 13, 20, 21, '2019-05-18 13:03:00', -1),
+(10, 5, 12, 7, '2019-05-29 19:28:00', -1),
 (11, 5, 7, 5, '2019-05-29 22:04:00', 1),
-(12, 5, 12, 10, '2019-05-29 22:06:00', 1),
-(13, 5, 1, 14, '2019-05-29 22:22:00', 1),
+(12, 5, 12, 10, '2019-05-29 22:06:00', -1),
+(13, 5, 1, 14, '2019-05-29 22:22:00', 0),
 (14, 5, 4, 13, '2019-05-30 14:00:00', 1),
-(15, 5, 6, 15, '2019-05-30 14:00:00', 1),
+(15, 5, 6, 15, '2019-05-30 14:00:00', 0),
 (16, 5, 9, 33, '2019-05-30 14:01:00', 1),
-(17, 5, 1, 12, '2019-06-30 00:00:00', 1);
+(17, 5, 1, 12, '2019-06-30 00:00:00', 1),
+(18, 9, 102, 51, '2019-06-22 01:00:00', 1);
 
 -- --------------------------------------------------------
 
@@ -1100,7 +1102,7 @@ ALTER TABLE `disciplines`
 -- AUTO_INCREMENT для таблицы `matches`
 --
 ALTER TABLE `matches`
-  MODIFY `idMatch` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id матча', AUTO_INCREMENT=18;
+  MODIFY `idMatch` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id матча', AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT для таблицы `matchformats`
